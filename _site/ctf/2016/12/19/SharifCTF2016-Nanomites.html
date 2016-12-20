@@ -6,8 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>SharifCTF2016 - Nanomites</title>
-  <meta name="description" content="Nanomites era una challenge di reversing il cui testo recitava:">
+  <title>SharifCTF7 - Nanomites</title>
+  <meta name="description" content="Nanomites was a Reverse engineering challenge of 300 point in SharifCTF7. The specification of this problem was the following:">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="http://localhost:4000/ctf/2016/12/19/SharifCTF2016-Nanomites.html">
@@ -57,47 +57,44 @@
         <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">SharifCTF2016 - Nanomites</h1>
-    <p class="post-meta"><time datetime="2016-12-19T19:30:00-08:00" itemprop="datePublished">Dec 19, 2016</time> • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">jbz</span></span></p>
+    <h1 class="post-title" itemprop="name headline">SharifCTF7 - Nanomites</h1>
+    <p class="post-meta"><time datetime="2016-12-19T20:30:00-08:00" itemprop="datePublished">Dec 19, 2016</time> • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">n4x0r</span></span></p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>Nanomites era una challenge di reversing il cui testo recitava:</p>
+    <p>Nanomites was a Reverse engineering challenge of 300 point in SharifCTF7. The specification of this problem was the following:</p>
 
-<p><em>Analyze the given file. Find the C&amp;C IP address and the data sent to it in plain text.
-Flag = SharifCTF{md5(strcat(IP, Data))}</em></p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>Analyze the given file. Find the C&amp;C IP address and the data sent to it <span class="k">in </span>plain text.
+Flag <span class="o">=</span> SharifCTF<span class="o">{</span>md5<span class="o">(</span>strcat<span class="o">(</span>IP, Data<span class="o">))}</span>_
+</code></pre>
+</div>
+<p>For the ones that coud not attend the competition, You can download the challenge from <a href="../files/Nanomites.exe">here</a>.</p>
 
-<p>Lo scopo era quindi di trovare indirizzo IP del server C&amp;C ed il plaintext dei dati trasmessi. Il binario è disponibile <a href="https://github.com/jbzteam/CTF/raw/master/SharifCTF2016/Nanomites/Nanomites.exe">quì</a>.</p>
-
-<p>Il file è un eseguibile per Windows, come mostra anche l’output del comando <code class="highlighter-rouge">strings</code>:</p>
+<p>After running the command <code class="highlighter-rouge">file</code> against the binary, I got the following output:</p>
 
 <p><code class="highlighter-rouge">Nanomites.exe: PE32 executable (GUI) Intel 80386, for MS Windows</code></p>
 
-<p>Apriamo il fidato IDA e dato che il testo della challenge parlava di una connessione, facciamo una semplice ricerca per la parola <code class="highlighter-rouge">sock</code>. Infatti uno dei primi risultati è una <code class="highlighter-rouge">call ds:socket</code> all’indirizzo <code class="highlighter-rouge">00401373</code>. Sappiamo che dopo aver creato un socket avviene la connessione, quindi andando a guardare qualche riga dopo…</p>
+<p>My next steps after knowing this was to analyze it with IDA in order to find  out any evidence of the binary connecting to a remote host.</p>
 
-<p><img src="https://github.com/jbzteam/CTF/raw/master/SharifCTF2016/Nanomites/ip_address.png" alt="Indirizzo IP" /></p>
+<p>Once the file is in IDA, we can see that the binary is some what obfuscated.</p>
 
-<p>Troviamo l’indirizzo IP: <code class="highlighter-rouge">155.64.16.51</code>.</p>
+<p><img src="../files/1.png" alt="relative call" />
+<img src="../files/2.png" alt="int3" /></p>
 
-<p>Ok, abbiamo recuperato la prima informazione. Adesso dobbiamo trovare i dati. Dato che quell’indirizzo IP è attivo (o almeno lo era durante il CTF), lanciamo l’eseguibile e mettiamo in ascolto wireshark. Una volta stabilita la connessione troviamo il payload:</p>
+<p>Looking for strings XREFs, I found myself with the IP address of the C&amp;C:</p>
 
-<p><img src="https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/wireshark.png" alt="Payload trasmesso" /></p>
+<p><img src="../files/3.png" alt="C&amp;C IP" /></p>
 
-<p>Ovviamente è cifrato. Cerchiamo nel binario come. Sappiamo che i dati vengono spediti, quindi scrollando verso il basso nell’asm cerchiamo una chiamata alla funzione <code class="highlighter-rouge">send</code>, e la troviamo qui:</p>
+<p>After knowing the IP address of the C&amp;C, I then opened wireshark to see if I could intercept any communications. I indeed intercepted a stream. This stream looked like this:</p>
 
-<p><img src="https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/send.png" alt="Funzione send" /></p>
+<p><img src="../files/4.png" alt="Message intercpeted" /></p>
 
-<p>Vediamo che la variabile che contiene i dati è chiamata <code class="highlighter-rouge">buf</code> quindi scrolliamo in su per capire come viene generato quel buffer. Vediamo che ad un certo punto la variabile <code class="highlighter-rouge">buf</code> viene passata alla funzione <code class="highlighter-rouge">sub_401260</code>:</p>
+<p>Clearly that message that our host was sending to <code class="highlighter-rouge">155.64.16.51</code> is encrypted.</p>
 
-<p><img src="https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/xor_function.png" alt="Funzione contenente xor" /></p>
+<p>After knowing this information, then I proceeded to look where the application sent the encrypted buffer.
+Looking at the imported functions. We can see that <code class="highlighter-rouge">send</code> is at address <code class="highlighter-rouge">0x40151d</code></p>
 
-<p>Che contiene:</p>
-
-<p><img src="https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/xor.png" alt="Cifratura con xor" /></p>
-
-<p>Notiamo che nella variabile <code class="highlighter-rouge">var_1</code> viene inserito il valore <code class="highlighter-rouge">0x44</code>, poi viene incrementata di <code class="highlighter-rouge">2</code> e viene usata per fare uno <code class="highlighter-rouge">xor</code>. La chiave quindi è <code class="highlighter-rouge">0x46</code>.</p>
-
-<p>Con un paio di righe di python decifriamo il payload:</p>
+<p><img src="../files/5.png" alt="send XREF" /></p>
 
 <div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">data</span> <span class="o">=</span> <span class="p">[</span> <span class="mh">0x12</span><span class="p">,</span> <span class="mh">0x2e</span><span class="p">,</span> <span class="mh">0x2f</span><span class="p">,</span> <span class="mh">0x35</span><span class="p">,</span> <span class="mh">0x19</span><span class="p">,</span> <span class="mh">0x0f</span><span class="p">,</span> <span class="mh">0x35</span><span class="p">,</span> <span class="mh">0x19</span><span class="p">,</span> <span class="mh">0x12</span><span class="p">,</span> <span class="mh">0x2e</span><span class="p">,</span> <span class="mh">0x23</span><span class="p">,</span> <span class="mh">0x19</span><span class="p">,</span> <span class="mh">0x15</span><span class="p">,</span> <span class="mh">0x23</span><span class="p">,</span> <span class="mh">0x25</span><span class="p">,</span> <span class="mh">0x34</span><span class="p">,</span> <span class="mh">0x23</span><span class="p">,</span> <span class="mh">0x32</span><span class="p">,</span> <span class="mh">0x19</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span> <span class="mh">0x27</span><span class="p">,</span> <span class="mh">0x32</span><span class="p">,</span> <span class="mh">0x27</span><span class="p">,</span> <span class="mh">0x46</span> <span class="p">]</span>
 <span class="k">print</span> <span class="s">''</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">chr</span><span class="p">(</span><span class="n">x</span> <span class="o">^</span> <span class="mh">0x46</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">])</span>

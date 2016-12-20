@@ -6,48 +6,45 @@
 </description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 20 Dec 2016 12:58:51 -0800</pubDate>
-    <lastBuildDate>Tue, 20 Dec 2016 12:58:51 -0800</lastBuildDate>
+    <pubDate>Tue, 20 Dec 2016 14:48:23 -0800</pubDate>
+    <lastBuildDate>Tue, 20 Dec 2016 14:48:23 -0800</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
-        <title>SharifCTF2016 - Nanomites</title>
-        <description>&lt;p&gt;Nanomites era una challenge di reversing il cui testo recitava:&lt;/p&gt;
+        <title>SharifCTF7 - Nanomites</title>
+        <description>&lt;p&gt;Nanomites was a Reverse engineering challenge of 300 point in SharifCTF7. The specification of this problem was the following:&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;Analyze the given file. Find the C&amp;amp;C IP address and the data sent to it in plain text.
-Flag = SharifCTF{md5(strcat(IP, Data))}&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Analyze the given file. Find the C&amp;amp;C IP address and the data sent to it &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;plain text.
+Flag &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; SharifCTF&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;md5&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;strcat&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;IP, Data&lt;span class=&quot;o&quot;&gt;))}&lt;/span&gt;_
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;For the ones that coud not attend the competition, You can download the challenge from &lt;a href=&quot;../files/Nanomites.exe&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;Lo scopo era quindi di trovare indirizzo IP del server C&amp;amp;C ed il plaintext dei dati trasmessi. Il binario è disponibile &lt;a href=&quot;https://github.com/jbzteam/CTF/raw/master/SharifCTF2016/Nanomites/Nanomites.exe&quot;&gt;quì&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Il file è un eseguibile per Windows, come mostra anche l’output del comando &lt;code class=&quot;highlighter-rouge&quot;&gt;strings&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;After running the command &lt;code class=&quot;highlighter-rouge&quot;&gt;file&lt;/code&gt; against the binary, I got the following output:&lt;/p&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Nanomites.exe: PE32 executable (GUI) Intel 80386, for MS Windows&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;Apriamo il fidato IDA e dato che il testo della challenge parlava di una connessione, facciamo una semplice ricerca per la parola &lt;code class=&quot;highlighter-rouge&quot;&gt;sock&lt;/code&gt;. Infatti uno dei primi risultati è una &lt;code class=&quot;highlighter-rouge&quot;&gt;call ds:socket&lt;/code&gt; all’indirizzo &lt;code class=&quot;highlighter-rouge&quot;&gt;00401373&lt;/code&gt;. Sappiamo che dopo aver creato un socket avviene la connessione, quindi andando a guardare qualche riga dopo…&lt;/p&gt;
+&lt;p&gt;My next steps after knowing this was to analyze it with IDA in order to find  out any evidence of the binary connecting to a remote host.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://github.com/jbzteam/CTF/raw/master/SharifCTF2016/Nanomites/ip_address.png&quot; alt=&quot;Indirizzo IP&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Once the file is in IDA, we can see that the binary is some what obfuscated.&lt;/p&gt;
 
-&lt;p&gt;Troviamo l’indirizzo IP: &lt;code class=&quot;highlighter-rouge&quot;&gt;155.64.16.51&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;../files/1.png&quot; alt=&quot;relative call&quot; /&gt;
+&lt;img src=&quot;../files/2.png&quot; alt=&quot;int3&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Ok, abbiamo recuperato la prima informazione. Adesso dobbiamo trovare i dati. Dato che quell’indirizzo IP è attivo (o almeno lo era durante il CTF), lanciamo l’eseguibile e mettiamo in ascolto wireshark. Una volta stabilita la connessione troviamo il payload:&lt;/p&gt;
+&lt;p&gt;Looking for strings XREFs, I found myself with the IP address of the C&amp;amp;C:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/wireshark.png&quot; alt=&quot;Payload trasmesso&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;../files/3.png&quot; alt=&quot;C&amp;amp;C IP&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Ovviamente è cifrato. Cerchiamo nel binario come. Sappiamo che i dati vengono spediti, quindi scrollando verso il basso nell’asm cerchiamo una chiamata alla funzione &lt;code class=&quot;highlighter-rouge&quot;&gt;send&lt;/code&gt;, e la troviamo qui:&lt;/p&gt;
+&lt;p&gt;After knowing the IP address of the C&amp;amp;C, I then opened wireshark to see if I could intercept any communications. I indeed intercepted a stream. This stream looked like this:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/send.png&quot; alt=&quot;Funzione send&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;../files/4.png&quot; alt=&quot;Message intercpeted&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Vediamo che la variabile che contiene i dati è chiamata &lt;code class=&quot;highlighter-rouge&quot;&gt;buf&lt;/code&gt; quindi scrolliamo in su per capire come viene generato quel buffer. Vediamo che ad un certo punto la variabile &lt;code class=&quot;highlighter-rouge&quot;&gt;buf&lt;/code&gt; viene passata alla funzione &lt;code class=&quot;highlighter-rouge&quot;&gt;sub_401260&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;Clearly that message that our host was sending to &lt;code class=&quot;highlighter-rouge&quot;&gt;155.64.16.51&lt;/code&gt; is encrypted.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/xor_function.png&quot; alt=&quot;Funzione contenente xor&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;After knowing this information, then I proceeded to look where the application sent the encrypted buffer.
+Looking at the imported functions. We can see that &lt;code class=&quot;highlighter-rouge&quot;&gt;send&lt;/code&gt; is at address &lt;code class=&quot;highlighter-rouge&quot;&gt;0x40151d&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;Che contiene:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/xor.png&quot; alt=&quot;Cifratura con xor&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Notiamo che nella variabile &lt;code class=&quot;highlighter-rouge&quot;&gt;var_1&lt;/code&gt; viene inserito il valore &lt;code class=&quot;highlighter-rouge&quot;&gt;0x44&lt;/code&gt;, poi viene incrementata di &lt;code class=&quot;highlighter-rouge&quot;&gt;2&lt;/code&gt; e viene usata per fare uno &lt;code class=&quot;highlighter-rouge&quot;&gt;xor&lt;/code&gt;. La chiave quindi è &lt;code class=&quot;highlighter-rouge&quot;&gt;0x46&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Con un paio di righe di python decifriamo il payload:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;../files/5.png&quot; alt=&quot;send XREF&quot; /&gt;&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x2e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x2f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x35&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x19&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x0f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x35&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x19&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x2e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x23&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x19&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x23&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x25&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x34&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x23&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x19&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x02&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x27&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x27&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x46&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;chr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;^&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x46&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
@@ -65,13 +62,13 @@ fb0e90f2ec7a701783e70e674fa94848
 
 &lt;p&gt;La flag è quindi &lt;code class=&quot;highlighter-rouge&quot;&gt;SharifCTF{fb0e90f2ec7a701783e70e674fa94848}&lt;/code&gt;.&lt;/p&gt;
 </description>
-        <pubDate>Mon, 19 Dec 2016 19:30:00 -0800</pubDate>
+        <pubDate>Mon, 19 Dec 2016 20:30:00 -0800</pubDate>
         <link>http://localhost:4000/ctf/2016/12/19/SharifCTF2016-Nanomites.html</link>
         <guid isPermaLink="true">http://localhost:4000/ctf/2016/12/19/SharifCTF2016-Nanomites.html</guid>
         
         <category>reverse</category>
         
-        <category>SharifCTF2016</category>
+        <category>SharifCTF7</category>
         
         
         <category>CTF</category>

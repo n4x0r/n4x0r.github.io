@@ -19,33 +19,29 @@ After running the command `file` against the binary, I got the following output:
 
 `Nanomites.exe: PE32 executable (GUI) Intel 80386, for MS Windows`
 
-My next steps after knowing this was to analyze it with IDA in order to retrive behavioral analysis.
+My next steps after knowing this was to analyze it with IDA in order to find  out any evidence of the binary connecting to a remote host.
+
+Once the file is in IDA, we can see that the binary is some what obfuscated.
+
+![relative call](../files/1.png)
+![int3](../files/2.png)
 
 Looking for strings XREFs, I found myself with the IP address of the C&C:
 
-![Indirizzo IP](https://github.com/jbzteam/CTF/raw/master/SharifCTF2016/Nanomites/ip_address.png)
+![C&C IP](../files/3.png)
 
-Troviamo l'indirizzo IP: `155.64.16.51`.
+After knowing the IP address of the C&C, I then opened wireshark to see if I could intercept any communications. I indeed intercepted a stream. This stream looked like this:
 
-Ok, abbiamo recuperato la prima informazione. Adesso dobbiamo trovare i dati. Dato che quell'indirizzo IP è attivo (o almeno lo era durante il CTF), lanciamo l'eseguibile e mettiamo in ascolto wireshark. Una volta stabilita la connessione troviamo il payload:
+![Message intercpeted](../files/4.png)
 
-![Payload trasmesso](https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/wireshark.png)
+Clearly that message that our host was sending to `155.64.16.51` is encrypted.
 
-Ovviamente è cifrato. Cerchiamo nel binario come. Sappiamo che i dati vengono spediti, quindi scrollando verso il basso nell'asm cerchiamo una chiamata alla funzione `send`, e la troviamo qui:
+After knowing this information, then I proceeded to look where the application sent the encrypted buffer.
+Looking at the imported functions. We can see that `send` is at address `0x40151d`
 
-![Funzione send](https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/send.png)
+![send XREF](../files/5.png)
 
-Vediamo che la variabile che contiene i dati è chiamata `buf` quindi scrolliamo in su per capire come viene generato quel buffer. Vediamo che ad un certo punto la variabile `buf` viene passata alla funzione `sub_401260`:
 
-![Funzione contenente xor](https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/xor_function.png)
-
-Che contiene:
-
-![Cifratura con xor](https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/xor.png)
-
-Notiamo che nella variabile `var_1` viene inserito il valore `0x44`, poi viene incrementata di `2` e viene usata per fare uno `xor`. La chiave quindi è `0x46`.
-
-Con un paio di righe di python decifriamo il payload:
 
 ```python
 data = [ 0x12, 0x2e, 0x2f, 0x35, 0x19, 0x0f, 0x35, 0x19, 0x12, 0x2e, 0x23, 0x19, 0x15, 0x23, 0x25, 0x34, 0x23, 0x32, 0x19, 0x02, 0x27, 0x32, 0x27, 0x46 ]
