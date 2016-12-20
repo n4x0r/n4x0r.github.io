@@ -1,40 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Ignacio Sanmillan Blog</title>
-    <description>Computer Scientist, Reverse Engineering and CTF player. This blog will hold writeups of research, competitions
+    <title>Ignacio Sanmillan's Blog</title>
+    <description>Exploring the worlds of Computer Science, Reverse Engineering and Security. Enjoying Braking things.
 </description>
-    <link>http://n4x0r.github.io/</link>
-    <atom:link href="http://n4x0r.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 20 Dec 2016 06:31:43 -0800</pubDate>
-    <lastBuildDate>Tue, 20 Dec 2016 06:31:43 -0800</lastBuildDate>
-    <generator>Jekyll v3.0.1</generator>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Tue, 20 Dec 2016 12:58:51 -0800</pubDate>
+    <lastBuildDate>Tue, 20 Dec 2016 12:58:51 -0800</lastBuildDate>
+    <generator>Jekyll v3.3.1</generator>
     
       <item>
-        <title>Welcome to Jekyll!</title>
-        <description>&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+        <title>SharifCTF2016 - Nanomites</title>
+        <description>&lt;p&gt;Nanomites era una challenge di reversing il cui testo recitava:&lt;/p&gt;
 
-&lt;p&gt;To add new posts, simply add a file in the &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code class=&quot;highlighter-rouge&quot;&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Analyze the given file. Find the C&amp;amp;C IP address and the data sent to it in plain text.
+Flag = SharifCTF{md5(strcat(IP, Data))}&lt;/em&gt;&lt;/p&gt;
 
-&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+&lt;p&gt;Lo scopo era quindi di trovare indirizzo IP del server C&amp;amp;C ed il plaintext dei dati trasmessi. Il binario è disponibile &lt;a href=&quot;https://github.com/jbzteam/CTF/raw/master/SharifCTF2016/Nanomites/Nanomites.exe&quot;&gt;quì&lt;/a&gt;.&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;Tom&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &#39;Hi, Tom&#39; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;Il file è un eseguibile per Windows, come mostra anche l’output del comando &lt;code class=&quot;highlighter-rouge&quot;&gt;strings&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Nanomites.exe: PE32 executable (GUI) Intel 80386, for MS Windows&lt;/code&gt;&lt;/p&gt;
 
+&lt;p&gt;Apriamo il fidato IDA e dato che il testo della challenge parlava di una connessione, facciamo una semplice ricerca per la parola &lt;code class=&quot;highlighter-rouge&quot;&gt;sock&lt;/code&gt;. Infatti uno dei primi risultati è una &lt;code class=&quot;highlighter-rouge&quot;&gt;call ds:socket&lt;/code&gt; all’indirizzo &lt;code class=&quot;highlighter-rouge&quot;&gt;00401373&lt;/code&gt;. Sappiamo che dopo aver creato un socket avviene la connessione, quindi andando a guardare qualche riga dopo…&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/jbzteam/CTF/raw/master/SharifCTF2016/Nanomites/ip_address.png&quot; alt=&quot;Indirizzo IP&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Troviamo l’indirizzo IP: &lt;code class=&quot;highlighter-rouge&quot;&gt;155.64.16.51&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Ok, abbiamo recuperato la prima informazione. Adesso dobbiamo trovare i dati. Dato che quell’indirizzo IP è attivo (o almeno lo era durante il CTF), lanciamo l’eseguibile e mettiamo in ascolto wireshark. Una volta stabilita la connessione troviamo il payload:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/wireshark.png&quot; alt=&quot;Payload trasmesso&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Ovviamente è cifrato. Cerchiamo nel binario come. Sappiamo che i dati vengono spediti, quindi scrollando verso il basso nell’asm cerchiamo una chiamata alla funzione &lt;code class=&quot;highlighter-rouge&quot;&gt;send&lt;/code&gt;, e la troviamo qui:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/send.png&quot; alt=&quot;Funzione send&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Vediamo che la variabile che contiene i dati è chiamata &lt;code class=&quot;highlighter-rouge&quot;&gt;buf&lt;/code&gt; quindi scrolliamo in su per capire come viene generato quel buffer. Vediamo che ad un certo punto la variabile &lt;code class=&quot;highlighter-rouge&quot;&gt;buf&lt;/code&gt; viene passata alla funzione &lt;code class=&quot;highlighter-rouge&quot;&gt;sub_401260&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/xor_function.png&quot; alt=&quot;Funzione contenente xor&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Che contiene:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/xor.png&quot; alt=&quot;Cifratura con xor&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Notiamo che nella variabile &lt;code class=&quot;highlighter-rouge&quot;&gt;var_1&lt;/code&gt; viene inserito il valore &lt;code class=&quot;highlighter-rouge&quot;&gt;0x44&lt;/code&gt;, poi viene incrementata di &lt;code class=&quot;highlighter-rouge&quot;&gt;2&lt;/code&gt; e viene usata per fare uno &lt;code class=&quot;highlighter-rouge&quot;&gt;xor&lt;/code&gt;. La chiave quindi è &lt;code class=&quot;highlighter-rouge&quot;&gt;0x46&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Con un paio di righe di python decifriamo il payload:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x2e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x2f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x35&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x19&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x0f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x35&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x19&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x2e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x23&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x19&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x23&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x25&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x34&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x23&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x19&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x02&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x27&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x27&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x46&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;chr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;^&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x46&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;E otteniamo come output &lt;code class=&quot;highlighter-rouge&quot;&gt;This_Is_The_Secret_Data&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Sappiamo quindi i due valori necessari per calcolare la flag. Dopo averli concatenati, ne calcoliamo l’&lt;code class=&quot;highlighter-rouge&quot;&gt;md5&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; -n &lt;span class=&quot;s1&quot;&gt;'155.64.16.51This_Is_The_Secret_Data'&lt;/span&gt; | md5
+fb0e90f2ec7a701783e70e674fa94848
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;La flag è quindi &lt;code class=&quot;highlighter-rouge&quot;&gt;SharifCTF{fb0e90f2ec7a701783e70e674fa94848}&lt;/code&gt;.&lt;/p&gt;
 </description>
-        <pubDate>Tue, 20 Dec 2016 06:07:21 -0800</pubDate>
-        <link>http://n4x0r.github.io/jekyll/update/2016/12/20/welcome-to-jekyll.html</link>
-        <guid isPermaLink="true">http://n4x0r.github.io/jekyll/update/2016/12/20/welcome-to-jekyll.html</guid>
+        <pubDate>Mon, 19 Dec 2016 19:30:00 -0800</pubDate>
+        <link>http://localhost:4000/ctf/2016/12/19/SharifCTF2016-Nanomites.html</link>
+        <guid isPermaLink="true">http://localhost:4000/ctf/2016/12/19/SharifCTF2016-Nanomites.html</guid>
+        
+        <category>reverse</category>
+        
+        <category>SharifCTF2016</category>
         
         
-        <category>jekyll</category>
-        
-        <category>update</category>
+        <category>CTF</category>
         
       </item>
     

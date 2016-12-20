@@ -3,13 +3,4 @@ layout: page
 title: About
 permalink: /about/
 ---
-
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
-
-You can find the source code for the Jekyll new theme at:
-{% include icon-github.html username="jglovier" %} /
-[jekyll-new](https://github.com/jglovier/jekyll-new)
-
-You can find the source code for Jekyll at
-{% include icon-github.html username="jekyll" %} /
-[jekyll](https://github.com/jekyll/jekyll)
+Originally from Madrid, Spain. I currently reside in Liverpool UK where I study my degree in Computer Science at The University of Liverpool. Finding satisfaction taking things apart and understanding how they work. Competing as a CTF player with [amn3s1a_team](http://amn3s1a.com/).

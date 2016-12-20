@@ -9,14 +9,18 @@ dl, dd, ol, ul, figure {
 }
 
 
-
+title {
+    font-family: Lobster;
+}
 /**
  * Basic styling
  */
 body {
     font: $base-font-weight #{$base-font-size}/#{$base-line-height} $base-font-family;
-    color: $text-color;
+    color: #BAC6B2;
     background-color: $background-color;
+    background-image: url("../images/blog-bg.jpg");
+    background-attachment: fixed; 
     -webkit-text-size-adjust: 100%;
     -webkit-font-feature-settings: "kern" 1;
     -moz-font-feature-settings: "kern" 1;
@@ -81,6 +85,10 @@ li {
 /**
  * Headings
  */
+h1 {
+font-family: Lobster;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-weight: $base-font-weight;
 }
@@ -99,7 +107,7 @@ a {
     }
 
     &:hover {
-        color: $text-color;
+        color: lighten($brand-color, 25%);
         text-decoration: underline;
     }
 }
@@ -110,8 +118,8 @@ a {
  * Blockquotes
  */
 blockquote {
-    color: $grey-color;
-    border-left: 4px solid $grey-color-light;
+    color: #434442;
+    border-left: 4px solid #030302;
     padding-left: $spacing-unit / 2;
     font-size: 18px;
     letter-spacing: -1px;
@@ -130,9 +138,9 @@ blockquote {
 pre,
 code {
     font-size: 15px;
-    border: 1px solid $grey-color-light;
-    border-radius: 3px;
-    background-color: #eef;
+    border: 1px solid #212221;
+    border-radius: 4px;
+    background-color: #212221;
 }
 
 code {
@@ -147,6 +155,7 @@ pre {
         border: 0;
         padding-right: 0;
         padding-left: 0;
+	border: #434442;
     }
 }
 
