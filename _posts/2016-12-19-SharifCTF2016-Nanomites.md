@@ -23,23 +23,23 @@ My next steps after knowing this was to analyze it with IDA in order to find  ou
 
 Once the file is in IDA, we can see that the binary is some what obfuscated.
 
-![relative call](../files/1.png)
-![int3](../files/2.png)
+![relative call](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/1.png)
+![int3](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/2.png)
 
 Looking for strings XREFs, I found myself with the IP address of the C&C:
 
-![C&C IP](../files/3.png)
+![C&C IP](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/3.png)
 
 After knowing the IP address of the C&C, I then opened wireshark to see if I could intercept any communications. I indeed intercepted a stream. This stream looked like this:
 
-![Message intercpeted](../files/4.png)
+![Message intercpeted](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/4.png)
 
 Clearly that message that our host was sending to `155.64.16.51` is encrypted.
 
 After knowing this information, then I proceeded to look where the application sent the encrypted buffer.
 Looking at the imported functions. We can see that `send` is at address `0x40151d`
 
-![send XREF](../files/5.png)
+![send XREF](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/5.png)
 
 
 
