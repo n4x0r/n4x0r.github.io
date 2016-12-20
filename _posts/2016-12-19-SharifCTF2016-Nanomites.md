@@ -1,24 +1,27 @@
 ---
 layout: post
-title:  "SharifCTF2016 - Nanomites"
-date:   2016-12-19 19:30
+title:  "SharifCTF7 - Nanomites"
+date:   2016-12-19 20:30
 categories: CTF
-tags: [reverse,SharifCTF2016]
-author: jbz
+tags: [reverse,SharifCTF7]
+author: n4x0r
 ---
 
-Nanomites era una challenge di reversing il cui testo recitava:
+Nanomites was a Reverse engineering challenge of 300 point in SharifCTF7. The specification of this problem was the following: 
 
-_Analyze the given file. Find the C&C IP address and the data sent to it in plain text.
-Flag = SharifCTF{md5(strcat(IP, Data))}_
+```bash
+Analyze the given file. Find the C&C IP address and the data sent to it in plain text.
+Flag = SharifCTF{md5(strcat(IP, Data))}_
+```
+For the ones that coud not attend the competition, You can download the challenge from [here](../files/Nanomites.exe).
 
-Lo scopo era quindi di trovare indirizzo IP del server C&C ed il plaintext dei dati trasmessi. Il binario è disponibile [quì](https://github.com/jbzteam/CTF/raw/master/SharifCTF2016/Nanomites/Nanomites.exe).
-
-Il file è un eseguibile per Windows, come mostra anche l'output del comando `strings`:
+After running the command `file` against the binary, I got the following output:
 
 `Nanomites.exe: PE32 executable (GUI) Intel 80386, for MS Windows`
 
-Apriamo il fidato IDA e dato che il testo della challenge parlava di una connessione, facciamo una semplice ricerca per la parola `sock`. Infatti uno dei primi risultati è una `call ds:socket` all'indirizzo `00401373`. Sappiamo che dopo aver creato un socket avviene la connessione, quindi andando a guardare qualche riga dopo...
+My next steps after knowing this was to analyze it with IDA in order to retrive behavioral analysis.
+
+Looking for strings XREFs, I found myself with the IP address of the C&C:
 
 ![Indirizzo IP](https://github.com/jbzteam/CTF/raw/master/SharifCTF2016/Nanomites/ip_address.png)
 
