@@ -42,7 +42,7 @@ Looking at the imported functions. We can see that `send` is at address `0x40156
 
 ![send XREF](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/5.png)
 
-Based on the arguments that sends has. we can see the buffer suppose to hold the encrypted payload.
+Based on the arguments that sends has. we can see the buffer that is supposed to hold the encrypted payload.
 If we look above the call to `send` we can see that this buffer is passed to two more functions. these are at `0x402C97` and `0x401260`
 
 ![0x402c97](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/6.png)
