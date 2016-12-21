@@ -93,12 +93,11 @@ LABEL_5:
 However something more interesting happens when we analyze the function at `0x401260`. In this function, the function discussed above (`copy_con`) is called. Interesting enough, one of its arguments results some what familiar:
 
 ![payload](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/8.png)
-
 ![payload_dump](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/9.png)
 
 That is the encrypted payload we intercepted previously with wireshark. Assuming that the contents of the payload are copied to the first argument of that call, seeing the following will be enlighten:
 
-![xor_routine](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/9.png) 
+![xor_routine](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/10.png) 
 
 The previous routine is xoring each byte of the copy of the payload with `70 (0x46)`. Knowing this, I run the following python script:
 
