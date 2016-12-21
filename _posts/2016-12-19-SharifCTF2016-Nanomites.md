@@ -45,7 +45,6 @@ Based on the arguments that sends has. we can see the buffer that contains the d
 If we look above `send` we can see that this buffer is passed to two more functions. these are at `0x402C97` and `0x401260`
 
 ![0x402c97](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/6.png)
-
 ![0x401260](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/7.png)
 
 For sake of simplicity we are not really going to explain the purpose of function 0x402c97 since I think this function is merely used for confusion purposes. Depending how well we do debugging it, this function will return a value of `34`, `22`, `0` or instead redirect execution into an end_point of execution. More over this function even thou retrieves a different return value in `eax` depending of which path is executed, this return value is never actually used outside the context of itself. However it really doesnt matter what this function returns. The actual purpose of this function is to copy the contents of its 3rd argument to its 1st argument. wheter this copy transaction will be successfull will be determind by the value of the second argument. The following is a decpmpilation of this function:
