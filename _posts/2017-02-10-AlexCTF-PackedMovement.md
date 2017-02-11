@@ -194,7 +194,7 @@ flag = ''
 main = None
 
 for func in Functions():
-    if GetFunctionName(func) == "main2":
+    if GetFunctionName(func) == "main":
         main = func
     
 code = list(FuncItems(main))
