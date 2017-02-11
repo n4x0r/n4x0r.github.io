@@ -33,7 +33,7 @@ The fact that the binary only contains two `LOAD` segments suggest us that the b
 
 Lets check the entry point of the binary and see how the first couple of instructions look:
 
-![entry](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/AlexCTF/1.png)
+![entry](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/AlexCTF7/1.png)
 
 Several packers use the intruction `pusha` in order to save the registry contents before running the decompression routine. One famous packer that uses this instruction is the `UPX` packer.
 
