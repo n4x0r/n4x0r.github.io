@@ -6,8 +6,8 @@
 </description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 11 Feb 2017 14:49:10 -0800</pubDate>
-    <lastBuildDate>Sat, 11 Feb 2017 14:49:10 -0800</lastBuildDate>
+    <pubDate>Sat, 11 Feb 2017 14:53:22 -0800</pubDate>
+    <lastBuildDate>Sat, 11 Feb 2017 14:53:22 -0800</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -561,7 +561,7 @@ Program Headers:
 
 &lt;p&gt;Lets check the entry point of the binary and see how the first couple of instructions look:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/AlexCTF7/1.png&quot; alt=&quot;entry&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/n4x0r/n4x0r.github.io/master/images/AlextCTF7/1.png&quot; alt=&quot;entry&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Several packers use the intruction &lt;code class=&quot;highlighter-rouge&quot;&gt;pusha&lt;/code&gt; in order to save the registry contents before running the decompression routine. One famous packer that uses this instruction is the &lt;code class=&quot;highlighter-rouge&quot;&gt;UPX&lt;/code&gt; packer.&lt;/p&gt;
 
@@ -613,7 +613,7 @@ Wrong Flag!
 &lt;/div&gt;
 &lt;p&gt;Easy enough. Lets see how the binary looks like. When we open the &lt;code class=&quot;highlighter-rouge&quot;&gt;dem&lt;/code&gt; binary in &lt;code class=&quot;highlighter-rouge&quot;&gt;IDA&lt;/code&gt; we see the following:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/AlexCTF7/2.png&quot; alt=&quot;main&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/n4x0r/n4x0r.github.io/master/images/AlextCTF7/2.png&quot; alt=&quot;main&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The binary looks like its obfuscated with &lt;a href=&quot;https://github.com/xoreaxeaxeax/movfuscator&quot;&gt;movfuscator&lt;/a&gt;&lt;/p&gt;
 
@@ -621,14 +621,14 @@ Wrong Flag!
 
 &lt;p&gt;This is an example of one of them:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/AlexCTF7/cfg.png&quot; alt=&quot;cfg&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/n4x0r/n4x0r.github.io/master/images/AlextCTF7/cfg.png&quot; alt=&quot;cfg&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;As we can see, the binary seems that has an if else behavior.&lt;/p&gt;
 
 &lt;p&gt;Addiditonally, the binary itself seem to be a stack based virtual machine. One can assure this is true just by looking the name of some of its global variables:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/AlexCTF7/3.png&quot; alt=&quot;gb1&quot; /&gt;
-&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/AlexCTF7/4.png&quot; alt=&quot;gb2&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/n4x0r/n4x0r.github.io/master/images/AlextCTF7/3.png&quot; alt=&quot;gb1&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/n4x0r/n4x0r.github.io/master/images/AlextCTF7/4.png&quot; alt=&quot;gb2&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;This being said I had to make a choice on the stategy I was going to follow to solve this challenge. I had two different options&lt;/p&gt;
 
@@ -646,7 +646,7 @@ Wrong Flag!
 &lt;p&gt;After I made this decission I started to do some dynamic analysis. At the beginning I felt like I was looking throuh a glass, My assumptions would change every 5 intructions. However at one point I saw the light.
 This point was at address &lt;code class=&quot;highlighter-rouge&quot;&gt;0x080493DB&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/AlexCTF7/5.png&quot; alt=&quot;light&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/n4x0r/n4x0r.github.io/master/images/AlextCTF7/5.png&quot; alt=&quot;light&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;At that instruction I saw what it could be an initial assumption of how the binary validates each byte of the flag. It Would Load the particular byte of the flag into &lt;code class=&quot;highlighter-rouge&quot;&gt;R2&lt;/code&gt; virtual register and the input byte will be loaded into de &lt;code class=&quot;highlighter-rouge&quot;&gt;R3&lt;/code&gt; virtual register. Both of this registers will then be loaded into the &lt;code class=&quot;highlighter-rouge&quot;&gt;ALU&lt;/code&gt; module of the machine. it would held a set of operations and it will leave the result of them in the &lt;code class=&quot;highlighter-rouge&quot;&gt;rax&lt;/code&gt; register which would be pass to a &lt;code class=&quot;highlighter-rouge&quot;&gt;test eax, eax&lt;/code&gt; intruction, and if this instruction does not return 1, it would finish execution. Otherwise it will proceed and compare the next byte.&lt;/p&gt;
 
