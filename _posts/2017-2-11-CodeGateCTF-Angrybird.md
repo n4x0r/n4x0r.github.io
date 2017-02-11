@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "CodeGateCTF - Angrybird"
-date:   2016-2-11 20:30
+date:   2017-2-11 20:30
 categories: CTF
 tags: [reverse,CodeGateCTF7]
 author: n4x0r
