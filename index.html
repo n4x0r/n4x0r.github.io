@@ -7,13 +7,17 @@ layout: default
   <h1 class="page-heading">Posts</h1>
 
   <ul class="post-list">
-    {% for post in site.posts %}
-      <li>
+    <li>
         <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+          <a class="post-link" href="/ctf/2016/12/19/SharifCTF2016-Nanomites.html">SharifCTF7 - Nanomites</a>
         </h2>
       </li>
-    {% endfor %}
+    
+      <li>
+        <h2>
+          <a class="post-link" href="/ctf/2017/02/11/CodeGateCTF-Angrybird.html">CodeGateCTF - Angrybird</a>
+        </h2>
+      </li>
   </ul>
 
   <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
