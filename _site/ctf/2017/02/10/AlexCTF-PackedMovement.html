@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>AlexCTF - PackedMovement</title>
+  <meta name="description" content="PackedMovement was the last Reverse Engineering challenge on AlexCTF 2017. The puntuation of this challnege was of 350 points.">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/ctf/2017/02/10/AlexCTF-PackedMovement.html">
+  <link rel="alternate" type="application/rss+xml" title="Ignacio Sanmillan's Blog" href="http://localhost:4000/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+	<div class="wrapper">
+    <a class="site-title" href="/">Ignacio Sanmillan's Blog</a>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lobster" />
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">AlexCTF - PackedMovement</h1>
+    <p class="post-meta"><time datetime="2017-02-10T20:30:00-08:00" itemprop="datePublished">Feb 10, 2017</time> • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">n4x0r</span></span></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p><code class="highlighter-rouge">PackedMovement</code> was the last Reverse Engineering challenge on <code class="highlighter-rouge">AlexCTF 2017</code>. The puntuation of this challnege was of <code class="highlighter-rouge">350</code> points.</p>
+
+<p>The only hint given to this challenge is its name. You will see why later on in this writeup.</p>
+
+<p>The retrieved binary is called <code class="highlighter-rouge">move</code>. if we run the <code class="highlighter-rouge">file</code> command over it we find the following:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>move: ELF 32-bit LSB executable, Intel 80386, version 1 <span class="o">(</span>GNU/Linux<span class="o">)</span>, statically linked, stripped
+</code></pre>
+</div>
+<p>Even more interestingly is when we see the binaries segments with <code class="highlighter-rouge">readelf -l move</code></p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>Elf file <span class="nb">type </span>is EXEC <span class="o">(</span>Executable file<span class="o">)</span>
+Entry point 0xd906d0
+There are 2 program headers, starting at offset 52
+
+Program Headers:
+  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
+  LOAD           0x000000 0x00c01000 0x00c01000 0x18fea1 0x18fea1 R E 0x1000
+  LOAD           0x000300 0x0880b300 0x0880b300 0x00000 0x00000 RW  0x1000
+</code></pre>
+</div>
+
+<p>The fact that the binary only contains two <code class="highlighter-rouge">LOAD</code> segments suggest us that the binary is possibly packed.</p>
+
+<p>Lets check the entry point of the binary and see how the first couple of instructions look:</p>
+
+<p><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/AlexCTF/1.png" alt="entry" /></p>
+
+<p>Several packers use the intruction <code class="highlighter-rouge">pusha</code> in order to save the registry contents before running the decompression routine. One famous packer that uses this instruction is the <code class="highlighter-rouge">UPX</code> packer.</p>
+
+<p>If we run the <code class="highlighter-rouge">strings move | grep UPX</code> command we will confirm this binary has been packed with <code class="highlighter-rouge">UPX</code>:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>9vUPX!
+<span class="nv">$Info</span>: This file is packed with the UPX executable packer http://upx.sf.net <span class="err">$</span>
+<span class="nv">$Id</span>: UPX 3.91 Copyright <span class="o">(</span>C<span class="o">)</span> 1996-2013 the UPX Team. All Rights Reserved. <span class="err">$</span>
+UPX!u
+UPX!
+UPX!
+</code></pre>
+</div>
+
+<p>Fortunately, <code class="highlighter-rouge">UPX</code> also contains a flag for decompression. If we run the <code class="highlighter-rouge">upx -d move -o dem</code> command it will decompress the <code class="highlighter-rouge">move</code> binary and save a copy of the decompressed binary into disk with the name <code class="highlighter-rouge">dem</code></p>
+
+<p>If we run <code class="highlighter-rouge">readelf -l dem</code> command to see <code class="highlighter-rouge">dem's</code> segments we see the following:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>Elf file <span class="nb">type </span>is EXEC <span class="o">(</span>Executable file<span class="o">)</span>
+Entry point 0x804829c
+There are 6 program headers, starting at offset 52
+
+Program Headers:
+  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
+  PHDR           0x000034 0x08048034 0x08048034 0x000c0 0x000c0 R E 0x4
+  INTERP         0x0000f4 0x080480f4 0x080480f4 0x00013 0x00013 R   0x1
+      <span class="o">[</span>Requesting program interpreter: /lib/ld-linux.so.2]
+  LOAD           0x000000 0x08048000 0x08048000 0x18b3c 0x18b3c R E 0x1000
+  LOAD           0x018f58 0x08061f58 0x08061f58 0x5a93a4 0x7a93a8 RW  0x1000
+  DYNAMIC        0x018f58 0x08061f58 0x08061f58 0x000a8 0x000a8 RW  0x4
+  GNU_RELRO      0x018f58 0x08061f58 0x08061f58 0x000a8 0x000a8 R   0x1
+
+ Section to Segment mapping:
+  Segment Sections...
+   00     
+   01     .interp 
+   02     .interp .hash .dynsym .dynstr .gnu.version .gnu.version_r .rel.plt .plt .text 
+   03     .dynamic .got.plt .data .bss 
+   04     .dynamic 
+   05     .dynamic 
+</code></pre>
+</div>
+
+<p>This looks more like what we are looking for. Now that we have a decompress file is a good chance to see what the binary on execution looks like. When we execute the file we see the following:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>Guess a flag: AAAAAAA
+Wrong Flag!
+</code></pre>
+</div>
+<p>Easy enough. Lets see how the binary looks like. When we open the <code class="highlighter-rouge">dem</code> binary in <code class="highlighter-rouge">IDA</code> we see the following:</p>
+
+<p><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/AlexCTF7/2.png" alt="main" /></p>
+
+<p>The binary looks like its obfuscated with <a href="https://github.com/xoreaxeaxeax/movfuscator">movfuscator</a></p>
+
+<p>There is a tool called <a href="https://github.com/kirschju/demovfuscator">demovfuscator</a> however this tool still under development. All I could achieve with it was to replace a chunk of mov instructions with a <code class="highlighter-rouge">lea</code> instruction equivalent. However <code class="highlighter-rouge">demovfuscator</code> can geneate flow-graphs of the actuall execution flow of the executable.</p>
+
+<p>This is an example of one of them:</p>
+
+<p><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/AlexCTF7/cfg.png" alt="cfg" /></p>
+
+<p>As we can see, the binary seems that has an if else behavior.</p>
+
+<p>Addiditonally, the binary itself seem to be a stack based virtual machine. One can assure this is true just by looking the name of some of its global variables:</p>
+
+<p><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/AlexCTF7/3.png" alt="gb1" />
+<img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/AlexCTF7/4.png" alt="gb2" /></p>
+
+<p>This being said I had to make a choice on the stategy I was going to follow to solve this challenge. I had two different options</p>
+
+<ul>
+  <li>
+    <p>1 - Attempt to make an assembler of the actual machine opcodes in order to be able to identify clearly the verification of the flag</p>
+  </li>
+  <li>
+    <p>2 - Attempt to find the verification mechanism without crafting an assembler of the actual machine.</p>
+  </li>
+</ul>
+
+<p>I choose the 2nd approach so that if it fails I can always attempt to craft an assembler for it.</p>
+
+<p>After I made this decission I started to do some dynamic analysis. At the beginning I felt like I was looking throuh a glass, My assumptions would change every 5 intructions. However at one point I saw the light.
+This point was at address <code class="highlighter-rouge">0x080493DB</code></p>
+
+<p><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/AlexCTF7/5.png" alt="light" /></p>
+
+<p>At that instruction I saw what it could be an initial assumption of how the binary validates each byte of the flag. It Would Load the particular byte of the flag into <code class="highlighter-rouge">R2</code> virtual register and the input byte will be loaded into de <code class="highlighter-rouge">R3</code> virtual register. Both of this registers will then be loaded into the <code class="highlighter-rouge">ALU</code> module of the machine. it would held a set of operations and it will leave the result of them in the <code class="highlighter-rouge">rax</code> register which would be pass to a <code class="highlighter-rouge">test eax, eax</code> intruction, and if this instruction does not return 1, it would finish execution. Otherwise it will proceed and compare the next byte.</p>
+
+<p>Something somewhat curious about this whole procedure is that the flag byte is always loaded into the <code class="highlighter-rouge">R2</code> virtual register. If we can see all the instructions where some value is being stored into <code class="highlighter-rouge">R2</code> we may be able to see all the bytes our input is being compared against.</p>
+
+<p>Running the following <code class="highlighter-rouge">IDA python</code> sript will help us find exactly that:</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">idc</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">idaapi</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">main</span> <span class="o">=</span> <span class="bp">None</span>
+
+<span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">Functions</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">GetFunctionName</span><span class="p">(</span><span class="n">func</span><span class="p">)</span> <span class="o">==</span> <span class="s">"main"</span><span class="p">:</span>
+        <span class="n">main</span> <span class="o">=</span> <span class="n">func</span>
+    
+<span class="n">code</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">FuncItems</span><span class="p">(</span><span class="n">main</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">code</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">GetOpnd</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="s">'R2'</span><span class="p">:</span>
+            <span class="k">print</span> <span class="nb">hex</span><span class="p">(</span><span class="n">line</span><span class="p">),</span> <span class="s">"</span><span class="se">\t</span><span class="s">"</span><span class="p">,</span> <span class="n">GetDisasm</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Make sure to extend the end of the main function down to the end of the <code class="highlighter-rouge">_text</code> section. That is address <code class="highlighter-rouge">0x08060B38</code></p>
+
+<p>The result of this script is the following:</p>
+
+<div class="language-nasm highlighter-rouge"><pre class="highlight"><code><span class="mh">0x80493dbL</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">41</span><span class="n">h</span>
+<span class="mh">0x8049ddeL</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">4</span><span class="n">Ch</span>
+<span class="mh">0x804a7e1L</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">45</span><span class="n">h</span>
+<span class="mh">0x804b1e4L</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">58</span><span class="n">h</span>
+<span class="mh">0x804bb9cL</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">43</span><span class="n">h</span>
+<span class="mh">0x804c59fL</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">54</span><span class="n">h</span>
+<span class="mh">0x804cfa2L</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">46</span><span class="n">h</span>
+<span class="mh">0x804d9a5L</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">7</span><span class="n">Bh</span>
+<span class="mh">0x804e357L</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">4</span><span class="n">Dh</span>
+<span class="mh">0x804ed5aL</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">30</span><span class="n">h</span>
+<span class="mh">0x804f75dL</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">56</span><span class="n">h</span>
+<span class="mh">0x8050160L</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">66</span><span class="n">h</span>
+<span class="mh">0x8050b0cL</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">75</span><span class="n">h</span>
+<span class="mh">0x805150fL</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">73</span><span class="n">h</span>
+<span class="mh">0x8051f12L</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">63</span><span class="n">h</span>
+<span class="mh">0x8052915L</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">34</span><span class="n">h</span>
+<span class="mh">0x80532bbL</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">74</span><span class="n">h</span>
+<span class="mh">0x8053cbeL</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">30</span><span class="n">h</span>
+<span class="mh">0x80546c1L</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">72</span><span class="n">h</span>
+<span class="mh">0x80550c4L</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">5</span><span class="n">Fh</span>
+<span class="mh">0x8055a64L</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">77</span><span class="n">h</span>
+<span class="mh">0x8056467L</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">30</span><span class="n">h</span>
+<span class="mh">0x8056e6aL</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">72</span><span class="n">h</span>
+<span class="mh">0x805786dL</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">6</span><span class="n">Bh</span>
+<span class="mh">0x8058207L</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">35</span><span class="n">h</span>
+<span class="mh">0x8058c0aL</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">5</span><span class="n">Fh</span>
+<span class="mh">0x805960dL</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">6</span><span class="n">Ch</span>
+<span class="mh">0x805a010L</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">31</span><span class="n">h</span>
+<span class="mh">0x805a9a4L</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">6</span><span class="n">Bh</span>
+<span class="mh">0x805b3a7L</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">65</span><span class="n">h</span>
+<span class="mh">0x805bdaaL</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">5</span><span class="n">Fh</span>
+<span class="mh">0x805c7adL</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">6</span><span class="n">Dh</span>
+<span class="mh">0x805d13bL</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">34</span><span class="n">h</span>
+<span class="mh">0x805db3eL</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">67</span><span class="n">h</span>
+<span class="mh">0x805e541L</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">31</span><span class="n">h</span>
+<span class="mh">0x805ef44L</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">63</span><span class="n">h</span>
+<span class="mh">0x805f8ccL</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">7</span><span class="n">Dh</span>
+</code></pre>
+</div>
+
+<p>If we modify the script above to print the bytes that are been stored into <code class="highlighter-rouge">R2</code> we should get the flag.</p>
+
+<p>final script is:</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">idc</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">idaapi</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">flag</span> <span class="o">=</span> <span class="s">''</span>
+<span class="n">main</span> <span class="o">=</span> <span class="bp">None</span>
+
+<span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">Functions</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">GetFunctionName</span><span class="p">(</span><span class="n">func</span><span class="p">)</span> <span class="o">==</span> <span class="s">"main2"</span><span class="p">:</span>
+        <span class="n">main</span> <span class="o">=</span> <span class="n">func</span>
+    
+<span class="n">code</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">FuncItems</span><span class="p">(</span><span class="n">main</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">code</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">GetOpnd</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="s">'R2'</span><span class="p">:</span>
+            <span class="n">flag</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">GetOpnd</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">16</span><span class="p">))</span>
+            
+<span class="k">print</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">,</span> <span class="n">flag</span>
+</code></pre>
+</div>
+
+<p>By Executing the previous script we will get the flag : <code class="highlighter-rouge">ALEXCTF{M0Vfusc4t0r_w0rk5_l1ke_m4g1c}</code></p>
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Ignacio Sanmillan's Blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>Ignacio Sanmillan's Blog</li>
+          <li><a href="mailto:n4x0r@amn3s1a.com">n4x0r@amn3s1a.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/n4x0r"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">n4x0r</span></a>
+
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/n4x0r_"><span class="icon icon--twitter"><svg viewBox="0 0 16 16"><path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/></svg>
+</span><span class="username">n4x0r_</span></a>
+
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>Reverse Engineer and Exploit Development Hobbyst. Unix enthutiast. Breaking new things everyday.
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
