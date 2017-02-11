@@ -89,21 +89,21 @@ Flag <span class="o">=</span> SharifCTF<span class="o">{</span>md5<span class="o
 
 <p><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/4.png" alt="Message intercpeted" /></p>
 
-<p>Clearly that message that our host was sending to <code class="highlighter-rouge">155.64.16.51</code> is encrypted.</p>
+<p>Clearly there is an encrypted message that our host is sending to <code class="highlighter-rouge">155.64.16.51</code>.
+Note the size of the encryped payload is of <code class="highlighter-rouge">24 bytes</code></p>
 
-<p>After knowing this information, then I proceeded to look where the application sent the encrypted buffer.
-Looking at the imported functions. We can see that <code class="highlighter-rouge">send</code> is at address <code class="highlighter-rouge">0x40151d</code></p>
+<p>After knowing this information, then I proceeded to look where the application sent the buffer with the encrypted payload.
+Looking at the imported functions. We can see that <code class="highlighter-rouge">send</code> is at address <code class="highlighter-rouge">0x401564</code></p>
 
 <p><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/5.png" alt="send XREF" /></p>
 
-<p>Based on the arguments that sends has. we can see the buffer that contains the data intercepted.
-If we look above <code class="highlighter-rouge">send</code> we can see that this buffer is passed to two more functions. these are at <code class="highlighter-rouge">0x402C97</code> and <code class="highlighter-rouge">0x401260</code></p>
+<p>Based on the arguments that sends has. we can see the buffer that is supposed to hold the encrypted payload.
+If we look above the call to <code class="highlighter-rouge">send</code> we can see that this buffer is passed to two more functions. these are at <code class="highlighter-rouge">0x402C97</code> and <code class="highlighter-rouge">0x401260</code></p>
 
-<p><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/6.png" alt="0x402c97" /></p>
+<p><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/6.png" alt="0x402c97" />
+<img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/7.png" alt="0x401260" /></p>
 
-<p><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/7.png" alt="0x401260" /></p>
-
-<p>For sake of simplicity we are not really going to explain the purpose of function 0x402c97 since I think this function is merely used for confusion purposes. Depending how well we do debugging it, this function will return a value of <code class="highlighter-rouge">34</code>, <code class="highlighter-rouge">22</code>, <code class="highlighter-rouge">0</code> or instead redirect execution into an end_point of execution. More over this function even thou retrieves a different return value in <code class="highlighter-rouge">eax</code> depending of which path is executed, this return value is never actually used outside the context of itself. However it really doesnt matter what this function returns. The actual purpose of this function is to copy the contents of its 3rd argument to its 1st argument. wheter this copy transaction will be successfull will be determind by the value of the second argument. The following is a decpmpilation of this function:</p>
+<p>For sake of simplicity we are not really going to explain the purpose of function 0x402c97 since I think this function is merely used for confusion purposes. Depending how well we do debugging it, this function will return a value of <code class="highlighter-rouge">34</code>, <code class="highlighter-rouge">22</code>, <code class="highlighter-rouge">0</code> or instead redirect execution into an end_point of execution. Moreover, this function even though retrieves a different return value in <code class="highlighter-rouge">eax</code> depending which path is executed, this return value is never actually used outside the context of itself. However it really doesnt matter what this function returns. The actual purpose of this function is to copy the contents of its 3rd argument to its 1st argument. Wheter this copy will be successfull will be determined by the value of the second argument. The following is a decompilation of this function:</p>
 
 <div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">signed</span> <span class="kt">int</span> <span class="kr">__cdecl</span> <span class="nf">copy_cond</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">copy</span><span class="p">,</span> <span class="kt">int</span> <span class="n">centinel</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">payload</span><span class="p">)</span> <span class="p">{</span>
   <span class="kt">int</span> <span class="n">v3</span><span class="p">;</span> 
@@ -145,7 +145,7 @@ If we look above <code class="highlighter-rouge">send</code> we can see that thi
 </code></pre>
 </div>
 
-<p>However something more interesting happens when we analyze the function at <code class="highlighter-rouge">0x401260</code>. In this function, the function discussed above (<code class="highlighter-rouge">copy_con</code>) is called. Interesting enough, one of its arguments results some what familiar:</p>
+<p>Furthermore, something more interesting happens when we analyze the function at <code class="highlighter-rouge">0x401260</code>. In this function, the function discussed above (<code class="highlighter-rouge">copy_cond</code>) is called. Interesting enough, one of its arguments results some what familiar:</p>
 
 <p><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/8.png" alt="payload" />
 <img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/9.png" alt="payload_dump" /></p>
@@ -154,7 +154,7 @@ If we look above <code class="highlighter-rouge">send</code> we can see that thi
 
 <p><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/10.png" alt="xor_routine" /></p>
 
-<p>The previous routine is xoring each byte of the copy of the payload with <code class="highlighter-rouge">70 (0x46)</code>. Knowing this, I run the following python script:</p>
+<p>The previous routine is xoring each byte of the buffer-copy of the encrypted payload against <code class="highlighter-rouge">70 (0x46)</code>. Knowing this, I run the following python script:</p>
 
 <div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c">#!usr/bin/env python</span>
 
@@ -216,7 +216,7 @@ If we look above <code class="highlighter-rouge">send</code> we can see that thi
       </div>
 
       <div class="footer-col footer-col-3">
-        <p>Exploring the worlds of Computer Science, Reverse Engineering and Security. Enjoying Braking things.
+        <p>Discovering new things every day.
 </p>
       </div>
     </div>
