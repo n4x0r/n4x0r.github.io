@@ -88,7 +88,7 @@ Program Headers:
 
 <p>Lets check the entry point of the binary and see how the first couple of instructions look:</p>
 
-<p><img src="https://raw.githubusercontent.com/n4x0r/n4x0r.github.io/master/images/AlextCTF7/1.png" alt="entry" /></p>
+<div style="text-align:center"><img src="https://raw.githubusercontent.com/n4x0r/n4x0r.github.io/master/images/AlextCTF7/1.png" /></div>
 
 <p>Several packers use the intruction <code class="highlighter-rouge">pusha</code> in order to save the registry contents before running the decompression routine. One famous packer that uses this instruction is the <code class="highlighter-rouge">UPX</code> packer.</p>
 
@@ -140,7 +140,7 @@ Wrong Flag!
 </div>
 <p>Easy enough. Lets see how the binary looks like. When we open the <code class="highlighter-rouge">dem</code> binary in <code class="highlighter-rouge">IDA</code> we see the following:</p>
 
-<p><img src="https://raw.githubusercontent.com/n4x0r/n4x0r.github.io/master/images/AlextCTF7/2.png" alt="main" /></p>
+<div style="text-align:center"><img src="https://raw.githubusercontent.com/n4x0r/n4x0r.github.io/master/images/AlextCTF7/2.png" /></div>
 
 <p>The binary looks like its obfuscated with <a href="https://github.com/xoreaxeaxeax/movfuscator">movfuscator</a></p>
 
@@ -148,14 +148,14 @@ Wrong Flag!
 
 <p>This is an example of one of them:</p>
 
-<p><img src="https://raw.githubusercontent.com/n4x0r/n4x0r.github.io/master/images/AlextCTF7/cfg.png" alt="cfg" /></p>
+<div style="text-align:center"><img src="https://raw.githubusercontent.com/n4x0r/n4x0r.github.io/master/images/AlextCTF7/cfg.png" /></div>
 
 <p>As we can see, the binary seems that has an if else behavior.</p>
 
 <p>Addiditonally, the binary itself seem to be a stack based virtual machine. One can assure this is true just by looking the name of some of its global variables:</p>
 
-<p><img src="https://raw.githubusercontent.com/n4x0r/n4x0r.github.io/master/images/AlextCTF7/3.png" alt="gb1" />
-<img src="https://raw.githubusercontent.com/n4x0r/n4x0r.github.io/master/images/AlextCTF7/4.png" alt="gb2" /></p>
+<div style="text-align:center"><img src="https://raw.githubusercontent.com/n4x0r/n4x0r.github.io/master/images/AlextCTF7/3.png" /></div>
+<div style="text-align:center"><img src="https://raw.githubusercontent.com/n4x0r/n4x0r.github.io/master/images/AlextCTF7/4.png" /></div>
 
 <p>This being said I had to make a choice on the stategy I was going to follow to solve this challenge. I had two different options</p>
 
@@ -173,7 +173,7 @@ Wrong Flag!
 <p>After I made this decission I started to do some dynamic analysis. At the beginning I felt like I was looking throuh a glass, My assumptions would change every 5 intructions. However at one point I saw the light.
 This point was at address <code class="highlighter-rouge">0x080493DB</code></p>
 
-<p><img src="https://raw.githubusercontent.com/n4x0r/n4x0r.github.io/master/images/AlextCTF7/5.png" alt="light" /></p>
+<div style="text-align:center"><img src="https://raw.githubusercontent.com/n4x0r/n4x0r.github.io/master/images/AlextCTF7/5.png" /></div>
 
 <p>At that instruction I saw what it could be an initial assumption of how the binary validates each byte of the flag. It Would Load the particular byte of the flag into <code class="highlighter-rouge">R2</code> virtual register and the input byte will be loaded into de <code class="highlighter-rouge">R3</code> virtual register. Both of this registers will then be loaded into the <code class="highlighter-rouge">ALU</code> module of the machine. it would held a set of operations and it will leave the result of them in the <code class="highlighter-rouge">rax</code> register which would be pass to a <code class="highlighter-rouge">test eax, eax</code> intruction, and if this instruction does not return 1, it would finish execution. Otherwise it will proceed and compare the next byte.</p>
 
