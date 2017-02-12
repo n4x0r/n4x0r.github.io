@@ -118,7 +118,7 @@ This point was at address `0x080493DB`
 <div style="text-align:center"><img src ="https://raw.githubusercontent.com/n4x0r/n4x0r.github.io/master/images/AlextCTF7/5.png" /></div>
 
 At that instruction I saw what it could be an initial idea of how the binary validates each byte of the flag. It will store the particular byte of the flag into `R2` virtual register and our input byte will be stored into de `R3` virtual register.
-Both of these registers will then be loaded into the `ALU` module of the machine. A series of operations will be done and the result of them will be stored into the `rax` register which will then be checked wether this result is 0 by a `test eax, eax` instruction. If Z flag not set when this intruction is executed, the binary will be redirected so that it finish execution. Otherwise it will proceed and compare the next byte of the flag with our input string.
+Both of these registers will then be loaded into the `ALU` module of the machine. A series of operations will be done and the result of them will be stored into the `rax` register which will then be checked wether this result is 0 by a `test eax, eax` instruction. If Z flag not set when this instruction is executed, the binary will be redirected so that it finish execution. Otherwise it will proceed and compare the next byte of the flag with our input string.
 
 Something somewhat curious about this whole procedure is that the flag byte is always loaded into the `R2` virtual register. If we could see all the instructions in which some value is being stored into `R2`, we may be able to see all the bytes our input string is being compared against.
 
