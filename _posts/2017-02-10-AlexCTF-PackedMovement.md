@@ -110,7 +110,8 @@ This being said I had to make a choice on the stategy I was going to follow to s
 
 I choose the 2nd approach so that if it failed, I could always attempt to craft an assembler.
 
-After I made this decission I started to do some dynamic analysis. At the beginning I felt like I was looking throuh a glass, My assumptions about how the binary actually work would change every 5 intructions. However, at one point I saw the light.
+After I made this decission I started to do some dynamic analysis.
+At the beginning I felt like I was looking throuh glass. My assumptions about how the binary actually work would change every 5 intructions. However, at one point I saw the light.
 
 This point was at address `0x080493DB`
 
