@@ -184,7 +184,7 @@ The result of this script is the following:
 0x805f8ccL 	mov     R2, 7Dh
 ```
 
-If we modify the script above to print the bytes that are been stored into `R2` we should get the flag.
+If we modify the script above to print the characters that are been stored into `R2` we should get the flag.
 
 final script is: 
 
