@@ -9,14 +9,14 @@ author: n4x0r
 
 `PackedMovement` was the last Reverse Engineering challenge on `AlexCTF 2017`. The puntuation of this challnege was of `350` points.
 
-The only hint given to this challenge is its name. You will see why later on in this writeup.
+The only hint given to this challenge was its name. You will see why later on in this writeup.
 
 The retrieved binary is called `move`. if we run the `file` command over it we find the following:
 
 ```bash
 move: ELF 32-bit LSB executable, Intel 80386, version 1 (GNU/Linux), statically linked, stripped
 ```
-Even more interestingly is when we see the binaries segments with `readelf -l move`
+Even more interesting is when we see the binaries segments with `readelf -l move`
 
 ```bash
 Elf file type is EXEC (Executable file)
@@ -35,7 +35,7 @@ Lets check the entry point of the binary and see how the first couple of instruc
 
 <div style="text-align:center"><img src ="https://raw.githubusercontent.com/n4x0r/n4x0r.github.io/master/images/AlextCTF7/1.png" /></div>
 
-Several packers use the intruction `pusha` in order to save the registry contents before running the decompression routine. One famous packer that uses this instruction is the `UPX` packer.
+Several packers use the instruction `pusha` in order to save the registry contents before running the decompression routine. One famous packer that uses this instruction is the `UPX` packer.
 
 If we run the `strings move | grep UPX` command we will confirm this binary has been packed with `UPX`:
 
@@ -77,7 +77,7 @@ Program Headers:
    05     .dynamic 
 ```
 
-This looks more like what we are looking for. Now that we have a decompress file is a good chance to see what the binary on execution looks like. When we execute the file we see the following:
+This looks more like what we are looking for. Now that we have a decompressed file is a good chance to see what the binary on execution looks like. When we execute the file we see the following:
 
 ```bash
 Guess a flag: AAAAAAA
@@ -89,7 +89,7 @@ Easy enough. Lets see how the binary looks like. When we open the `dem` binary i
 
 The binary looks like its obfuscated with [movfuscator](https://github.com/xoreaxeaxeax/movfuscator)
 
-There is a tool called [demovfuscator](https://github.com/kirschju/demovfuscator) however this tool still under development. All I could achieve with it was to replace a chunk of mov instructions with a `lea` instruction equivalent. However `demovfuscator` can geneate flow-graphs of the actuall execution flow of the executable.
+There is a tool called [demovfuscator](https://github.com/kirschju/demovfuscator) however this tool still under development. All I could achieve with it was to replace a chunk of mov instructions with an equivalent `lea` instruction. However `demovfuscator` can geneate flow-graphs of the actuall execution flow of the executable.
 
 This is an example of one of them:
 
@@ -108,16 +108,17 @@ This being said I had to make a choice on the stategy I was going to follow to s
 
  * 2 - Attempt to find the verification mechanism without crafting an assembler of the actual machine.
 
-I choose the 2nd approach so that if it fails I can always attempt to craft an assembler for it.
+I choose the 2nd approach so that if it failed, I could always attempt to craft an assembler.
 
-After I made this decission I started to do some dynamic analysis. At the beginning I felt like I was looking throuh a glass, My assumptions would change every 5 intructions. However at one point I saw the light.
+After I made this decission I started to do some dynamic analysis. At the beginning I felt like I was looking throuh a glass, My assumptions about how the binary actually work would change every 5 intructions. However, at one point I saw the light.
+
 This point was at address `0x080493DB`
 
 <div style="text-align:center"><img src ="https://raw.githubusercontent.com/n4x0r/n4x0r.github.io/master/images/AlextCTF7/5.png" /></div>
 
-At that instruction I saw what it could be an initial assumption of how the binary validates each byte of the flag. It Would Load the particular byte of the flag into `R2` virtual register and the input byte will be loaded into de `R3` virtual register. Both of this registers will then be loaded into the `ALU` module of the machine. it would held a set of operations and it will leave the result of them in the `rax` register which would be pass to a `test eax, eax` intruction, and if this instruction does not return 1, it would finish execution. Otherwise it will proceed and compare the next byte.
+At that instruction I saw what it could be an initial assumption of how the binary validates each byte of the flag. It would store the particular byte of the flag into `R2` virtual register and our input byte will be stored into de `R3` virtual register. Both of this registers will then be loaded into the `ALU` module of the machine. It would held a set of operations and will leave the result of them in the `rax` register which would then be check wether this result is 0 by a `test eax, eax` intruction. If Z flag not set when this intruction is executed, the binary will be redirected so that it finish execution. Otherwise it will proceed and compare the next byte of the flag.
 
-Something somewhat curious about this whole procedure is that the flag byte is always loaded into the `R2` virtual register. If we can see all the instructions where some value is being stored into `R2` we may be able to see all the bytes our input is being compared against.
+Something somewhat curious about this whole procedure is that the flag byte is always loaded into the `R2` virtual register. If we could see all the instructions in which some value is being stored into `R2`, we may be able to see all the bytes our input string is being compared against.
 
 Running the following `IDA python` sript will help us find exactly that:
 
@@ -138,7 +139,7 @@ for line in code:
             print hex(line), "\t", GetDisasm(line)
 ```
 
-Make sure to extend the end of the main function down to the end of the `_text` section. That is address `0x08060B38`
+Make sure to extend the end of the main function down to the end of the `_text` section. This is because `IDA` fails on analyzing the entire main function. That address is `0x08060B38`.
 
 The result of this script is the following:
 
