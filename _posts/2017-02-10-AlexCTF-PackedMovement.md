@@ -95,7 +95,7 @@ This is an example of one of them:
 
 <div style="text-align:center"><img src ="https://raw.githubusercontent.com/n4x0r/n4x0r.github.io/master/images/AlextCTF7/cfg.png" /></div>
 
-As we can see, the binary seems that has an if else behavior.
+As we can see, the binary seems to have an if else behavior.
 
 Addiditonally, the binary itself seem to be a stack based virtual machine. One can assure this is true just by looking the name of some of its global variables:
 
