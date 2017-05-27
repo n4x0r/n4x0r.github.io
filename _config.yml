@@ -9,7 +9,7 @@
 future: true
 title: Ignacio Sanmillan's Blog
 email: n4x0r@amn3s1a.com
-description: > # this means to ignore newlines until "baseurl:"
+description: A Malware analysis and Exploit Developemt Blog> # this means to ignore newlines until "baseurl:"
 
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://n4x0r.github.io" # the base hostname & protocol for your site
