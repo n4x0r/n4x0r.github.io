@@ -8,6 +8,21 @@ dl, dd, ol, ul, figure {
     padding: 0;
 }
 
+#wrapper {
+width: 500px;
+border: 1px solid black;
+overflow: hidden; /* add this to contain floated children */
+}
+#first {
+
+width: 230px;
+float:left; /* add this */
+}
+#second {
+
+width: 500px;
+    float: left; /* add this */
+}
 
 title {
     font-family: Lobster;
