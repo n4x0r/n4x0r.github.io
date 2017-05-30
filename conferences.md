@@ -6,8 +6,8 @@ permalink: /videos/
 <style>
 	iframe {
 		display: block;
-  		width: 50vw; 
-  		height: 50vh;
+  		width: 75vw; 
+  		height: 75vh;
 	}
 </style>
 
