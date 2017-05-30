@@ -6,6 +6,8 @@ permalink: /videos/
 <style>
 	iframe {
 		display: block;
+  		width: 50vw; 
+  		height: 50vh;
 	}
 </style>
 
@@ -15,7 +17,7 @@ permalink: /videos/
 <br/>
 <br/>
 <div align="middle">	
-<iframe align="middle" width="800" height="400" src="https://www.youtube.com/embed/Svm5V4leEho">
+<iframe align="middle" src="https://www.youtube.com/embed/Svm5V4leEho">
 </iframe>
 </div>
 <br/>
