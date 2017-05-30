@@ -1,38 +1,33 @@
-<footer class="site-footer">
+<footer class="container-fluid amnesia_site-footer">
+    <div class="row">
+        <div class="col-xs-6">
 
-  <div class="wrapper">
+			<span style="margin:20px">	
+				<a target="_blank" href="https://twitter.com/{{ site.twitter_username }}"><img style="max-height: 50px;"
+                                                                                               src="{{ '/images/twitter.svg' | prepend: site.baseurl }}"/></a>
+			</span>
 
-    <h2 class="footer-heading">{{ site.title }}</h2>
+            <span target="_blank" style="margin:20px">
+                    <a href="{{ '/feed.xml' | prepend: site.baseurl }}"><img style="max-height: 50px;"
+                                                                             src="{{ '/images/rss.svg' | prepend: site.baseurl }}"/></a>
+            </span>
 
-    <div class="footer-col-wrapper">
-      <div class="footer-col footer-col-1">
-        <ul class="contact-list">
-          <li>{{ site.title }}</li>
-          <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
-        </ul>
-      </div>
+			<span style="margin:20px">
+				<a target="_blank" href="https://telegram.me/{{ site.telegram_username }}"><img
+                        style="max-height: 50px;" src="{{ '/images/telegram.svg' | prepend: site.baseurl }}"/></a>
+			</span>
 
-      <div class="footer-col footer-col-2">
-        <ul class="social-media-list">
-          {% if site.github_username %}
-          <li>
-            {% include icon-github.html username=site.github_username %}
-          </li>
-          {% endif %}
+        </div>
 
-          {% if site.twitter_username %}
-          <li>
-            {% include icon-twitter.html username=site.twitter_username %}
-          </li>
-          {% endif %}
-        </ul>
-      </div>
-
-      <div class="footer-col footer-col-3">
-        <p>{{ site.description }}</p>
-      </div>
+        <div class="col-xs-6">
+            <blockquote>
+                <p>
+                    {{ site.description }}
+                </p>
+                <p>
+                    <small>{{ site.title }}</small>
+                </p>
+            </blockquote>
+        </div>
     </div>
-
-  </div>
-
 </footer>

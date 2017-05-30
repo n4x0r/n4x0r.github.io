@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="description" content="Angrybird was the first challenge that I solved on the 2017 CodeGate2017 CTF. There was no description for the challenge just a binary.">
+
+	<title>CodeGateCTF - Angrybird</title>
+	
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="/blog/css/bootstrap.min.css" >
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	
+	<link rel="stylesheet" href="/blog/css/main.css">
+	<link rel="canonical" href="http://localhost:4000/blog/writeup/2017/02/11/CodeGateCTF2017-Angrybird.html">
+	<link rel="alternate" type="application/rss+xml" title="N4x0r's Blog" href="http://localhost:4000/blog/feed.xml">
+</head>
+
+	<body>
+		<div class="container">
+			<header class="container-fluid amnesia_site-header">
+	<img src="/blog/images/naxor.png" width="700">
+</header>
+
+			
+			<nav class="container-fluid amnesia_site-navbar">
+	<ul class="nav nav-tabs">
+		
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/blog/">Home</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/blog/acerca/">About</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/blog/articles/">Articles</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="active">
+			<a href="/blog/writeups/">Writeups</a>
+		</li>
+		
+		
+	</ul>
+</nav>
+
+			<div class="row">
+    <div class="col-sm-8">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+            <header class="post-header">
+                <h1 class="post-title" itemprop="name headline">CodeGateCTF - Angrybird</h1>
+                <p class="post-meta">
+                    <time datetime="2017-02-11T20:30:00-08:00" itemprop="datePublished">Feb 11,
+                        2017
+                    </time>
+                     • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span
+                        itemprop="name">n4x0r</span></span>
+                </p>
+            </header>
+
+            <div class="post-content" itemprop="articleBody">
+                <p>Angrybird was the first challenge that I solved on the <code class="highlighter-rouge">2017 CodeGate2017 CTF</code>. There was no description for the challenge just a binary.</p>
+
+<p>When we opened the binary with <code class="highlighter-rouge">IDA</code>, we can see the graph overview of the main function:</p>
+
+<p><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/CodeGateCTF7/1.jpg" alt="main's graph" /></p>
+
+<p>if we have a closer look at the call graph, every basic block is composed of a small check. if that check holds, then the flow of execution continues to the next block. Otherwise, the flow of execution terminates with a call to exit.</p>
+
+<p><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/CodeGateCTF7/2.jpg" alt="basic block" /></p>
+
+<p>Everyone of those checks validate a partcular byte of a variable. That variable is input at the beguinning of main, and suppose to be the flag for this challenge itself.</p>
+
+<p><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/CodeGateCTF7/3.jpg" alt="input" /></p>
+
+<p>We can see that at the end of the if else chain, the input string is printed.</p>
+
+<p><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/CodeGateCTF7/4.jpg" alt="final" /></p>
+
+<p>When I attempted to execute the file, I found out that it wil not execute. The reason for this is because the functions at the beginning of <code class="highlighter-rouge">main</code> are in charge to avoid execution of the program. One can see things like:</p>
+
+<div class="language-nasm highlighter-rouge"><pre class="highlight"><code>	<span class="k">mov</span>		<span class="n">eax</span><span class="p">,</span> <span class="mi">0</span>
+	<span class="k">test</span>		<span class="n">eax</span><span class="p">,</span> <span class="n">eax</span>
+	<span class="k">jz</span> 		<span class="n">_exit</span>
+</code></pre>
+</div>
+
+<p>Anyways, at the time of the challenge I was too lazy to patch the binary to debug it, Also the idea of going trough every single block was overwhelming.
+I decided to follow my intuition and try some <code class="highlighter-rouge">symbolic execution magic</code>.</p>
+
+<p>The framework that I used was <a href="https://http://angr.io">angr</a>. The name of the challenege also suggest using it I then realised.</p>
+
+<p>In order to write a sucessfull <code class="highlighter-rouge">angr</code> script. As many symbolic execution frameworks, they work very similar as path searching algorithms.</p>
+
+<p>First we have to identify the <code class="highlighter-rouge">initial</code> state where we want to begin our search. The address I choose for this was <code class="highlighter-rouge">0x004007c2</code> which s the address of the main function after the no execute shenanigans.</p>
+
+<p>Once we have identified the <code class="highlighter-rouge">initial_state</code>. then we have to identify the desired <code class="highlighter-rouge">final_state</code>. this would be <code class="highlighter-rouge">0x0404fbc</code> which is the address of the call to puts at the end of main.</p>
+
+<p>Okey, we know where to start and where to go. However it would be nice to feed the symbolic engine a series of states to avoid in order to process the search faster.</p>
+
+<p>The approach I followed to choose these states was to find the xrefs of the <code class="highlighter-rouge">_exit</code> function. This is because this function is always called if any of the checks fail.</p>
+
+<p>This being said and with a bit of vim magic I came up with the following python script:</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">angr</span>
+<span class="kn">import</span> <span class="nn">simuvex</span>
+<span class="kn">import</span> <span class="nn">claripy</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">angr</span><span class="o">.</span><span class="n">Project</span><span class="p">(</span><span class="s">'angrybird'</span><span class="p">)</span>
+<span class="n">e</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">blank_state</span><span class="p">(</span><span class="n">addr</span><span class="o">=</span><span class="mh">0x004007c2</span><span class="p">)</span>
+
+<span class="n">frame_addr</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">rbp</span>
+<span class="n">frame_val</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">se</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s">'flag'</span><span class="p">,</span> <span class="mi">100</span><span class="o">*</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">e</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">frame_addr</span><span class="p">,</span> <span class="n">frame_val</span><span class="p">)</span>
+
+<span class="n">pg</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">path_group</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+<span class="n">to_avoid</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="mh">0x4007fe</span><span class="p">,</span>
+    <span class="mh">0x400827</span><span class="p">,</span>
+    <span class="mh">0x400847</span><span class="p">,</span>
+    <span class="mh">0x400870</span><span class="p">,</span>
+    <span class="mh">0x40089f</span><span class="p">,</span>
+    <span class="mh">0x4008c8</span><span class="p">,</span>
+    <span class="mh">0x4008f1</span><span class="p">,</span>
+    <span class="mh">0x40091a</span><span class="p">,</span>
+    <span class="mh">0x400943</span><span class="p">,</span>
+    <span class="mh">0x400986</span><span class="p">,</span>
+    <span class="mh">0x4009af</span><span class="p">,</span>
+    <span class="mh">0x4009d8</span><span class="p">,</span>
+    <span class="mh">0x400a01</span><span class="p">,</span>
+    <span class="mh">0x400a2a</span><span class="p">,</span>
+    <span class="mh">0x400a56</span><span class="p">,</span>
+    <span class="mh">0x400a7b</span><span class="p">,</span>
+    <span class="mh">0x400aa4</span><span class="p">,</span>
+    <span class="mh">0x400aca</span><span class="p">,</span>
+    <span class="mh">0x400aef</span><span class="p">,</span>
+    <span class="mh">0x400b18</span><span class="p">,</span>
+    <span class="mh">0x400b4e</span><span class="p">,</span>
+    <span class="mh">0x400b77</span><span class="p">,</span>
+    <span class="mh">0x400bb3</span><span class="p">,</span>
+    <span class="mh">0x400be5</span><span class="p">,</span>
+    <span class="mh">0x400c0e</span><span class="p">,</span>
+    <span class="mh">0x400c40</span><span class="p">,</span>
+    <span class="mh">0x400c6c</span><span class="p">,</span>
+    <span class="mh">0x400c91</span><span class="p">,</span>
+    <span class="mh">0x400cba</span><span class="p">,</span>
+    <span class="mh">0x400cdf</span><span class="p">,</span>
+    <span class="mh">0x400d04</span><span class="p">,</span>
+    <span class="mh">0x400d2a</span><span class="p">,</span>
+    <span class="mh">0x400d4f</span><span class="p">,</span>
+    <span class="mh">0x400d78</span><span class="p">,</span>
+    <span class="mh">0x400da1</span><span class="p">,</span>
+    <span class="mh">0x400dc1</span><span class="p">,</span>
+    <span class="mh">0x400de6</span><span class="p">,</span>
+    <span class="mh">0x400e0f</span><span class="p">,</span>
+    <span class="mh">0x400e35</span><span class="p">,</span>
+    <span class="mh">0x400e61</span><span class="p">,</span>
+    <span class="mh">0x400e8a</span><span class="p">,</span>
+    <span class="mh">0x400ec7</span><span class="p">,</span>
+    <span class="mh">0x400eec</span><span class="p">,</span>
+    <span class="mh">0x400f15</span><span class="p">,</span>
+    <span class="mh">0x400f3e</span><span class="p">,</span>
+    <span class="mh">0x400f67</span><span class="p">,</span>
+    <span class="mh">0x400f87</span><span class="p">,</span>
+    <span class="mh">0x400fb0</span><span class="p">,</span>
+    <span class="mh">0x400fdf</span><span class="p">,</span>
+    <span class="mh">0x401004</span><span class="p">,</span>
+    <span class="mh">0x40102a</span><span class="p">,</span>
+    <span class="mh">0x40105a</span><span class="p">,</span>
+    <span class="mh">0x40107f</span><span class="p">,</span>
+    <span class="mh">0x4010a8</span><span class="p">,</span>
+    <span class="mh">0x4010d1</span><span class="p">,</span>
+    <span class="mh">0x4010f1</span><span class="p">,</span>
+    <span class="mh">0x40111a</span><span class="p">,</span>
+    <span class="mh">0x401143</span><span class="p">,</span>
+    <span class="mh">0x40116c</span><span class="p">,</span>
+    <span class="mh">0x401195</span><span class="p">,</span>
+    <span class="mh">0x4011d1</span><span class="p">,</span>
+    <span class="mh">0x4011fa</span><span class="p">,</span>
+    <span class="mh">0x40122a</span><span class="p">,</span>
+    <span class="mh">0x401253</span><span class="p">,</span>
+    <span class="mh">0x40127c</span><span class="p">,</span>
+    <span class="mh">0x4012a5</span><span class="p">,</span>
+    <span class="mh">0x4012ce</span><span class="p">,</span>
+    <span class="mh">0x4012f7</span><span class="p">,</span>
+    <span class="mh">0x40132d</span><span class="p">,</span>
+    <span class="mh">0x401356</span><span class="p">,</span>
+    <span class="mh">0x401382</span><span class="p">,</span>
+    <span class="mh">0x4013ab</span><span class="p">,</span>
+    <span class="mh">0x4013d4</span><span class="p">,</span>
+    <span class="mh">0x4013f4</span><span class="p">,</span>
+    <span class="mh">0x40141d</span><span class="p">,</span>
+    <span class="mh">0x401446</span><span class="p">,</span>
+    <span class="mh">0x40146f</span><span class="p">,</span>
+    <span class="mh">0x401498</span><span class="p">,</span>
+    <span class="mh">0x4014c1</span><span class="p">,</span>
+    <span class="mh">0x4014ea</span><span class="p">,</span>
+    <span class="mh">0x401513</span><span class="p">,</span>
+    <span class="mh">0x40153c</span><span class="p">,</span>
+    <span class="mh">0x401565</span><span class="p">,</span>
+    <span class="mh">0x40158e</span><span class="p">,</span>
+    <span class="mh">0x4015b7</span><span class="p">,</span>
+    <span class="mh">0x4015e0</span><span class="p">,</span>
+    <span class="mh">0x40160f</span><span class="p">,</span>
+    <span class="mh">0x401638</span><span class="p">,</span>
+    <span class="mh">0x401661</span><span class="p">,</span>
+    <span class="mh">0x40168a</span><span class="p">,</span>
+    <span class="mh">0x4016b3</span><span class="p">,</span>
+    <span class="mh">0x4016e2</span><span class="p">,</span>
+    <span class="mh">0x40170b</span><span class="p">,</span>
+    <span class="mh">0x401734</span><span class="p">,</span>
+    <span class="mh">0x40178a</span><span class="p">,</span>
+    <span class="mh">0x4017b3</span><span class="p">,</span>
+    <span class="mh">0x4017db</span><span class="p">,</span>
+    <span class="mh">0x401804</span><span class="p">,</span>
+    <span class="mh">0x40182d</span><span class="p">,</span>
+    <span class="mh">0x401863</span><span class="p">,</span>
+    <span class="mh">0x40188c</span><span class="p">,</span>
+    <span class="mh">0x4018c2</span><span class="p">,</span>
+    <span class="mh">0x4018eb</span><span class="p">,</span>
+    <span class="mh">0x401914</span><span class="p">,</span>
+    <span class="mh">0x40193d</span><span class="p">,</span>
+    <span class="mh">0x401966</span><span class="p">,</span>
+    <span class="mh">0x40198f</span><span class="p">,</span>
+    <span class="mh">0x4019b8</span><span class="p">,</span>
+    <span class="mh">0x4019e1</span><span class="p">,</span>
+    <span class="mh">0x401a0a</span><span class="p">,</span>
+    <span class="mh">0x401a33</span><span class="p">,</span>
+    <span class="mh">0x401a62</span><span class="p">,</span>
+    <span class="mh">0x401a8b</span><span class="p">,</span>
+    <span class="mh">0x401abb</span><span class="p">,</span>
+    <span class="mh">0x401ae4</span><span class="p">,</span>
+    <span class="mh">0x401b0d</span><span class="p">,</span>
+    <span class="mh">0x401b3c</span><span class="p">,</span>
+    <span class="mh">0x401b65</span><span class="p">,</span>
+    <span class="mh">0x401b8e</span><span class="p">,</span>
+    <span class="mh">0x401bb3</span><span class="p">,</span>
+    <span class="mh">0x401bdc</span><span class="p">,</span>
+    <span class="mh">0x401c04</span><span class="p">,</span>
+    <span class="mh">0x401c3a</span><span class="p">,</span>
+    <span class="mh">0x401c69</span><span class="p">,</span>
+    <span class="mh">0x401c92</span><span class="p">,</span>
+    <span class="mh">0x401cbb</span><span class="p">,</span>
+    <span class="mh">0x401ce4</span><span class="p">,</span>
+    <span class="mh">0x401d0d</span><span class="p">,</span>
+    <span class="mh">0x401d32</span><span class="p">,</span>
+    <span class="mh">0x401d58</span><span class="p">,</span>
+    <span class="mh">0x401d7d</span><span class="p">,</span>
+    <span class="mh">0x401da6</span><span class="p">,</span>
+    <span class="mh">0x401de2</span><span class="p">,</span>
+    <span class="mh">0x401e0b</span><span class="p">,</span>
+    <span class="mh">0x401e34</span><span class="p">,</span>
+    <span class="mh">0x401e59</span><span class="p">,</span>
+    <span class="mh">0x401e7f</span><span class="p">,</span>
+    <span class="mh">0x401ea4</span><span class="p">,</span>
+    <span class="mh">0x401ec9</span><span class="p">,</span>
+    <span class="mh">0x401ef2</span><span class="p">,</span>
+    <span class="mh">0x401f21</span><span class="p">,</span>
+    <span class="mh">0x401f4a</span><span class="p">,</span>
+    <span class="mh">0x401f73</span><span class="p">,</span>
+    <span class="mh">0x401f9c</span><span class="p">,</span>
+    <span class="mh">0x401fc5</span><span class="p">,</span>
+    <span class="mh">0x401fee</span><span class="p">,</span>
+    <span class="mh">0x402017</span><span class="p">,</span>
+    <span class="mh">0x402040</span><span class="p">,</span>
+    <span class="mh">0x402069</span><span class="p">,</span>
+    <span class="mh">0x402092</span><span class="p">,</span>
+    <span class="mh">0x4020b7</span><span class="p">,</span>
+    <span class="mh">0x4020dc</span><span class="p">,</span>
+    <span class="mh">0x402102</span><span class="p">,</span>
+    <span class="mh">0x402127</span><span class="p">,</span>
+    <span class="mh">0x402150</span><span class="p">,</span>
+    <span class="mh">0x402179</span><span class="p">,</span>
+    <span class="mh">0x4021af</span><span class="p">,</span>
+    <span class="mh">0x4021d8</span><span class="p">,</span>
+    <span class="mh">0x40220e</span><span class="p">,</span>
+    <span class="mh">0x402233</span><span class="p">,</span>
+    <span class="mh">0x40226c</span><span class="p">,</span>
+    <span class="mh">0x402292</span><span class="p">,</span>
+    <span class="mh">0x4022b7</span><span class="p">,</span>
+    <span class="mh">0x4022e0</span><span class="p">,</span>
+    <span class="mh">0x402309</span><span class="p">,</span>
+    <span class="mh">0x402332</span><span class="p">,</span>
+    <span class="mh">0x40235b</span><span class="p">,</span>
+    <span class="mh">0x402384</span><span class="p">,</span>
+    <span class="mh">0x4023ad</span><span class="p">,</span>
+    <span class="mh">0x4023d2</span><span class="p">,</span>
+    <span class="mh">0x4023f7</span><span class="p">,</span>
+    <span class="mh">0x40241c</span><span class="p">,</span>
+    <span class="mh">0x402442</span><span class="p">,</span>
+    <span class="mh">0x402467</span><span class="p">,</span>
+    <span class="mh">0x40249d</span><span class="p">,</span>
+    <span class="mh">0x4024cf</span><span class="p">,</span>
+    <span class="mh">0x40250b</span><span class="p">,</span>
+    <span class="mh">0x402534</span><span class="p">,</span>
+    <span class="mh">0x402559</span><span class="p">,</span>
+    <span class="mh">0x40257e</span><span class="p">,</span>
+    <span class="mh">0x4025a4</span><span class="p">,</span>
+    <span class="mh">0x4025c9</span><span class="p">,</span>
+    <span class="mh">0x4025f2</span><span class="p">,</span>
+    <span class="mh">0x40264f</span><span class="p">,</span>
+    <span class="mh">0x402681</span><span class="p">,</span>
+    <span class="mh">0x4026a6</span><span class="p">,</span>
+    <span class="mh">0x4026d5</span><span class="p">,</span>
+    <span class="mh">0x4026fe</span><span class="p">,</span>
+    <span class="mh">0x40272e</span><span class="p">,</span>
+    <span class="mh">0x402757</span><span class="p">,</span>
+    <span class="mh">0x40278d</span><span class="p">,</span>
+    <span class="mh">0x4027b6</span><span class="p">,</span>
+    <span class="mh">0x4027dc</span><span class="p">,</span>
+    <span class="mh">0x402801</span><span class="p">,</span>
+    <span class="mh">0x40282a</span><span class="p">,</span>
+    <span class="mh">0x402853</span><span class="p">,</span>
+    <span class="mh">0x40287c</span><span class="p">,</span>
+    <span class="mh">0x4028a5</span><span class="p">,</span>
+    <span class="mh">0x4028ce</span><span class="p">,</span>
+    <span class="mh">0x402900</span><span class="p">,</span>
+    <span class="mh">0x402929</span><span class="p">,</span>
+    <span class="mh">0x402952</span><span class="p">,</span>
+    <span class="mh">0x402977</span><span class="p">,</span>
+    <span class="mh">0x40299c</span><span class="p">,</span>
+    <span class="mh">0x4029c5</span><span class="p">,</span>
+    <span class="mh">0x4029ea</span><span class="p">,</span>
+    <span class="mh">0x402a24</span><span class="p">,</span>
+    <span class="mh">0x402a49</span><span class="p">,</span>
+    <span class="mh">0x402a78</span><span class="p">,</span>
+    <span class="mh">0x402aa1</span><span class="p">,</span>
+    <span class="mh">0x402aca</span><span class="p">,</span>
+    <span class="mh">0x402b00</span><span class="p">,</span>
+    <span class="mh">0x402b29</span><span class="p">,</span>
+    <span class="mh">0x402b52</span><span class="p">,</span>
+    <span class="mh">0x402b88</span><span class="p">,</span>
+    <span class="mh">0x402bad</span><span class="p">,</span>
+    <span class="mh">0x402bd6</span><span class="p">,</span>
+    <span class="mh">0x402bff</span><span class="p">,</span>
+    <span class="mh">0x402c24</span><span class="p">,</span>
+    <span class="mh">0x402c49</span><span class="p">,</span>
+    <span class="mh">0x402c78</span><span class="p">,</span>
+    <span class="mh">0x402ca1</span><span class="p">,</span>
+    <span class="mh">0x402cc6</span><span class="p">,</span>
+    <span class="mh">0x402cec</span><span class="p">,</span>
+    <span class="mh">0x402d11</span><span class="p">,</span>
+    <span class="mh">0x402d3a</span><span class="p">,</span> 
+    <span class="mh">0x402d70</span><span class="p">,</span>
+    <span class="mh">0x402d99</span><span class="p">,</span> 
+    <span class="mh">0x402dc2</span><span class="p">,</span> 
+    <span class="mh">0x402de7</span><span class="p">,</span> 
+    <span class="mh">0x402e10</span><span class="p">,</span> 
+    <span class="mh">0x402e3e</span><span class="p">,</span> 
+    <span class="mh">0x402e67</span><span class="p">,</span> 
+    <span class="mh">0x402e99</span><span class="p">,</span> 
+    <span class="mh">0x402ebe</span><span class="p">,</span> 
+    <span class="mh">0x402eed</span><span class="p">,</span> 
+    <span class="mh">0x402f12</span><span class="p">,</span> 
+    <span class="mh">0x402f3b</span><span class="p">,</span> 
+    <span class="mh">0x402f64</span><span class="p">,</span> 
+    <span class="mh">0x402f9f</span><span class="p">,</span> 
+    <span class="mh">0x402fc5</span><span class="p">,</span> 
+    <span class="mh">0x402ff7</span><span class="p">,</span> 
+    <span class="mh">0x403020</span><span class="p">,</span> 
+    <span class="mh">0x403049</span><span class="p">,</span> 
+    <span class="mh">0x403069</span><span class="p">,</span> 
+    <span class="mh">0x403092</span><span class="p">,</span> 
+    <span class="mh">0x4030bb</span><span class="p">,</span> 
+    <span class="mh">0x4030e4</span><span class="p">,</span> 
+    <span class="mh">0x40310d</span><span class="p">,</span> 
+    <span class="mh">0x40312d</span><span class="p">,</span> 
+    <span class="mh">0x403163</span><span class="p">,</span> 
+    <span class="mh">0x40318c</span><span class="p">,</span> 
+    <span class="mh">0x4031ac</span><span class="p">,</span> 
+    <span class="mh">0x4031d5</span><span class="p">,</span> 
+    <span class="mh">0x4031fe</span><span class="p">,</span> 
+    <span class="mh">0x403227</span><span class="p">,</span> 
+    <span class="mh">0x403250</span><span class="p">,</span> 
+    <span class="mh">0x403279</span><span class="p">,</span> 
+    <span class="mh">0x4032a2</span><span class="p">,</span> 
+    <span class="mh">0x4032e9</span><span class="p">,</span> 
+    <span class="mh">0x403316</span><span class="p">,</span> 
+    <span class="mh">0x40333f</span><span class="p">,</span> 
+    <span class="mh">0x403368</span><span class="p">,</span> 
+    <span class="mh">0x4033a4</span><span class="p">,</span> 
+    <span class="mh">0x4033da</span><span class="p">,</span> 
+    <span class="mh">0x4033fa</span><span class="p">,</span> 
+    <span class="mh">0x403423</span><span class="p">,</span> 
+    <span class="mh">0x40344c</span><span class="p">,</span> 
+    <span class="mh">0x403475</span><span class="p">,</span> 
+    <span class="mh">0x40349e</span><span class="p">,</span> 
+    <span class="mh">0x4034c7</span><span class="p">,</span> 
+    <span class="mh">0x4034f0</span><span class="p">,</span>
+    <span class="mh">0x403510</span><span class="p">,</span>
+    <span class="mh">0x403539</span><span class="p">,</span>
+    <span class="mh">0x403568</span><span class="p">,</span>
+    <span class="mh">0x403591</span><span class="p">,</span> 
+    <span class="mh">0x4035ba</span><span class="p">,</span>
+    <span class="mh">0x4035e3</span><span class="p">,</span>
+    <span class="mh">0x403619</span><span class="p">,</span>
+    <span class="mh">0x403639</span><span class="p">,</span>
+    <span class="mh">0x40366f</span><span class="p">,</span>
+    <span class="mh">0x403698</span><span class="p">,</span>
+    <span class="mh">0x4036c1</span><span class="p">,</span>
+    <span class="mh">0x403711</span><span class="p">,</span>
+    <span class="mh">0x40373a</span><span class="p">,</span>
+    <span class="mh">0x403763</span><span class="p">,</span>
+    <span class="mh">0x403799</span><span class="p">,</span>
+    <span class="mh">0x4037cf</span><span class="p">,</span>
+    <span class="mh">0x4037f8</span><span class="p">,</span>
+    <span class="mh">0x403821</span><span class="p">,</span>
+    <span class="mh">0x40384a</span><span class="p">,</span>
+    <span class="mh">0x403873</span><span class="p">,</span>
+    <span class="mh">0x40389c</span><span class="p">,</span>
+    <span class="mh">0x4038d2</span><span class="p">,</span>
+    <span class="mh">0x403908</span><span class="p">,</span>
+    <span class="mh">0x40393e</span><span class="p">,</span>
+    <span class="mh">0x403967</span><span class="p">,</span>
+    <span class="mh">0x40398c</span><span class="p">,</span>
+    <span class="mh">0x4039b2</span><span class="p">,</span>
+    <span class="mh">0x4039d7</span><span class="p">,</span>
+    <span class="mh">0x403a00</span><span class="p">,</span>
+    <span class="mh">0x403a29</span><span class="p">,</span>
+    <span class="mh">0x403a52</span><span class="p">,</span>
+    <span class="mh">0x403a7b</span><span class="p">,</span>
+    <span class="mh">0x403aa0</span><span class="p">,</span>
+    <span class="mh">0x403acf</span><span class="p">,</span>
+    <span class="mh">0x403af4</span><span class="p">,</span>
+    <span class="mh">0x403b23</span><span class="p">,</span>
+    <span class="mh">0x403b4c</span><span class="p">,</span>
+    <span class="mh">0x403b75</span><span class="p">,</span>
+    <span class="mh">0x403b9e</span><span class="p">,</span>
+    <span class="mh">0x403bc7</span><span class="p">,</span>
+    <span class="mh">0x403bf0</span><span class="p">,</span>
+    <span class="mh">0x403c15</span><span class="p">,</span>
+    <span class="mh">0x403c3a</span><span class="p">,</span>
+    <span class="mh">0x403c69</span><span class="p">,</span>
+    <span class="mh">0x403c92</span><span class="p">,</span>
+    <span class="mh">0x403cbb</span><span class="p">,</span>
+    <span class="mh">0x403cf1</span><span class="p">,</span>
+    <span class="mh">0x403d1a</span><span class="p">,</span>
+    <span class="mh">0x403d43</span><span class="p">,</span>
+    <span class="mh">0x403d6c</span><span class="p">,</span>
+    <span class="mh">0x403d91</span><span class="p">,</span>
+    <span class="mh">0x403db6</span><span class="p">,</span>
+    <span class="mh">0x403de5</span><span class="p">,</span>
+    <span class="mh">0x403e0e</span><span class="p">,</span>
+    <span class="mh">0x403e37</span><span class="p">,</span>
+    <span class="mh">0x403e60</span><span class="p">,</span>
+    <span class="mh">0x403e9f</span><span class="p">,</span>
+    <span class="mh">0x403ee0</span><span class="p">,</span>
+    <span class="mh">0x403f16</span><span class="p">,</span>
+    <span class="mh">0x403f3f</span><span class="p">,</span>
+    <span class="mh">0x403f75</span><span class="p">,</span>
+    <span class="mh">0x403f9a</span><span class="p">,</span>
+    <span class="mh">0x403fbf</span><span class="p">,</span>
+    <span class="mh">0x403fe5</span><span class="p">,</span>
+    <span class="mh">0x40400a</span><span class="p">,</span>
+    <span class="mh">0x404033</span><span class="p">,</span>
+    <span class="mh">0x404069</span><span class="p">,</span>
+    <span class="mh">0x404092</span><span class="p">,</span>
+    <span class="mh">0x4040bb</span><span class="p">,</span>
+    <span class="mh">0x4040e0</span><span class="p">,</span>
+    <span class="mh">0x404105</span><span class="p">,</span>
+    <span class="mh">0x40412b</span><span class="p">,</span>
+    <span class="mh">0x404150</span><span class="p">,</span>
+    <span class="mh">0x404179</span><span class="p">,</span>
+    <span class="mh">0x4041a2</span><span class="p">,</span>
+    <span class="mh">0x4041d8</span><span class="p">,</span>
+    <span class="mh">0x404201</span><span class="p">,</span>
+    <span class="mh">0x404227</span><span class="p">,</span>
+    <span class="mh">0x40424c</span><span class="p">,</span>
+    <span class="mh">0x404275</span><span class="p">,</span>
+    <span class="mh">0x40429e</span><span class="p">,</span>
+    <span class="mh">0x4042c7</span><span class="p">,</span>
+    <span class="mh">0x4042f0</span><span class="p">,</span>
+    <span class="mh">0x404319</span><span class="p">,</span>
+    <span class="mh">0x40433e</span><span class="p">,</span>
+    <span class="mh">0x404367</span><span class="p">,</span>
+    <span class="mh">0x40438c</span><span class="p">,</span>
+    <span class="mh">0x4043b1</span><span class="p">,</span>
+    <span class="mh">0x4043e3</span><span class="p">,</span>
+    <span class="mh">0x404409</span><span class="p">,</span>
+    <span class="mh">0x40442e</span><span class="p">,</span>
+    <span class="mh">0x404457</span><span class="p">,</span>
+    <span class="mh">0x404480</span><span class="p">,</span>
+    <span class="mh">0x4044a9</span><span class="p">,</span>
+    <span class="mh">0x4044d2</span><span class="p">,</span>
+    <span class="mh">0x4044fb</span><span class="p">,</span>
+    <span class="mh">0x404520</span><span class="p">,</span>
+    <span class="mh">0x404549</span><span class="p">,</span>
+    <span class="mh">0x40456e</span><span class="p">,</span>
+    <span class="mh">0x404593</span><span class="p">,</span>
+    <span class="mh">0x4045bc</span><span class="p">,</span>
+    <span class="mh">0x4045e1</span><span class="p">,</span>
+    <span class="mh">0x404607</span><span class="p">,</span>
+    <span class="mh">0x40462c</span><span class="p">,</span>
+    <span class="mh">0x404655</span><span class="p">,</span>
+    <span class="mh">0x40467e</span><span class="p">,</span>
+    <span class="mh">0x4046a7</span><span class="p">,</span>
+    <span class="mh">0x4046d0</span><span class="p">,</span>
+    <span class="mh">0x4046f9</span><span class="p">,</span>
+    <span class="mh">0x40471e</span><span class="p">,</span>
+    <span class="mh">0x404747</span><span class="p">,</span>
+    <span class="mh">0x40476c</span><span class="p">,</span>
+    <span class="mh">0x404791</span><span class="p">,</span>
+    <span class="mh">0x4047ba</span><span class="p">,</span>
+    <span class="mh">0x4047df</span><span class="p">,</span>
+    <span class="mh">0x404804</span><span class="p">,</span>
+    <span class="mh">0x404829</span><span class="p">,</span>
+    <span class="mh">0x40484f</span><span class="p">,</span>
+    <span class="mh">0x404874</span><span class="p">,</span>
+    <span class="mh">0x40489d</span><span class="p">,</span>
+    <span class="mh">0x4048c6</span><span class="p">,</span>
+    <span class="mh">0x4048eb</span><span class="p">,</span>
+    <span class="mh">0x404910</span><span class="p">,</span>
+    <span class="mh">0x40493f</span><span class="p">,</span>
+    <span class="mh">0x404968</span><span class="p">,</span>
+    <span class="mh">0x404991</span><span class="p">,</span>
+    <span class="mh">0x4049ba</span><span class="p">,</span> 
+    <span class="mh">0x4049e3</span><span class="p">,</span> 
+    <span class="mh">0x404a0c</span><span class="p">,</span> 
+    <span class="mh">0x404a2c</span><span class="p">,</span> 
+    <span class="mh">0x404a55</span><span class="p">,</span> 
+    <span class="mh">0x404a7e</span><span class="p">,</span> 
+    <span class="mh">0x404aa7</span><span class="p">,</span> 
+    <span class="mh">0x404ad0</span><span class="p">,</span> 
+    <span class="mh">0x404af9</span><span class="p">,</span> 
+    <span class="mh">0x404b19</span><span class="p">,</span> 
+    <span class="mh">0x404b42</span><span class="p">,</span> 
+    <span class="mh">0x404b6b</span><span class="p">,</span> 
+    <span class="mh">0x404b94</span><span class="p">,</span>
+    <span class="mh">0x404bbd</span><span class="p">,</span> 
+    <span class="mh">0x404be6</span><span class="p">,</span> 
+    <span class="mh">0x404c0f</span><span class="p">,</span> 
+    <span class="mh">0x404c38</span><span class="p">,</span> 
+    <span class="mh">0x404c7b</span><span class="p">,</span> 
+    <span class="mh">0x404ca4</span><span class="p">,</span> 
+    <span class="mh">0x404ccd</span><span class="p">,</span> 
+    <span class="mh">0x404cf6</span><span class="p">,</span> 
+    <span class="mh">0x404d1f</span><span class="p">,</span>
+    <span class="mh">0x404d48</span><span class="p">,</span>
+    <span class="mh">0x404d7e</span><span class="p">,</span>
+    <span class="mh">0x404da7</span><span class="p">,</span>
+    <span class="mh">0x404dd0</span><span class="p">,</span>
+    <span class="mh">0x404df9</span><span class="p">,</span>
+    <span class="mh">0x404e22</span><span class="p">,</span>
+    <span class="mh">0x404e4b</span><span class="p">,</span>
+    <span class="mh">0x404e70</span><span class="p">,</span>
+    <span class="mh">0x404e9f</span><span class="p">,</span>
+    <span class="mh">0x404ec8</span><span class="p">,</span>
+    <span class="mh">0x404ef1</span><span class="p">,</span>
+    <span class="mh">0x404f1a</span><span class="p">,</span>
+    <span class="mh">0x404f3f</span><span class="p">,</span>
+    <span class="mh">0x404f77</span><span class="p">,</span>
+    <span class="mh">0x404fa6</span><span class="p">]</span>
+
+<span class="n">pg</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span><span class="n">find</span><span class="o">=</span><span class="mh">0x0404FBC</span><span class="p">,</span> <span class="n">avoid</span><span class="o">=</span><span class="n">to_avoid</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pg</span><span class="o">.</span><span class="n">found</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">"not found anything"</span>
+    <span class="n">sys</span><span class="o">.</span><span class="nb">exit</span><span class="p">()</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">found</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">state</span>
+
+<span class="k">print</span> <span class="s">"flag"</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">se</span><span class="o">.</span><span class="n">any_str</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">frame_addr</span><span class="o">-</span><span class="mh">0x50</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+</code></pre>
+</div>
+
+<p>After running this script we will get the flag, which was: <code class="highlighter-rouge">Im_so_cute&amp;pretty_:)</code></p>
+
+            </div>
+
+        </article>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>Archivo de writeups</strong>
+    </div>
+
+    <div class="panel-body">
+        
+        
+        
+        <div>
+            <h4 class="archive-title">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <a href="#">2017</a>
+            </h4>
+            <ul class="list-group archive-list" style="display: none;">
+                
+                
+                
+                <li class="list-group-item">
+                    <a href="/blog/writeup/2017/02/11/CodeGateCTF2017-Angrybird.html">CodeGateCTF - Angrybird</a>
+                        <span class="badge">
+                            <time>11 Feb</time>
+                        </span>
+                </li>
+                
+                
+                
+                <li class="list-group-item">
+                    <a href="/blog/writeup/2017/02/10/AlexCTF-PackedMovement.html">AlexCTF - PackedMovement</a>
+                        <span class="badge">
+                            <time>10 Feb</time>
+                        </span>
+                </li>
+                
+                
+                
+                
+            </ul>
+        </div>
+        <div>
+            <h4 class="archive-title">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <a href="#">2016</a>
+            </h4>
+            <ul class="list-group archive-list" style="display: none;">
+                
+                <li class="list-group-item">
+                    <a href="/blog/writeup/2016/12/19/SharifCTF2016-Nanomites.html">SharifCTF7 - Nanomites</a>
+                        <span class="badge">
+                            <time>19 Dec</time>
+                        </span>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+
+			<hr />
+			
+			<footer class="container-fluid amnesia_site-footer">
+    <div class="row">
+        <div class="col-xs-6">
+
+			<span style="margin:20px">	
+				<a target="_blank" href="https://twitter.com/n4xor"><img style="max-height: 50px;"
+                                                                                               src="/blog/images/twitter.svg"/></a>
+			</span>
+
+            <span target="_blank" style="margin:20px">
+                    <a href="/blog/feed.xml"><img style="max-height: 50px;"
+                                                                             src="/blog/images/rss.svg"/></a>
+            </span>
+
+			<span style="margin:20px">
+				<a target="_blank" href="https://telegram.me/n4x0r"><img
+                        style="max-height: 50px;" src="/blog/images/telegram.svg"/></a>
+			</span>
+
+        </div>
+
+        <div class="col-xs-6">
+            <blockquote>
+                <p>
+                    A Malware analysis and Exploitation Blog
+                </p>
+                <p>
+                    <small>N4x0r's Blog</small>
+                </p>
+            </blockquote>
+        </div>
+    </div>
+</footer>
+
+		</div>
+
+		<script src="/blog/js/jquery.min.js"></script>
+		<script src="/blog/js/bootstrap.min.js"></script>
+		<script src="/blog/js/scripts.js"></script>
+	</body>
+</html>

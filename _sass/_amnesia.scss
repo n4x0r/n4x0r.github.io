@@ -1,0 +1,139 @@
+
+/* modificaciones generales */
+body {
+	background-color: #202120;
+}
+
+a {
+  color: #774282;
+}
+
+a:visited {
+  color: #4e3054;
+}
+
+a:hover {
+  color: #c22cd3;
+}
+
+p {
+  text-align: justify;
+}
+
+.center {
+  text-align: center;
+}
+
+img {
+  max-width: 100%;
+}
+
+/* ESTILOS PROPIOS */
+
+/* template */
+.amnesia_site-header {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+.amnesia_site-navbar {
+  margin-bottom: 20px;
+}
+
+.amnesia_site-footer {
+  
+}
+
+/* page */
+.amnesia_page {
+  
+}
+.amnesia_page-header {
+  
+}
+.amnesia_page-title {
+  font-size: 36px;
+}
+.amnesia_page-content {
+  font-size: 16px;
+}
+
+
+/* post */
+
+.amnesia_post-header {
+  
+}
+.amenesia_post-title {
+  font-size: 28px;
+}
+.amnesia_post-content {
+  font-size: 16px;
+  text-align: justify;
+}
+.amnesia_post-author {
+  
+}
+.amnesia_post-date {
+  color: #777;
+  font-size: 12px;
+  font-style: italic;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.amnesia_post-readmore {
+  float: right;
+  display: block;
+  margin: 0px;
+  padding: 0px;
+}
+
+.amnesia_post-row {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* pagina del equipo */
+.profile-row {
+  text-align: center;
+}
+
+.member-profile {
+  margin-top: 20px;
+}
+
+.member-image {
+  max-height: 200px;
+}
+
+.member-nickname {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0px;
+}
+
+.member-description {
+  text-align: justify;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.member-skills {
+  text-align: left;
+  font-size: 14px;
+}
+
+.member-links {
+  text-align: left;
+  font-size: 14px;
+  ul {
+    margin: 0px;
+    padding: 0px;
+    li {
+      list-style: none;
+    }
+  }
+}
+

@@ -1,0 +1,101 @@
+- nickname: 'Nox'
+  description: 'Nox miembro de CracksLatinos y adicto a la Ingeniería Inversa'
+  twitter: 'NoxOner'
+  skills:
+    - reversing
+    - malware
+    - exploiting
+
+- nickname: 'Aran'
+  image_url: '/images/profiles/aran.png'
+  description: 'Tan loco como para emprender en estos tiempos'
+  twitter: '4r4nL'
+  skills:
+    - web
+    - misc
+
+- nickname: 'SkUaTeR'
+  image_url: '/images/profiles/skuater.png'
+  description: 'Reverse VM analyst CTF Player'
+  twitter: 'sanguinawer'
+  skills:
+    - reversing
+    - exploiting
+    - embedded devices
+    - VMs
+    - anything
+
+- nickname: 'thEpOpE'
+  image_url: '/images/profiles/thepope.jpg'
+  description: 'pOpE - crAck & prAy'
+  twitter: 'sergiollata'
+  skills:
+    - reversing
+    - forensic
+    - crypto
+    - malware exorcism
+
+- nickname: 'Soez'
+  image_url: '/images/profiles/soez.png'
+  description: 'Estudiante de Ingeniería de Software y fanático de la Seguridad Informática'
+  twitter: 'javierprtd'
+  skills:
+    - reversing
+    - exploiting
+    - crypto
+    - misc
+
+- nickname: 'Noukeys'
+  description: 'C:\＞Documents and settings\noukeys\CTF Player'
+  twitter: 'ajgomezlopez'
+  skills:
+    - web
+    - forensic
+    - crypto
+    - others
+
+- nickname: 'L☯ngin☠s'
+  description: 'Lu zoo gsv gsrmth Rev olhg, R nrhh nb nrmw gsv nlhg'
+  twitter: 'L0ngin0s'
+  skills:
+    - reversing
+    - forensic
+    - crypto
+    - misc
+
+- nickname: 'Alguien'
+  image_url: '/images/profiles/alguien.png'
+  description: 'CTF Webing && Team padding member'
+  twitter: 'alguien_tw'
+  skills:
+    - web
+    - magic tricks
+
+- nickname: 'n4☠0r'
+  image_url: '/images/profiles/naxor.jpg'
+  description: 'Breaking Things'
+  twitter: 'n4ch0r'
+  skills:
+    - reversing
+    - exploiting
+    - malware
+    - misc
+
+- nickname: 'sha0 coder'
+  image_url: '/images/profiles/sha0coder.jpg'
+  description: 'Pentester && exploit developer'
+  twitter: 'sha0coder'
+  skills:
+    - reversing
+    - exploiting
+    - web
+    - misc
+
+- nickname: 't0n1'
+  image_url: '/images/profiles/t0n1.jpg'
+  description: 'Security analyst and penetration tester'
+  skills:
+    - net
+    - crypto
+    - reversing
+    - exploiting

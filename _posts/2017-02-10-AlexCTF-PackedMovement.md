@@ -1,8 +1,8 @@
 ---
-layout: post
+layout: writeup
 title:  "AlexCTF - PackedMovement"
 date:   2017-02-10 20:30
-categories: CTF
+categories: writeup
 tags: [reverse,AlexCTF]
 author: n4x0r
 ---

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Ignacio Sanmillan's Blog</title>
-    <description></description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 27 May 2017 13:39:58 -0700</pubDate>
-    <lastBuildDate>Sat, 27 May 2017 13:39:58 -0700</lastBuildDate>
+    <title>N4x0r's Blog</title>
+    <description>A Malware analysis and Exploitation Blog</description>
+    <link>http://localhost:4000/blog/</link>
+    <atom:link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Tue, 30 May 2017 03:13:54 -0700</pubDate>
+    <lastBuildDate>Tue, 30 May 2017 03:13:54 -0700</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -520,15 +520,15 @@ I decided to follow my intuition and try some &lt;code class=&quot;highlighter-r
 &lt;p&gt;After running this script we will get the flag, which was: &lt;code class=&quot;highlighter-rouge&quot;&gt;Im_so_cute&amp;amp;pretty_:)&lt;/code&gt;&lt;/p&gt;
 </description>
         <pubDate>Sat, 11 Feb 2017 20:30:00 -0800</pubDate>
-        <link>http://localhost:4000/ctf/2017/02/11/CodeGateCTF2017-Angrybird.html</link>
-        <guid isPermaLink="true">http://localhost:4000/ctf/2017/02/11/CodeGateCTF2017-Angrybird.html</guid>
+        <link>http://localhost:4000/blog/writeup/2017/02/11/CodeGateCTF2017-Angrybird.html</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/writeup/2017/02/11/CodeGateCTF2017-Angrybird.html</guid>
         
         <category>reverse</category>
         
         <category>CodeGateCTF7</category>
         
         
-        <category>CTF</category>
+        <category>writeup</category>
         
       </item>
     
@@ -744,15 +744,15 @@ Both of these registers will then be loaded into the &lt;code class=&quot;highli
 &lt;p&gt;By Executing the previous script we will get the flag : &lt;code class=&quot;highlighter-rouge&quot;&gt;ALEXCTF{M0Vfusc4t0r_w0rk5_l1ke_m4g1c}&lt;/code&gt;&lt;/p&gt;
 </description>
         <pubDate>Fri, 10 Feb 2017 20:30:00 -0800</pubDate>
-        <link>http://localhost:4000/ctf/2017/02/10/AlexCTF-PackedMovement.html</link>
-        <guid isPermaLink="true">http://localhost:4000/ctf/2017/02/10/AlexCTF-PackedMovement.html</guid>
+        <link>http://localhost:4000/blog/writeup/2017/02/10/AlexCTF-PackedMovement.html</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/writeup/2017/02/10/AlexCTF-PackedMovement.html</guid>
         
         <category>reverse</category>
         
         <category>AlexCTF</category>
         
         
-        <category>CTF</category>
+        <category>writeup</category>
         
       </item>
     
@@ -871,15 +871,15 @@ If we look above the call to &lt;code class=&quot;highlighter-rouge&quot;&gt;sen
 
 </description>
         <pubDate>Mon, 19 Dec 2016 20:30:00 -0800</pubDate>
-        <link>http://localhost:4000/ctf/2016/12/19/SharifCTF2016-Nanomites.html</link>
-        <guid isPermaLink="true">http://localhost:4000/ctf/2016/12/19/SharifCTF2016-Nanomites.html</guid>
+        <link>http://localhost:4000/blog/writeup/2016/12/19/SharifCTF2016-Nanomites.html</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/writeup/2016/12/19/SharifCTF2016-Nanomites.html</guid>
         
         <category>reverse</category>
         
         <category>SharifCTF7</category>
         
         
-        <category>CTF</category>
+        <category>writeup</category>
         
       </item>
     

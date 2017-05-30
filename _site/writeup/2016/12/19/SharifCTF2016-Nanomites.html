@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="description" content="Nanomites was a Reverse engineering challenge of 300 point in SharifCTF7. The specification of this problem was the following:">
+
+	<title>SharifCTF7 - Nanomites</title>
+	
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="/blog/css/bootstrap.min.css" >
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	
+	<link rel="stylesheet" href="/blog/css/main.css">
+	<link rel="canonical" href="http://localhost:4000/blog/writeup/2016/12/19/SharifCTF2016-Nanomites.html">
+	<link rel="alternate" type="application/rss+xml" title="N4x0r's Blog" href="http://localhost:4000/blog/feed.xml">
+</head>
+
+	<body>
+		<div class="container">
+			<header class="container-fluid amnesia_site-header">
+	<img src="/blog/images/naxor.png" width="700">
+</header>
+
+			
+			<nav class="container-fluid amnesia_site-navbar">
+	<ul class="nav nav-tabs">
+		
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/blog/">Home</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/blog/acerca/">About</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/blog/articles/">Articles</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="active">
+			<a href="/blog/writeups/">Writeups</a>
+		</li>
+		
+		
+	</ul>
+</nav>
+
+			<div class="row">
+    <div class="col-sm-8">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+            <header class="post-header">
+                <h1 class="post-title" itemprop="name headline">SharifCTF7 - Nanomites</h1>
+                <p class="post-meta">
+                    <time datetime="2016-12-19T20:30:00-08:00" itemprop="datePublished">Dec 19,
+                        2016
+                    </time>
+                     • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span
+                        itemprop="name">n4x0r</span></span>
+                </p>
+            </header>
+
+            <div class="post-content" itemprop="articleBody">
+                <p>Nanomites was a Reverse engineering challenge of 300 point in SharifCTF7. The specification of this problem was the following:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>Analyze the given file. Find the C&amp;C IP address and the data sent to it <span class="k">in </span>plain text.
+Flag <span class="o">=</span> SharifCTF<span class="o">{</span>md5<span class="o">(</span>strcat<span class="o">(</span>IP, Data<span class="o">))}</span>_
+</code></pre>
+</div>
+<p>For the ones that coud not attend the competition, You can download the challenge from <a href="../files/Nanomites.exe">here</a>.</p>
+
+<p>After running the command <code class="highlighter-rouge">file</code> against the binary, I got the following output:</p>
+
+<p><code class="highlighter-rouge">Nanomites.exe: PE32 executable (GUI) Intel 80386, for MS Windows</code></p>
+
+<p>My next steps after knowing this was to analyze it with IDA in order to find  out any evidence of the binary connecting to a remote host.</p>
+
+<p>Once the file is in IDA, we can see that the binary is some what obfuscated.</p>
+
+<p><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/1.png" alt="relative call" />
+<img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/2.png" alt="int3" /></p>
+
+<p>Looking for strings XREFs, I found myself with the IP address of the C&amp;C:</p>
+
+<p><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/3.png" alt="C&amp;C IP" /></p>
+
+<p>After knowing the IP address of the C&amp;C, I then opened wireshark to see if I could intercept any communications. I indeed intercepted a stream. This stream looked like this:</p>
+
+<p><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/4.png" alt="Message intercpeted" /></p>
+
+<p>Clearly there is an encrypted message that our host is sending to <code class="highlighter-rouge">155.64.16.51</code>.
+Note the size of the encryped payload is of <code class="highlighter-rouge">24 bytes</code></p>
+
+<p>After knowing this information, then I proceeded to look where the application sent the buffer with the encrypted payload.
+Looking at the imported functions. We can see that <code class="highlighter-rouge">send</code> is at address <code class="highlighter-rouge">0x401564</code></p>
+
+<p><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/5.png" alt="send XREF" /></p>
+
+<p>Based on the arguments that sends has. we can see the buffer that is supposed to hold the encrypted payload.
+If we look above the call to <code class="highlighter-rouge">send</code> we can see that this buffer is passed to two more functions. these are at <code class="highlighter-rouge">0x402C97</code> and <code class="highlighter-rouge">0x401260</code></p>
+
+<p><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/6.png" alt="0x402c97" />
+<img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/7.png" alt="0x401260" /></p>
+
+<p>For sake of simplicity we are not really going to explain the purpose of function 0x402c97 since I think this function is merely used for confusion purposes. Depending how well we do debugging it, this function will return a value of <code class="highlighter-rouge">34</code>, <code class="highlighter-rouge">22</code>, <code class="highlighter-rouge">0</code> or instead redirect execution into an end_point of execution. Moreover, this function even though retrieves a different return value in <code class="highlighter-rouge">eax</code> depending which path is executed, this return value is never actually used outside the context of itself. However it really doesnt matter what this function returns. The actual purpose of this function is to copy the contents of its 3rd argument to its 1st argument. Wheter this copy will be successfull will be determined by the value of the second argument. The following is a decompilation of this function:</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">signed</span> <span class="kt">int</span> <span class="kr">__cdecl</span> <span class="nf">copy_cond</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">copy</span><span class="p">,</span> <span class="kt">int</span> <span class="n">centinel</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">payload</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">v3</span><span class="p">;</span> 
+  <span class="n">_DWORD</span> <span class="o">*</span><span class="n">v4</span><span class="p">;</span> 
+  <span class="kt">signed</span> <span class="kt">int</span> <span class="n">v5</span><span class="p">;</span> 
+  <span class="kt">char</span> <span class="n">v7</span><span class="p">;</span> 
+  <span class="kt">signed</span> <span class="kt">int</span> <span class="n">v8</span><span class="p">;</span> 
+
+  <span class="n">__debugbreak</span><span class="p">();</span>
+  <span class="n">v3</span> <span class="o">=</span> <span class="n">centinel</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="n">centinel</span> <span class="p">)</span>
+    <span class="k">goto</span> <span class="n">LABEL_4</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="n">payload</span> <span class="p">)</span>
+  <span class="p">{</span>
+    <span class="o">*</span><span class="n">copy</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="nl">LABEL_4:</span>
+    <span class="n">v4</span> <span class="o">=</span> <span class="n">junk</span><span class="p">();</span>
+    <span class="n">v8</span> <span class="o">=</span> <span class="mi">22</span><span class="p">;</span>
+    <span class="k">goto</span> <span class="n">LABEL_5</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">v7</span> <span class="o">=</span> <span class="o">*</span><span class="n">payload</span><span class="p">;</span>
+  <span class="o">*</span><span class="n">copy</span> <span class="o">=</span> <span class="o">*</span><span class="n">payload</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span> <span class="n">v7</span> <span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">v3</span> <span class="o">=</span> <span class="n">centinel</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">__debugbreak</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="k">if</span> <span class="p">(</span> <span class="n">v3</span> <span class="p">)</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="o">*</span><span class="n">copy</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="n">v4</span> <span class="o">=</span> <span class="n">junk</span><span class="p">();</span>
+  <span class="n">v8</span> <span class="o">=</span> <span class="mi">34</span><span class="p">;</span>
+<span class="nl">LABEL_5:</span>
+  <span class="n">v5</span> <span class="o">=</span> <span class="n">v8</span><span class="p">;</span>
+  <span class="o">*</span><span class="n">v4</span> <span class="o">=</span> <span class="n">v8</span><span class="p">;</span>
+  <span class="n">trigger_exception</span><span class="p">();</span>
+  <span class="k">return</span> <span class="n">v5</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Furthermore, something more interesting happens when we analyze the function at <code class="highlighter-rouge">0x401260</code>. In this function, the function discussed above (<code class="highlighter-rouge">copy_cond</code>) is called. Interesting enough, one of its arguments results some what familiar:</p>
+
+<p><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/8.png" alt="payload" />
+<img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/9.png" alt="payload_dump" /></p>
+
+<p>That is the encrypted payload we intercepted previously with wireshark. Assuming that the contents of the payload are copied to the first argument of that call, seeing the following will be enlighten:</p>
+
+<p><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/10.png" alt="xor_routine" /></p>
+
+<p>The previous routine is xoring each byte of the buffer-copy of the encrypted payload against <code class="highlighter-rouge">70 (0x46)</code>. Knowing this, I run the following python script:</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c">#!usr/bin/env python</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="p">[</span> <span class="mh">0x12</span><span class="p">,</span> <span class="mh">0x2e</span><span class="p">,</span> <span class="mh">0x2f</span><span class="p">,</span> <span class="mh">0x35</span><span class="p">,</span> <span class="mh">0x19</span><span class="p">,</span> <span class="mh">0x0f</span><span class="p">,</span> <span class="mh">0x35</span><span class="p">,</span> <span class="mh">0x19</span><span class="p">,</span> \
+            <span class="mh">0x12</span><span class="p">,</span> <span class="mh">0x2e</span><span class="p">,</span> <span class="mh">0x23</span><span class="p">,</span> <span class="mh">0x19</span><span class="p">,</span> <span class="mh">0x15</span><span class="p">,</span> <span class="mh">0x23</span><span class="p">,</span> <span class="mh">0x25</span><span class="p">,</span> <span class="mh">0x34</span><span class="p">,</span> \
+            <span class="mh">0x23</span><span class="p">,</span> <span class="mh">0x32</span><span class="p">,</span> <span class="mh">0x19</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span> <span class="mh">0x27</span><span class="p">,</span> <span class="mh">0x32</span><span class="p">,</span> <span class="mh">0x27</span><span class="p">,</span> <span class="mh">0x46</span> <span class="p">]</span>
+
+<span class="k">print</span> <span class="s">''</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">chr</span><span class="p">(</span><span class="n">i</span> <span class="o">^</span> <span class="mi">70</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">payload</span><span class="p">])</span>
+
+</code></pre>
+</div>
+
+<p>The output of this script is: <code class="highlighter-rouge">This_Is_The_Secret_Data</code>.</p>
+
+<p>Having found the secret message, and knowing the IP address of the C&amp;C server we can find the md5 for our flag, which happens to be:</p>
+
+<p><code class="highlighter-rouge">SharifCTF{fb0e90f2ec7a701783e70e674fa94848}</code>.</p>
+
+
+            </div>
+
+        </article>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>Archivo de writeups</strong>
+    </div>
+
+    <div class="panel-body">
+        
+        
+        
+        <div>
+            <h4 class="archive-title">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <a href="#">2017</a>
+            </h4>
+            <ul class="list-group archive-list" style="display: none;">
+                
+                
+                
+                <li class="list-group-item">
+                    <a href="/blog/writeup/2017/02/11/CodeGateCTF2017-Angrybird.html">CodeGateCTF - Angrybird</a>
+                        <span class="badge">
+                            <time>11 Feb</time>
+                        </span>
+                </li>
+                
+                
+                
+                <li class="list-group-item">
+                    <a href="/blog/writeup/2017/02/10/AlexCTF-PackedMovement.html">AlexCTF - PackedMovement</a>
+                        <span class="badge">
+                            <time>10 Feb</time>
+                        </span>
+                </li>
+                
+                
+                
+                
+            </ul>
+        </div>
+        <div>
+            <h4 class="archive-title">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <a href="#">2016</a>
+            </h4>
+            <ul class="list-group archive-list" style="display: none;">
+                
+                <li class="list-group-item">
+                    <a href="/blog/writeup/2016/12/19/SharifCTF2016-Nanomites.html">SharifCTF7 - Nanomites</a>
+                        <span class="badge">
+                            <time>19 Dec</time>
+                        </span>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+
+			<hr />
+			
+			<footer class="container-fluid amnesia_site-footer">
+    <div class="row">
+        <div class="col-xs-6">
+
+			<span style="margin:20px">	
+				<a target="_blank" href="https://twitter.com/n4xor"><img style="max-height: 50px;"
+                                                                                               src="/blog/images/twitter.svg"/></a>
+			</span>
+
+            <span target="_blank" style="margin:20px">
+                    <a href="/blog/feed.xml"><img style="max-height: 50px;"
+                                                                             src="/blog/images/rss.svg"/></a>
+            </span>
+
+			<span style="margin:20px">
+				<a target="_blank" href="https://telegram.me/n4x0r"><img
+                        style="max-height: 50px;" src="/blog/images/telegram.svg"/></a>
+			</span>
+
+        </div>
+
+        <div class="col-xs-6">
+            <blockquote>
+                <p>
+                    A Malware analysis and Exploitation Blog
+                </p>
+                <p>
+                    <small>N4x0r's Blog</small>
+                </p>
+            </blockquote>
+        </div>
+    </div>
+</footer>
+
+		</div>
+
+		<script src="/blog/js/jquery.min.js"></script>
+		<script src="/blog/js/bootstrap.min.js"></script>
+		<script src="/blog/js/scripts.js"></script>
+	</body>
+</html>

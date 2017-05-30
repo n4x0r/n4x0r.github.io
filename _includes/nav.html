@@ -1,0 +1,15 @@
+<nav class="container-fluid amnesia_site-navbar">
+	<ul class="nav nav-tabs">
+		{% unless page.layout == 'front' %}
+		{% for link in site.navigation %}
+		{% assign current = nil %}
+		{% if page.url == link.url or page.layout == link.layout %}
+		{% assign current = 'active' %}
+		{% endif %}
+		<li role="presentation" class="{{current}}">
+			<a href="{{ link.url | prepend: site.baseurl }}">{{ link.text }}</a>
+		</li>
+		{% endfor %}
+		{% endunless %}
+	</ul>
+</nav>

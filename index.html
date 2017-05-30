@@ -1,29 +1,30 @@
 ---
 layout: default
 ---
+<div class="row">
+    <div class="col-sm-8">
+        <div>
+            {% for post in site.posts limit:site.recent_posts %}
+            <div class="row amnesia_post-row">
+                <h2 class="amnesia_post-title"><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+                </h2>
+                <span class="amnesia_post-date">{{ post.date | date: "%b %-d, %Y" }}</span>
+                <div class="amnesia_post-content">
+                    {{ post.excerpt }}
+                </div>
+                <a href="{{ post.url | prepend: site.baseurl }}"><span
+                        class="amnesia_post-readmore">Read more</span></a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 
-<div class="home" id="second">
+    <div class="col-sm-4">
+        {% include twitter_timeline.html %}
 
-  <h1 class="page-heading">Posts</h1>
+        <br/>
+        <br/>
 
-  <ul class="post-list">
-
-         {% for post in site.posts %}
-    <li>
-          <span class="amnesia_post-date">{{ post.date | date: "%m-%Y" }}</span>
-        <h2>
-		<a class="post-link" href="{{ post.url | prepend: site.baseurl}}">{{ post.title }}</a>
-        </h2>
-    </li>
-
-       {% endfor %}
-  </ul>
-
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
-
+        {% include archive.html %}
+    </div>
 </div>
-
-<div id=first>
-	{% include twitter_timeline.html %}
-</div>
-	

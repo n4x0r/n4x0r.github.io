@@ -1,0 +1,36 @@
+<div class="col-sm-6 member-profile">
+	<div class="row">
+		<div class="col-md-4">
+			{% if include.image_url %}
+			<img src="{{ include.image_url | prepend: site.baseurl }}" alt="{{ include.nickname }}" class="img-thumbnail member-image">
+			{% else %}
+			<img src="{{ '/images/profiles/default.svg' | prepend: site.baseurl }}" alt="{{ include.nickname }}" class="img-thumbnail member-image">
+			{% endif%}
+		</div>
+		
+		<div class="col-md-8">
+			<h3 class="member-nickname">{{ include.nickname }}</h3>
+			<p class="member-description">
+				{{ include.description }}
+			</p>
+			<div class="member-skills">
+				<span><strong>skills:</strong></span>
+				{% for skill in include.skills %}
+				<span class="label label-danger">{{ skill }}</span>
+				{% endfor %}
+			</div>
+			<div class="member-links">
+				<ul>
+					{% if include.twitter %}
+					<li>
+						<strong>twitter:</strong>
+						<a href="https://twitter.com/{{ include.twitter }}">
+							<span>@{{ include.twitter }}</span>
+						</a>
+					</li>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

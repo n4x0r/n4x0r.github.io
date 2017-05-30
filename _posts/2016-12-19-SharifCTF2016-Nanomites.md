@@ -1,8 +1,8 @@
 ---
-layout: post
+layout: writeup
 title:  "SharifCTF7 - Nanomites"
 date:   2016-12-19 20:30
-categories: CTF
+categories: writeup
 tags: [reverse,SharifCTF7]
 author: n4x0r
 ---
