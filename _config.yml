@@ -20,7 +20,7 @@ recent_posts: 5
 # Build settings
 theme: jekyll-theme-time-machine
 markdown: kramdown
-
+highlighter: rouge
 # Menus de navegacion
 navigation:
 - text: Home
