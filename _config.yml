@@ -10,6 +10,7 @@ title: N4x0r's Blog
 email: n4x0r@amn3s1a.com
 description: 'A Malware analysis and Exploitation Blog'
 baseurl: "/blog" # the subpath of your site, e.g. /blog
+url: "http://n4x0r.github.com"
 twitter_username: n4xor
 github_username:  n4x0r
 telegram_username: n4x0r
