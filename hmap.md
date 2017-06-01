@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Honey Pot Real Time Map
+title: Honeypot Real Time Map
 permalink: /hmap/
 ---
 <style>
