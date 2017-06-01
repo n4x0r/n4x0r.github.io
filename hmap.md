@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Honey Pot Map
+title: Honey Pot Real Time Map
 permalink: /hmap/
 ---
 <style>
@@ -12,7 +12,7 @@ permalink: /hmap/
 </style>
 
 <h4> This is a MHN project that I am working on. Still on development. It comprises Kippo, Anum and Dionaea honeypots.</h4>
-<h6>Still in development</h6>
+<h6>**disclamer: This is a real time map. Will plot attacks and Sensors from the time the map is open in your browser.</h6>
 <br/>
 <br/>
 <div align="middle">	
