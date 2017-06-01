@@ -34,7 +34,7 @@ navigation:
   layout: writeup
 - text: Videos
   url: /videos/
-- text: HoneypotMap
+- text: Honeypot Map
   url: /hmap/
 
 
