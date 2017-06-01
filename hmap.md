@@ -6,7 +6,7 @@ permalink: /hmap/
 <style>
 	iframe {
 		display: block;
-  		width: 75vw; 
+  		width: 85vw; 
   		height: 75vh;
 	}
 </style>
