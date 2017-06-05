@@ -15,7 +15,7 @@ permalink: /hmap/
 <br/>
 <br/>
 <div align="middle">	
-<iframe align="middle" src="http://13.58.157.46:1337/index.php">
+<iframe align="middle" src="http://52.59.63.76:1337/index.php">
 </iframe>
 </div>
 <br/>
