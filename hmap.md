@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Dionea Honeypot Tracker
+title: Malware Trackers
 permalink: /hmap/
 ---
 <style>
@@ -11,7 +11,7 @@ permalink: /hmap/
 	}
 </style>
 
-<h4> Dionaea Tracker</h4>
+<h3> Dionaea Tracker</h3>
 <h6>Still on development</h6>
 <br/>
 <br/>
@@ -21,7 +21,7 @@ permalink: /hmap/
 </div>
 <br/>
 <br/>
-<h4> Cowrie Tracker</h4>
+<h3> Cowrie Tracker</h3>
 <h6>Still on development</h6>
 <br/>
 <br/>
