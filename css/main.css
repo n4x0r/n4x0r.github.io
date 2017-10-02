@@ -266,7 +266,7 @@
   background-position: 50% 50%;
   background-repeat: repeat-y;
   background-attachment: fixed;
-
+  position: fixed;
 }
 
 
