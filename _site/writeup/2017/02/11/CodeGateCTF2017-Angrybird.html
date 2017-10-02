@@ -22,8 +22,27 @@
 	<link rel="canonical" href="http://localhost:4000/n4x0r.github.io//writeup/2017/02/11/CodeGateCTF2017-Angrybird.html">
 	<link rel="alternate" type="application/rss+xml" title="N4x0r's Blog" href="http://localhost:4000/n4x0r.github.io//feed.xml">
 </head>
+	<style>
+	#particles-js{                                                                                    	   width: 100%;
+		height: 100%;
+		background-color: #202120;
+		background-image: url('');
+		background-size: cover;
+		background-position: 50% 50%;
+                background-repeat: no-repeat;
+		position: absolute;
+	        z-index: -1:
+	} 
+   
+	#top {
+        	z-index: 1;
+		position: absolute;
+	} 
+	</style>
 
-	<body>
+	<body id="particles.js">
+	<div id="top">
+
 		<div class="container">
 			<header class="container-fluid amnesia_site-header">
 	<img src="/n4x0r.github.io//images/naxor.png" width="700">
@@ -62,12 +81,6 @@
 		
 		<li role="presentation" class="">
 			<a href="/n4x0r.github.io//videos/">Videos</a>
-		</li>
-		
-		
-		
-		<li role="presentation" class="">
-			<a href="/n4x0r.github.io//hmap/">Dionaea Tracker</a>
 		</li>
 		
 		
@@ -705,7 +718,9 @@ I decided to follow my intuition and try some <code class="highlighter-rouge">sy
 </footer>
 
 		</div>
-
+	</div>
+		<script src="/n4x0r.github.io//js/particles.js"></script>
+		<script src="/n4x0r.github.io//js/app.js"></script>
 		<script src="/n4x0r.github.io//js/jquery.min.js"></script>
 		<script src="/n4x0r.github.io//js/bootstrap.min.js"></script>
 		<script src="/n4x0r.github.io//js/scripts.js"></script>

@@ -34,7 +34,5 @@ navigation:
   layout: writeup
 - text: Videos
   url: /videos/
-- text: Trackers
-  url: /hmap/
 
 
