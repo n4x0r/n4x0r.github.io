@@ -258,25 +258,23 @@
 /* Generic.Inserted & Diff Inserted */
 /* modificaciones generales */
 #particles-js{
-	width: 100%;
-	height: 100%;
-	background-color: #202120;
-	background-image: url('');
-	background-size: cover;
-	background-position: 50% 50%;
-	background-repeat: no-repeat;
-	z-index: -1:
+  width: 100%;
+  height: 100%;
+  background-color: #b61924;
+  background-image: url('');
+  background-size: cover;
+  background-position: 100% 100%;
+  background-repeat: no-repeat;
 }
 
 #top {
-	z-index: 1;
 	position: absolute;
 }
 
 body {
-  background-color: #202120; 
+	background-color: #111111;
 }
-  
+
 a {
   color: #cc0052; }
 
