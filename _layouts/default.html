@@ -3,8 +3,10 @@
 	{% include head.html %}
 
 
-	<div id="top">
-		<body id="particles-js">
+	<body>
+	<div id="particles-js">
+		<div id="top">
+
 			<div class="container">
 				{% include header.html %}
 				
@@ -16,8 +18,9 @@
 				
 				{% include footer.html %}
 			</div>
-		</body>	
+		</div>
 	</div>
+	</body>	
 		
 		<script src="{{ '/js/particles.js' | prepend: site.baseurl }}"></script>
 		<script src="{{ '/js/app.js' | prepend: site.baseurl }}"></script>
