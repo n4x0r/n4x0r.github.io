@@ -263,14 +263,16 @@
   background-color: #2A2829;
   background-image: url('');
   background-size: cover;
-  background-position: 100% 100%;
-  background-repeat: repeat-y;
-  top: 0;
-  left: 0;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
 }
+
 
 #top {
 	position: absolute;
+	top: 0;
+	left 0;
+	z-index: 100;
 }
 
 body {
