@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="description" content="Everlasting Imaginative void was a Hitcon2017’s reversing challenge worthing 300 points.The challenge description was the following:">
+
+	<title>Hitcon2017CTF - 家徒四壁~Everlasting Imaginative Void~</title>
+	
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="/n4x0r.github.io//css/bootstrap.min.css" >
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	
+	<link rel="stylesheet" href="/n4x0r.github.io//css/main.css">
+	<link rel="canonical" href="http://localhost:4000/n4x0r.github.io//writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html">
+	<link rel="alternate" type="application/rss+xml" title="N4x0r's Blog" href="http://localhost:4000/n4x0r.github.io//feed.xml">
+</head>
+	<body>
+
+
+	<div id="particles-js"></div>
+	<div id="top">
+			<div class="container">
+				<header class="container-fluid amnesia_site-header">
+	<img src="/n4x0r.github.io//images/naxor.png">
+</header>
+
+				
+				<nav class="container-fluid amnesia_site-navbar">
+	<ul class="nav nav-tabs">
+		
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/n4x0r.github.io//">Home</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/n4x0r.github.io//acerca/">About</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/n4x0r.github.io//articles/">Articles</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="active">
+			<a href="/n4x0r.github.io//writeups/">Writeups</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/n4x0r.github.io//videos/">Videos</a>
+		</li>
+		
+		
+	</ul>
+</nav>
+
+				<div class="row">
+    <div class="col-sm-8">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+            <header class="post-header">
+                <h1 class="post-title" itemprop="name headline">Hitcon2017CTF - 家徒四壁~Everlasting Imaginative Void~</h1>
+                <p class="post-meta">
+                    <time datetime="2017-11-03T06:30:00-07:00" itemprop="datePublished">Nov 3,
+                        2017
+                    </time>
+                     • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span
+                        itemprop="name">n4x0r</span></span>
+                </p>
+            </header>
+
+            <div class="post-content" itemprop="articleBody">
+                <p>Everlasting Imaginative void was a Hitcon2017’s reversing challenge worthing 300 points.
+The challenge description was the following:</p>
+
+<p><code class="highlighter-rouge">Astonishingly impoverished elf</code></p>
+
+<p>Not much information.
+Executing a <code class="highlighter-rouge">file</code> command, we get the following information:</p>
+
+<div class="language-perl highlighter-rouge"><pre class="highlight"><code><span class="nv">n4x0r@pwn1e</span><span class="o">~</span><span class="nv">$</span> <span class="nv">file</span> <span class="nv">void</span><span class="o">-</span><span class="mi">1</span><span class="nv">b63cbab5d58da4294c2f97d6b60f568</span> 
+<span class="nv">void</span><span class="o">-</span><span class="mi">1</span><span class="nv">b63cbab5d58da4294c2f97d6b60f568:</span> <span class="nv">ELF</span> <span class="mi">64</span><span class="o">-</span><span class="nv">bit</span> <span class="nv">LSB</span> <span class="nv">shared</span> <span class="nv">object</span><span class="p">,</span> <span class="nv">x86</span><span class="o">-</span><span class="mi">64</span><span class="p">,</span> <span class="nv">version</span> <span class="mi">1</span> <span class="p">(</span><span class="nv">SYSV</span><span class="p">),</span> <span class="nv">dynamically</span> <span class="nv">linked</span><span class="p">,</span> <span class="nv">interpreter</span> <span class="sr">/lib64/</span><span class="nv">ld</span><span class="o">-</span><span class="nv">linux</span><span class="o">-</span><span class="nv">x86</span><span class="o">-</span><span class="mi">64</span><span class="o">.</span><span class="nv">so</span><span class="mf">.2</span><span class="p">,</span> <span class="k">for</span> <span class="nv">GNU</span><span class="o">/</span><span class="nv">Linux</span> <span class="mf">2.6.32</span><span class="p">,</span> <span class="nv">BuildID</span><span class="p">[</span><span class="nv">sha1</span><span class="p">]</span><span class="o">=</span><span class="mi">5</span><span class="nv">f8a87150720003c217508ffd74883c715ffe7c3</span><span class="p">,</span> <span class="nv">stripped</span>
+</code></pre>
+</div>
+
+<p>If we execute the file we see the following:</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="n">n4x0r</span><span class="err">@</span><span class="n">pwn1e</span><span class="o">~</span><span class="err">$</span> <span class="p">.</span><span class="o">/</span><span class="kt">void</span><span class="o">-</span><span class="mi">1</span><span class="n">b63cbab5d58da4294c2f97d6b60f568</span>
+<span class="n">blabla</span>
+<span class="n">hitcon</span><span class="p">{</span><span class="n">blabla</span><span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Ok, Lets dig inside and see what we can find.
+Surprisingly, the main function of the application was just the following:</p>
+
+<div style="text-align:center"><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/1.png" /></div>
+
+<p>This means that the binary must have tampered control flow.
+In my mind I thought about two potential possibilities:</p>
+
+<ul>
+  <li>
+    <p>GOT/PLT hooks</p>
+  </li>
+  <li>
+    <p>Constructor/Destructor pointer injection</p>
+  </li>
+</ul>
+
+<p>Based that the binary is a <code class="highlighter-rouge">PIE</code> executable and that was bind using <code class="highlighter-rouge">BIND_NOW</code> flags, we can assume that GOT entries have not been tampered, and even if they had they will get overwritten at load time anyways. Regarding PLT hooks, I did a quick look up to the <code class="highlighter-rouge">.plt.got</code> section. and all jumps seem correct.</p>
+
+<div style="text-align:center"><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/2.png" /></div>
+
+<p>The reason why there is not pivoting into PLT[0] for each PLT entry in <code class="highlighter-rouge">.plt.got</code> is because binary was linked with immediate binding as previously mentioned. Therefore, there is no need to jump back to resolver since all GOT entries will be resolved at load time.</p>
+
+<p>Therefore, GOT/PLT hooks are discartded at this point.
+The other technique that we have left is the Constructors/Destructors pointer injection.
+This technique is based on injecting an additional pointer to the <code class="highlighter-rouge">.init_array</code>, <code class="highlighter-rouge">.fini_array</code> sections for constructors and destructors respectively.</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="n">Nr</span><span class="p">]</span> <span class="n">Name</span>              <span class="n">Type</span>             <span class="n">Address</span>           <span class="n">Offset</span>
+       <span class="n">Size</span>              <span class="n">EntSize</span>          <span class="n">Flags</span>  <span class="n">Link</span>  <span class="n">Info</span>  <span class="n">Align</span>
+
+ <span class="p">...</span>
+
+<span class="p">[</span><span class="mi">18</span><span class="p">]</span> <span class="p">.</span><span class="n">init_array</span>       <span class="n">INIT_ARRAY</span>       <span class="mo">0000000000200</span><span class="n">dc8</span>  <span class="mo">00000</span><span class="n">dc8</span>
+       <span class="mo">000000000000000</span><span class="mi">8</span>  <span class="mo">000000000000000</span><span class="mi">8</span>  <span class="n">WA</span>       <span class="mi">0</span>     <span class="mi">0</span>     <span class="mi">8</span>
+<span class="p">[</span><span class="mi">19</span><span class="p">]</span> <span class="p">.</span><span class="n">fini_array</span>       <span class="n">FINI_ARRAY</span>       <span class="mo">0000000000200</span><span class="n">dd0</span>  <span class="mo">00000</span><span class="n">dd0</span>
+       <span class="mo">000000000000000</span><span class="mi">8</span>  <span class="mo">000000000000000</span><span class="mi">8</span>  <span class="n">WA</span>       <span class="mi">0</span>     <span class="mi">0</span>     <span class="mi">8</span>
+</code></pre>
+</div>
+
+<p>We can see that the correspondent sizes of those sections seem to be correct. However, once one gets to know the purpose of sections and segments and the loading process of ELF files, one realizes that sections are complete rubish from an analysis standpoint. Section information can be easily crafted and they may not resemble the reality of the binary’s layout. In addition, sections are only needed at compile time, but not at runtime. For runtime we have segments.</p>
+
+<p>If we take a look at the binary’s <code class="highlighter-rouge">DYNAMIC</code> segment, it tell us a different story:</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="mh">0x0000000000000019</span> <span class="p">(</span><span class="n">INIT_ARRAY</span><span class="p">)</span>         <span class="mh">0x200dc8</span>
+<span class="mh">0x000000000000001b</span> <span class="p">(</span><span class="n">INIT_ARRAYSZ</span><span class="p">)</span>       <span class="mi">8</span> <span class="p">(</span><span class="n">bytes</span><span class="p">)</span>
+<span class="mh">0x000000000000001a</span> <span class="p">(</span><span class="n">FINI_ARRAY</span><span class="p">)</span>         <span class="mh">0x200dd0</span>
+<span class="mh">0x000000000000001c</span> <span class="p">(</span><span class="n">FINI_ARRAYSZ</span><span class="p">)</span>       <span class="mi">16</span> <span class="p">(</span><span class="n">bytes</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>We can clearly see, that <code class="highlighter-rouge">FINI_ARRAYSZ</code> is 1 pointer size bigger than what <code class="highlighter-rouge">.fini_array</code> section stated. Therefore, binary has corrupted control flow by destructor pointer injection.</p>
+
+<p>I must emphasize that IDA and radare2 did not get this right since they prioritised section information over segment information:</p>
+
+<div style="text-align:center"><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/3.png" /></div>
+
+<p>However, with radare2 we can see a pointer between the end of <code class="highlighter-rouge">.fini_array</code> and <code class="highlighter-rouge">.jcr</code> sections.</p>
+
+<div style="text-align:center"><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/4.png" /></div>
+
+<p>As we can see from the radare2 screen shot, the pointer is initialised as 0. Therefore, most possibly that pointer will be a runtime relocation.</p>
+
+<p>If we look at the relocations of the binary we see the following:</p>
+
+<div style="text-align:center"><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/5.png" /></div>
+
+<p>The third relocation of type <code class="highlighter-rouge">R_X86_64_RELATIVE</code> is the one we are looking for.
+Now lets analyse the injected routine.</p>
+
+<p>The injected routine is based in the <code class="highlighter-rouge">.eh_frame</code> section. This section usually contains <code class="highlighter-rouge">dwarf</code> information about stack unwinding for exception handling such as dwarf bytecode along with dwarf flags. However, it does not normally contain code.
+As we can see in the previous screenshot, the first thing this routine does is a <code class="highlighter-rouge">call 0x284</code>. This function pivots inside a crafted <code class="highlighter-rouge">.build-id</code> section.</p>
+
+<div style="text-align:center"><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/6.png" /></div>
+
+<p>This section usually holds a SHA1 specific of the binary’s build. so we can say that both <code class="highlighter-rouge">.eh_frame</code> and <code class="highlighter-rouge">.build-id</code> sections have been crafted specifically for this challenge, as a form of code cave to embed code.</p>
+
+<p>Futhermore, we can see a comparison of the contents of <code class="highlighter-rouge">rdi + 0x200715</code> with <code class="highlighter-rouge">'!'</code>. In fact, this is the 16th byte of the input retrived with <code class="highlighter-rouge">scanf</code> function at <code class="highlighter-rouge">main</code>. If this check holds, it jumps back to function <code class="highlighter-rouge">0x284 + 5</code> and resumes execution in the <code class="highlighter-rouge">.eh_frame</code> routine. Otherwise, will pivot to <code class="highlighter-rouge">ld.so</code> and will do further clean up until application termination.</p>
+
+<p>At this point we can guess that the binaries flag must be <code class="highlighter-rouge">16 bytes</code>, and must end with <code class="highlighter-rouge">'!'</code>.</p>
+
+<p>Further down the rabbit hole, we can see how it executes an mprotect systemcall which essentially does the following:
+<code class="highlighter-rouge">mprotect(imageBase, 0x1000, PROT_READ|PROT_WRITE|PROT_EXEC)</code></p>
+
+<div style="text-align:center"><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/7.png" /></div>
+
+<p>It gives write permissions to the CODE segment of the main application.
+Moreover, it jumps back to the routine in the <code class="highlighter-rouge">.build-id</code> section, to then pivot to the following routine:</p>
+
+<div style="text-align:center"><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/8.png" /></div>
+
+<p>This routine basically copies spread bytes to a known memory location to then jump to it.
+After stub if finally written, we end up in the following routine:</p>
+
+<div style="text-align:center"><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/9.png" /></div>
+
+<p>In this routine, 10 rounds of aes encription are performed using the Intel’s processors AES instruction set. At the end of the 10 rounds, this routine checks ciphertext with input from <code class="highlighter-rouge">scanf</code>. if check holds, the program will print <code class="highlighter-rouge">Good!</code> string by jumping to the sycall gate previously shown (the mprotect one), changing its arguments so that it executes a write instead of mprotect syscall.</p>
+
+<p>Something important to note about this aes routine, is that round-keys are actually hardcoded at adreses pointed by <code class="highlighter-rouge">rsi</code> (at the beginning of routine), so round keys can be restored and perform the <code class="highlighter-rouge">InvMixColumn</code> transformation in order to use them for decription. In order to do this we can user the <code class="highlighter-rouge">aesimc</code> instruction (note that aesimc should not be used either with the first or last round key). Furthermore, final cipher text can also be aquired by just getting the result of the <code class="highlighter-rouge">xmm1</code> register after <code class="highlighter-rouge">aesenclast</code> instruction at the end of the 10 rounds.</p>
+
+<p>The following code replicates the decription routine:</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdlib.h&gt;
+</span>
+<span class="kt">void</span> <span class="nf">aes_decrypt</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="n">ctext</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">flag</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">round_keys</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">asm</span> <span class="k">volatile</span> <span class="p">(</span>	<span class="s">"movdqu (%0), %%xmm11	</span><span class="se">\n</span><span class="s">"</span> 
+   	    		<span class="s">"movdqu (%1), %%xmm10	</span><span class="se">\n</span><span class="s">"</span> 
+	    		<span class="s">"movdqu (%2), %%xmm9	</span><span class="se">\n</span><span class="s">"</span>
+			<span class="s">"movdqu (%3), %%xmm8	</span><span class="se">\n</span><span class="s">"</span> 
+			<span class="s">"movdqu (%4), %%xmm7	</span><span class="se">\n</span><span class="s">"</span> 
+			<span class="s">"movdqu	(%5), %%xmm6	</span><span class="se">\n</span><span class="s">"</span> 
+			<span class="s">"movdqu (%6), %%xmm5	</span><span class="se">\n</span><span class="s">"</span> 
+			<span class="s">"movdqu (%7), %%xmm4	</span><span class="se">\n</span><span class="s">"</span> 
+			<span class="s">"movdqu (%8), %%xmm3	</span><span class="se">\n</span><span class="s">"</span> 
+			<span class="s">"movdqu (%9), %%xmm2	</span><span class="se">\n</span><span class="s">"</span> 
+			<span class="s">"movdqu (%10), %%xmm1	</span><span class="se">\n</span><span class="s">"</span> 
+			<span class="s">"movdqu (%11), %%xmm0	</span><span class="se">\n</span><span class="s">"</span> 
+			
+			<span class="s">"aesimc %%xmm9, %%xmm9	</span><span class="se">\n</span><span class="s">"</span>
+	     		<span class="s">"aesimc %%xmm8, %%xmm8	</span><span class="se">\n</span><span class="s">"</span>
+	     		<span class="s">"aesimc %%xmm7, %%xmm7	</span><span class="se">\n</span><span class="s">"</span>
+	     		<span class="s">"aesimc %%xmm6, %%xmm6	</span><span class="se">\n</span><span class="s">"</span>
+	     		<span class="s">"aesimc %%xmm5, %%xmm5	</span><span class="se">\n</span><span class="s">"</span>
+	     		<span class="s">"aesimc %%xmm4, %%xmm4	</span><span class="se">\n</span><span class="s">"</span>
+	     		<span class="s">"aesimc %%xmm3, %%xmm3	</span><span class="se">\n</span><span class="s">"</span>
+	     		<span class="s">"aesimc %%xmm2, %%xmm2	</span><span class="se">\n</span><span class="s">"</span>
+	     		<span class="s">"aesimc %%xmm1, %%xmm1	</span><span class="se">\n</span><span class="s">"</span>
+			
+			<span class="s">"pxor 	%%xmm10, %%xmm11</span><span class="se">\n</span><span class="s">"</span>
+	     		<span class="s">"aesdec %%xmm9, %%xmm11	</span><span class="se">\n</span><span class="s">"</span>
+	     		<span class="s">"aesdec %%xmm8, %%xmm11	</span><span class="se">\n</span><span class="s">"</span>
+	     		<span class="s">"aesdec %%xmm7, %%xmm11	</span><span class="se">\n</span><span class="s">"</span>
+	     		<span class="s">"aesdec %%xmm6, %%xmm11	</span><span class="se">\n</span><span class="s">"</span>
+	     		<span class="s">"aesdec %%xmm5,	%%xmm11	</span><span class="se">\n</span><span class="s">"</span>
+	     		<span class="s">"aesdec %%xmm4, %%xmm11	</span><span class="se">\n</span><span class="s">"</span>
+	    	 	<span class="s">"aesdec %%xmm3, %%xmm11	</span><span class="se">\n</span><span class="s">"</span>
+	     		<span class="s">"aesdec %%xmm2, %%xmm11	</span><span class="se">\n</span><span class="s">"</span>
+	     		<span class="s">"aesdec %%xmm1, %%xmm11	</span><span class="se">\n</span><span class="s">"</span>
+	     		<span class="s">"aesdeclast %%xmm0, %%xmm11</span><span class="se">\n</span><span class="s">"</span>
+			
+			<span class="s">"movdqu %%xmm11, (%12)	</span><span class="se">\n</span><span class="s">"</span>
+			
+			<span class="o">:</span>
+			<span class="o">:</span>  <span class="s">"r"</span><span class="p">(</span><span class="n">ctext</span><span class="p">),</span>
+			   <span class="s">"r"</span><span class="p">(</span><span class="n">round_keys</span> <span class="o">+</span> <span class="mi">160</span><span class="p">),</span>
+		       	   <span class="s">"r"</span><span class="p">(</span><span class="n">round_keys</span> <span class="o">+</span> <span class="mi">144</span><span class="p">),</span>
+			   <span class="s">"r"</span><span class="p">(</span><span class="n">round_keys</span> <span class="o">+</span> <span class="mi">128</span><span class="p">),</span>
+			   <span class="s">"r"</span><span class="p">(</span><span class="n">round_keys</span> <span class="o">+</span> <span class="mi">112</span><span class="p">),</span>
+			   <span class="s">"r"</span><span class="p">(</span><span class="n">round_keys</span> <span class="o">+</span> <span class="mi">96</span><span class="p">),</span>
+			   <span class="s">"r"</span><span class="p">(</span><span class="n">round_keys</span> <span class="o">+</span> <span class="mi">80</span><span class="p">),</span>
+			   <span class="s">"r"</span><span class="p">(</span><span class="n">round_keys</span> <span class="o">+</span> <span class="mi">64</span><span class="p">),</span>
+			   <span class="s">"r"</span><span class="p">(</span><span class="n">round_keys</span> <span class="o">+</span> <span class="mi">48</span><span class="p">),</span>
+			   <span class="s">"r"</span><span class="p">(</span><span class="n">round_keys</span> <span class="o">+</span> <span class="mi">32</span><span class="p">),</span>
+			   <span class="s">"r"</span><span class="p">(</span><span class="n">round_keys</span> <span class="o">+</span> <span class="mi">16</span><span class="p">),</span>
+			   <span class="s">"r"</span><span class="p">(</span><span class="n">round_keys</span><span class="p">),</span>
+			   <span class="s">"r"</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
+			<span class="o">:</span> <span class="s">"memory"</span>
+	<span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">uint8_t</span> <span class="n">flag</span><span class="p">[</span><span class="mi">17</span><span class="p">];</span>
+  <span class="kt">int8_t</span> <span class="n">round_keys</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span> <span class="mh">0x48</span><span class="p">,</span> <span class="mh">0xc1</span><span class="p">,</span> <span class="mh">0xfd</span><span class="p">,</span> <span class="mh">0x03</span><span class="p">,</span> <span class="mh">0xe8</span><span class="p">,</span> <span class="mh">0x07</span><span class="p">,</span> <span class="mh">0xfe</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> 
+			  <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0x48</span><span class="p">,</span> <span class="mh">0x85</span><span class="p">,</span> <span class="mh">0xed</span><span class="p">,</span> <span class="mh">0x74</span><span class="p">,</span> <span class="mh">0x20</span><span class="p">,</span> <span class="mh">0x31</span><span class="p">,</span> <span class="mh">0xdb</span><span class="p">,</span> 
+			  <span class="mh">0x0f</span><span class="p">,</span> <span class="mh">0x1f</span><span class="p">,</span> <span class="mh">0x84</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> 
+			  <span class="mh">0x4c</span><span class="p">,</span> <span class="mh">0x89</span><span class="p">,</span> <span class="mh">0xea</span><span class="p">,</span> <span class="mh">0x4c</span><span class="p">,</span> <span class="mh">0x89</span><span class="p">,</span> <span class="mh">0xf6</span><span class="p">,</span> <span class="mh">0x44</span><span class="p">,</span> <span class="mh">0x89</span><span class="p">,</span> 
+			  <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0x41</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0x14</span><span class="p">,</span> <span class="mh">0xdc</span><span class="p">,</span> <span class="mh">0x48</span><span class="p">,</span> <span class="mh">0x83</span><span class="p">,</span> <span class="mh">0xc3</span><span class="p">,</span> 
+			  <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x48</span><span class="p">,</span> <span class="mh">0x39</span><span class="p">,</span> <span class="mh">0xdd</span><span class="p">,</span> <span class="mh">0x75</span><span class="p">,</span> <span class="mh">0xea</span><span class="p">,</span> <span class="mh">0x48</span><span class="p">,</span> <span class="mh">0x83</span><span class="p">,</span> 
+			  <span class="mh">0xc4</span><span class="p">,</span> <span class="mh">0x08</span><span class="p">,</span> <span class="mh">0x5b</span><span class="p">,</span> <span class="mh">0x5d</span><span class="p">,</span> <span class="mh">0x41</span><span class="p">,</span> <span class="mh">0x5c</span><span class="p">,</span> <span class="mh">0x41</span><span class="p">,</span> <span class="mh">0x5d</span><span class="p">,</span> 
+			  <span class="mh">0x41</span><span class="p">,</span> <span class="mh">0x5e</span><span class="p">,</span> <span class="mh">0x41</span><span class="p">,</span> <span class="mh">0x5f</span><span class="p">,</span> <span class="mh">0xc3</span><span class="p">,</span> <span class="mh">0x90</span><span class="p">,</span> <span class="mh">0x66</span><span class="p">,</span> <span class="mh">0x2e</span><span class="p">,</span> 
+			  <span class="mh">0x0f</span><span class="p">,</span> <span class="mh">0x1f</span><span class="p">,</span> <span class="mh">0x84</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> 
+			  <span class="mh">0xf3</span><span class="p">,</span> <span class="mh">0xc3</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x48</span><span class="p">,</span> <span class="mh">0x83</span><span class="p">,</span> <span class="mh">0xec</span><span class="p">,</span> <span class="mh">0x08</span><span class="p">,</span> 
+			  <span class="mh">0x48</span><span class="p">,</span> <span class="mh">0x83</span><span class="p">,</span> <span class="mh">0xc4</span><span class="p">,</span> <span class="mh">0x08</span><span class="p">,</span> <span class="mh">0xc3</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> 
+			  <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x25</span><span class="p">,</span> <span class="mh">0x73</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x68</span><span class="p">,</span> 
+			  <span class="mh">0x69</span><span class="p">,</span> <span class="mh">0x74</span><span class="p">,</span> <span class="mh">0x63</span><span class="p">,</span> <span class="mh">0x6f</span><span class="p">,</span> <span class="mh">0x6e</span><span class="p">,</span> <span class="mh">0x7b</span><span class="p">,</span> <span class="mh">0x25</span><span class="p">,</span> <span class="mh">0x73</span><span class="p">,</span> 
+			  <span class="mh">0x7d</span><span class="p">,</span> <span class="mh">0x0a</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x1b</span><span class="p">,</span> <span class="mh">0x03</span><span class="p">,</span> <span class="mh">0x3b</span><span class="p">,</span> 
+			  <span class="mh">0x40</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x07</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> 
+			  <span class="mh">0xbc</span><span class="p">,</span> <span class="mh">0xfd</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0x8c</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> 
+			  <span class="mh">0xcc</span><span class="p">,</span> <span class="mh">0xfd</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0xb4</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> 
+			  <span class="mh">0xec</span><span class="p">,</span> <span class="mh">0xfd</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0x5c</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> 
+			  <span class="mh">0x1c</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0xcc</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> 
+			  <span class="mh">0x57</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0xec</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> 
+			  <span class="mh">0x6c</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0x0c</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> 
+			  <span class="mh">0xdc</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0x54</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span> <span class="p">};</span>
+
+  <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">ctext</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mh">0xe7</span><span class="p">,</span> <span class="mh">0x47</span><span class="p">,</span> <span class="mh">0x04</span><span class="p">,</span> <span class="mh">0x12</span><span class="p">,</span> <span class="mh">0x49</span><span class="p">,</span> <span class="mh">0x6d</span><span class="p">,</span> <span class="mh">0xcf</span><span class="p">,</span> <span class="mh">0x47</span><span class="p">,</span> 
+	  		   <span class="mh">0xb0</span><span class="p">,</span> <span class="mh">0xe9</span><span class="p">,</span> <span class="mh">0x1b</span><span class="p">,</span> <span class="mh">0x17</span><span class="p">,</span> <span class="mh">0x67</span><span class="p">,</span> <span class="mh">0xfb</span><span class="p">,</span> <span class="mh">0x46</span><span class="p">,</span> <span class="mh">0x28</span><span class="p">};</span>
+  <span class="n">aes_decrypt</span><span class="p">(</span><span class="n">ctext</span><span class="p">,</span> <span class="n">flag</span><span class="p">,</span> <span class="n">round_keys</span><span class="p">);</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"hitcon{%s}</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">flag</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>if we execute the previous code, we will get the flag <code class="highlighter-rouge">hitcon{code_in_BuildID!}</code></p>
+
+
+            </div>
+
+        </article>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>Archivo de writeups</strong>
+    </div>
+
+    <div class="panel-body">
+        
+        
+        
+        <div>
+            <h4 class="archive-title">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <a href="#">2017</a>
+            </h4>
+            <ul class="list-group archive-list" style="display: none;">
+                
+                
+                
+                <li class="list-group-item">
+                    <a href="/n4x0r.github.io//writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html">Hitcon2017CTF - 家徒四壁~Everlast...</a>
+                        <span class="badge">
+                            <time>03 Nov</time>
+                        </span>
+                </li>
+                
+                
+                
+                <li class="list-group-item">
+                    <a href="/n4x0r.github.io//writeup/2017/02/11/CodeGateCTF2017-Angrybird.html">CodeGateCTF - Angrybird</a>
+                        <span class="badge">
+                            <time>11 Feb</time>
+                        </span>
+                </li>
+                
+                
+                
+                <li class="list-group-item">
+                    <a href="/n4x0r.github.io//writeup/2017/02/10/AlexCTF-PackedMovement.html">AlexCTF - PackedMovement</a>
+                        <span class="badge">
+                            <time>10 Feb</time>
+                        </span>
+                </li>
+                
+                
+                
+                
+            </ul>
+        </div>
+        <div>
+            <h4 class="archive-title">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <a href="#">2016</a>
+            </h4>
+            <ul class="list-group archive-list" style="display: none;">
+                
+                <li class="list-group-item">
+                    <a href="/n4x0r.github.io//writeup/2016/12/19/SharifCTF2016-Nanomites.html">SharifCTF7 - Nanomites</a>
+                        <span class="badge">
+                            <time>19 Dec</time>
+                        </span>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+
+				<hr />
+				
+				<footer class="container-fluid amnesia_site-footer">
+    <div class="row">
+        <div class="col-xs-6">
+
+			<span style="margin:20px">	
+				<a target="_blank" href="https://twitter.com/n4xor"><img style="max-height: 50px;"
+                                                                                               src="/n4x0r.github.io//images/twitter.svg"/></a>
+			</span>
+
+            <span target="_blank" style="margin:20px">
+                    <a href="/n4x0r.github.io//feed.xml"><img style="max-height: 50px;"
+                                                                             src="/n4x0r.github.io//images/rss.svg"/></a>
+            </span>
+
+			<span style="margin:20px">
+				<a target="_blank" href="https://telegram.me/n4x0r"><img
+                        style="max-height: 50px;" src="/n4x0r.github.io//images/telegram.svg"/></a>
+			</span>
+
+        </div>
+
+        <div class="col-xs-6">
+            <blockquote>
+                <p>
+                    A Malware analysis and Exploitation Blog
+                </p>
+                <p>
+                    <small>N4x0r's Blog</small>
+                </p>
+            </blockquote>
+        </div>
+    </div>
+</footer>
+
+			</div>
+	</div>
+	</body>	
+		
+		<script src="/n4x0r.github.io//js/particles.js"></script>
+		<script src="/n4x0r.github.io//js/app.js"></script>
+		<script src="/n4x0r.github.io//js/jquery.min.js"></script>
+		<script src="/n4x0r.github.io//js/bootstrap.min.js"></script>
+		<script src="/n4x0r.github.io//js/scripts.js"></script>
+
+
+</html>
