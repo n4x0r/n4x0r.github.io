@@ -97,14 +97,14 @@ If we look at the relocations of the binary we see the following:
 The third relocation of type `R_X86_64_RELATIVE` is the one we are looking for.
 Now lets analyse the injected routine.
 
-The injected routine is based in the `.eh_frame` section. This section usually contains `dwarf` information about stack unwinding for exception handling such as dwarf bytecode along with dwarf flags. However, it does not normally contain code.
+The injected routine is based in the `.eh_frame` section. This section usually contains `dwarf` information for stack unwinding at exception handling. This information may contain dwarf bytecode along with dwarf flags. However, it does not normally contain code.
 As we can see in the previous screenshot, the first thing this routine does is a `call 0x284`. This function pivots inside a crafted `.build-id` section.
 
  <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/6.png" /></div>
 
 This section usually holds a SHA1 specific of the binary's build. so we can say that both `.eh_frame` and `.build-id` sections have been crafted specifically for this challenge, as a form of code cave to embed code.
 
-Futhermore, we can see a comparison of the contents of `rdi + 0x200715` with `'!'`. In fact, this is the 16th byte of the input retrived with `scanf` function at `main`. If this check holds, it jumps back to function `0x284 + 5` and resumes execution in the `.eh_frame` routine. Otherwise, will pivot to `ld.so` and will do further clean up until application termination.
+Futhermore, we can see a comparison of the byte at `rdi + 0x200715` with `'!'`. In fact, this is the 16th byte of the input retrived with `scanf` function at `main`. If this check holds, it jumps back to function `0x284 + 5` and resumes execution in the `.eh_frame` routine. Otherwise, will pivot to `ld.so` and will do further clean up until application termination.
 
 At this point we can guess that the binaries flag must be `16 bytes`, and must end with `'!'`.
 
@@ -113,12 +113,12 @@ Further down the rabbit hole, we can see how it executes an mprotect systemcall 
 
  <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/7.png" /></div>
 
-It gives write permissions to the CODE segment of the main application.
+It gives write permissions to the `CODE` segment of the main application.
 Moreover, it jumps back to the routine in the `.build-id` section, to then pivot to the following routine:
 
  <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/8.png" /></div>
 
-This routine basically copies spread bytes to a known memory location to then jump to it.
+This routine basically copies spreaded bytes to a known memory location to then jump to it.
 After stub if finally written, we end up in the following routine:
 
  <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/9.png" /></div>
