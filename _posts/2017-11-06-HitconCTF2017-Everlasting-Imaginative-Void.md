@@ -46,6 +46,11 @@ Based that the binary is a `PIE` executable and that was bind using `BIND_NOW` f
 
 The reason why there is not pivoting into PLT[0] for each PLT entry in `.plt.got` is because binary was linked with immediate binding as previously mentioned. Therefore, there is no need to jump back to resolver since all GOT entries will be resolved at load time.
 
+We can see the binary has been linked with immediate binding by looking at the dynamic segment `FLAGS` entry:
+```c
+0x000000000000001e (FLAGS)              BIND_NOW
+```
+
 Therefore, GOT/PLT hooks are discartded at this point.
 The other technique that we have left is the Constructors/Destructors pointer injection.
 This technique is based on injecting an additional pointer to the `.init_array`, `.fini_array` sections for constructors and destructors respectively.
