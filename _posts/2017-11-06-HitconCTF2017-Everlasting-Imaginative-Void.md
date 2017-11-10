@@ -128,10 +128,9 @@ In this routine, 10 rounds of aes encription are performed using the Intel's pro
 Something funny about this challenge is that the `ucomisd` instruction only compares the lower part of xmm registers. That is, the lowest 64 bits. Is quite obvious that the developer made an implementation mistake by using this instruction to compare the encription result. Just for the sake of curiosity, I have researched which instructions should have been used. One solution could have been the following
 
 ```nasm
-pcmpeqb xmm0, xmm1
-pmovmskb r15, xmm0
-cmp r15, 0xffff
-jne failed
+psubd  xmm0, xmm1	    
+ptest  xmm0, xmm0       
+jz     _same     
 ```
  
 Furthermore, something important to note about this aes routine, is that round-keys are actually hardcoded at addresses pointed by `rsi` (at the beginning of routine), so round keys can be restored to perform the `Inverse Mix Column` transformation in order to use them for decription. In order to do this we can use the `aesimc` instruction (note that aesimc should not be used on the first or last round key). Furthermore, original ciphertext can also be aquired by just getting the result of the `xmm0` register after `aesenclast` instruction at the end of the 10 rounds, since it will get compared against the computed ciphertext derived from our input in `xmm1`.
