@@ -123,9 +123,9 @@ After stub if finally written, we end up in the following routine:
 
  <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/9.png" /></div>
 
-In this routine, 10 rounds of aes encription are performed using the Intel's processors AES instruction set. At the end of the 10 rounds, this routine checks ciphertext with input from `scanf`. if check holds, the program will print `Good!` string by jumping to the sycall gate previously shown (the mprotect one), changing its arguments so that it executes a write instead of mprotect syscall.
+In this routine, 10 rounds of aes encription are performed using the Intel's processors AES instruction set. A nice refresher of these instructions can be found [here](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/Use_of_the_AES_Instruction_Set.pdf). At the end of the 10 rounds, this routine checks ciphertext with input from `scanf`. if check holds, the program will print `Good!` string by jumping to the sycall gate previously shown (the mprotect one), changing its arguments so that it executes a write instead of mprotect syscall.
  
-Something important to note about this aes routine, is that round-keys are actually hardcoded at adreses pointed by `rsi` (at the beginning of routine), so round keys can be restored and perform the `InvMixColumn` transformation in order to use them for decription. In order to do this we can user the `aesimc` instruction (note that aesimc should not be used either with the first or last round key). Furthermore, final cipher text can also be aquired by just getting the result of the `xmm1` register after `aesenclast` instruction at the end of the 10 rounds.
+Something important to note about this aes routine, is that round-keys are actually hardcoded at adreses pointed by `rsi` (at the beginning of routine), so round keys can be restored and perform the `Inverse Mix Column` transformation in order to use them for decription. In order to do this we can user the `aesimc` instruction (note that aesimc should not be used either with the first or last round key). Furthermore, final ciphertext can also be aquired by just getting the result of the `xmm1` register after `aesenclast` instruction at the end of the 10 rounds.
 
 The following code replicates the decription routine:
 

@@ -131,6 +131,11 @@ In my mind I thought about two potential possibilities:</p>
 
 <p>The reason why there is not pivoting into PLT[0] for each PLT entry in <code class="highlighter-rouge">.plt.got</code> is because binary was linked with immediate binding as previously mentioned. Therefore, there is no need to jump back to resolver since all GOT entries will be resolved at load time.</p>
 
+<p>We can see the binary has been linked with immediate binding by looking at the <code class="highlighter-rouge">DYNAMIC</code> segment <code class="highlighter-rouge">FLAGS</code> entry:
+<code class="highlighter-rouge">c
+0x000000000000001e (FLAGS)              BIND_NOW
+</code></p>
+
 <p>Therefore, GOT/PLT hooks are discartded at this point.
 The other technique that we have left is the Constructors/Destructors pointer injection.
 This technique is based on injecting an additional pointer to the <code class="highlighter-rouge">.init_array</code>, <code class="highlighter-rouge">.fini_array</code> sections for constructors and destructors respectively.</p>
@@ -177,14 +182,14 @@ This technique is based on injecting an additional pointer to the <code class="h
 <p>The third relocation of type <code class="highlighter-rouge">R_X86_64_RELATIVE</code> is the one we are looking for.
 Now lets analyse the injected routine.</p>
 
-<p>The injected routine is based in the <code class="highlighter-rouge">.eh_frame</code> section. This section usually contains <code class="highlighter-rouge">dwarf</code> information about stack unwinding for exception handling such as dwarf bytecode along with dwarf flags. However, it does not normally contain code.
+<p>The injected routine is based in the <code class="highlighter-rouge">.eh_frame</code> section. This section usually contains <code class="highlighter-rouge">dwarf</code> information for stack unwinding at exception handling. This information may contain dwarf bytecode along with dwarf flags. However, it does not normally contain code.
 As we can see in the previous screenshot, the first thing this routine does is a <code class="highlighter-rouge">call 0x284</code>. This function pivots inside a crafted <code class="highlighter-rouge">.build-id</code> section.</p>
 
 <div style="text-align:center"><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/6.png" /></div>
 
 <p>This section usually holds a SHA1 specific of the binary’s build. so we can say that both <code class="highlighter-rouge">.eh_frame</code> and <code class="highlighter-rouge">.build-id</code> sections have been crafted specifically for this challenge, as a form of code cave to embed code.</p>
 
-<p>Futhermore, we can see a comparison of the contents of <code class="highlighter-rouge">rdi + 0x200715</code> with <code class="highlighter-rouge">'!'</code>. In fact, this is the 16th byte of the input retrived with <code class="highlighter-rouge">scanf</code> function at <code class="highlighter-rouge">main</code>. If this check holds, it jumps back to function <code class="highlighter-rouge">0x284 + 5</code> and resumes execution in the <code class="highlighter-rouge">.eh_frame</code> routine. Otherwise, will pivot to <code class="highlighter-rouge">ld.so</code> and will do further clean up until application termination.</p>
+<p>Futhermore, we can see a comparison of the byte at <code class="highlighter-rouge">rdi + 0x200715</code> with <code class="highlighter-rouge">'!'</code>. In fact, this is the 16th byte of the input retrived with <code class="highlighter-rouge">scanf</code> function at <code class="highlighter-rouge">main</code>. If this check holds, it jumps back to function <code class="highlighter-rouge">0x284 + 5</code> and resumes execution in the <code class="highlighter-rouge">.eh_frame</code> routine. Otherwise, will pivot to <code class="highlighter-rouge">ld.so</code> and will do further clean up until application termination.</p>
 
 <p>At this point we can guess that the binaries flag must be <code class="highlighter-rouge">16 bytes</code>, and must end with <code class="highlighter-rouge">'!'</code>.</p>
 
@@ -193,19 +198,19 @@ As we can see in the previous screenshot, the first thing this routine does is a
 
 <div style="text-align:center"><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/7.png" /></div>
 
-<p>It gives write permissions to the CODE segment of the main application.
+<p>It gives write permissions to the <code class="highlighter-rouge">CODE</code> segment of the main application.
 Moreover, it jumps back to the routine in the <code class="highlighter-rouge">.build-id</code> section, to then pivot to the following routine:</p>
 
 <div style="text-align:center"><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/8.png" /></div>
 
-<p>This routine basically copies spread bytes to a known memory location to then jump to it.
+<p>This routine basically copies spreaded bytes to a known memory location to then jump to it.
 After stub if finally written, we end up in the following routine:</p>
 
 <div style="text-align:center"><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/9.png" /></div>
 
-<p>In this routine, 10 rounds of aes encription are performed using the Intel’s processors AES instruction set. At the end of the 10 rounds, this routine checks ciphertext with input from <code class="highlighter-rouge">scanf</code>. if check holds, the program will print <code class="highlighter-rouge">Good!</code> string by jumping to the sycall gate previously shown (the mprotect one), changing its arguments so that it executes a write instead of mprotect syscall.</p>
+<p>In this routine, 10 rounds of aes encription are performed using the Intel’s processors AES instruction set. A nice refresher of these instructions can be found <a href="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/Use_of_the_AES_Instruction_Set.pdf">here</a>. At the end of the 10 rounds, this routine checks ciphertext with input from <code class="highlighter-rouge">scanf</code>. if check holds, the program will print <code class="highlighter-rouge">Good!</code> string by jumping to the sycall gate previously shown (the mprotect one), changing its arguments so that it executes a write instead of mprotect syscall.</p>
 
-<p>Something important to note about this aes routine, is that round-keys are actually hardcoded at adreses pointed by <code class="highlighter-rouge">rsi</code> (at the beginning of routine), so round keys can be restored and perform the <code class="highlighter-rouge">InvMixColumn</code> transformation in order to use them for decription. In order to do this we can user the <code class="highlighter-rouge">aesimc</code> instruction (note that aesimc should not be used either with the first or last round key). Furthermore, final cipher text can also be aquired by just getting the result of the <code class="highlighter-rouge">xmm1</code> register after <code class="highlighter-rouge">aesenclast</code> instruction at the end of the 10 rounds.</p>
+<p>Something important to note about this aes routine, is that round-keys are actually hardcoded at adreses pointed by <code class="highlighter-rouge">rsi</code> (at the beginning of routine), so round keys can be restored and perform the <code class="highlighter-rouge">Inverse Mix Column</code> transformation in order to use them for decription. In order to do this we can user the <code class="highlighter-rouge">aesimc</code> instruction (note that aesimc should not be used either with the first or last round key). Furthermore, final ciphertext can also be aquired by just getting the result of the <code class="highlighter-rouge">xmm1</code> register after <code class="highlighter-rouge">aesenclast</code> instruction at the end of the 10 rounds.</p>
 
 <p>The following code replicates the decription routine:</p>
 
@@ -272,7 +277,7 @@ After stub if finally written, we end up in the following routine:</p>
 
 <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
   <span class="kt">uint8_t</span> <span class="n">flag</span><span class="p">[</span><span class="mi">17</span><span class="p">];</span>
-  <span class="kt">int8_t</span> <span class="n">round_keys</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span> <span class="mh">0x48</span><span class="p">,</span> <span class="mh">0xc1</span><span class="p">,</span> <span class="mh">0xfd</span><span class="p">,</span> <span class="mh">0x03</span><span class="p">,</span> <span class="mh">0xe8</span><span class="p">,</span> <span class="mh">0x07</span><span class="p">,</span> <span class="mh">0xfe</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> 
+  <span class="kt">uint8_t</span> <span class="n">round_keys</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span> <span class="mh">0x48</span><span class="p">,</span> <span class="mh">0xc1</span><span class="p">,</span> <span class="mh">0xfd</span><span class="p">,</span> <span class="mh">0x03</span><span class="p">,</span> <span class="mh">0xe8</span><span class="p">,</span> <span class="mh">0x07</span><span class="p">,</span> <span class="mh">0xfe</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> 
 			  <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0x48</span><span class="p">,</span> <span class="mh">0x85</span><span class="p">,</span> <span class="mh">0xed</span><span class="p">,</span> <span class="mh">0x74</span><span class="p">,</span> <span class="mh">0x20</span><span class="p">,</span> <span class="mh">0x31</span><span class="p">,</span> <span class="mh">0xdb</span><span class="p">,</span> 
 			  <span class="mh">0x0f</span><span class="p">,</span> <span class="mh">0x1f</span><span class="p">,</span> <span class="mh">0x84</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> 
 			  <span class="mh">0x4c</span><span class="p">,</span> <span class="mh">0x89</span><span class="p">,</span> <span class="mh">0xea</span><span class="p">,</span> <span class="mh">0x4c</span><span class="p">,</span> <span class="mh">0x89</span><span class="p">,</span> <span class="mh">0xf6</span><span class="p">,</span> <span class="mh">0x44</span><span class="p">,</span> <span class="mh">0x89</span><span class="p">,</span> 
@@ -295,8 +300,8 @@ After stub if finally written, we end up in the following routine:</p>
 			  <span class="mh">0x6c</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0x0c</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> 
 			  <span class="mh">0xdc</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0x54</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span> <span class="p">};</span>
 
-  <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">ctext</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mh">0xe7</span><span class="p">,</span> <span class="mh">0x47</span><span class="p">,</span> <span class="mh">0x04</span><span class="p">,</span> <span class="mh">0x12</span><span class="p">,</span> <span class="mh">0x49</span><span class="p">,</span> <span class="mh">0x6d</span><span class="p">,</span> <span class="mh">0xcf</span><span class="p">,</span> <span class="mh">0x47</span><span class="p">,</span> 
-	  		   <span class="mh">0xb0</span><span class="p">,</span> <span class="mh">0xe9</span><span class="p">,</span> <span class="mh">0x1b</span><span class="p">,</span> <span class="mh">0x17</span><span class="p">,</span> <span class="mh">0x67</span><span class="p">,</span> <span class="mh">0xfb</span><span class="p">,</span> <span class="mh">0x46</span><span class="p">,</span> <span class="mh">0x28</span><span class="p">};</span>
+  <span class="kt">uint8_t</span> <span class="n">ctext</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>     <span class="mh">0xe7</span><span class="p">,</span> <span class="mh">0x47</span><span class="p">,</span> <span class="mh">0x04</span><span class="p">,</span> <span class="mh">0x12</span><span class="p">,</span> <span class="mh">0x49</span><span class="p">,</span> <span class="mh">0x6d</span><span class="p">,</span> <span class="mh">0xcf</span><span class="p">,</span> <span class="mh">0x47</span><span class="p">,</span> 
+	  		  <span class="mh">0xb0</span><span class="p">,</span> <span class="mh">0xe9</span><span class="p">,</span> <span class="mh">0x1b</span><span class="p">,</span> <span class="mh">0x17</span><span class="p">,</span> <span class="mh">0x67</span><span class="p">,</span> <span class="mh">0xfb</span><span class="p">,</span> <span class="mh">0x46</span><span class="p">,</span> <span class="mh">0x28</span><span class="p">};</span>
   <span class="n">aes_decrypt</span><span class="p">(</span><span class="n">ctext</span><span class="p">,</span> <span class="n">flag</span><span class="p">,</span> <span class="n">round_keys</span><span class="p">);</span>
   <span class="n">printf</span><span class="p">(</span><span class="s">"hitcon{%s}</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">flag</span><span class="p">);</span>
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
@@ -315,7 +320,7 @@ After stub if finally written, we end up in the following routine:</p>
     <div class="col-sm-4">
         <div class="panel panel-default">
     <div class="panel-heading">
-        <strong>Archivo de writeups</strong>
+        <strong>Writeups</strong>
     </div>
 
     <div class="panel-body">
