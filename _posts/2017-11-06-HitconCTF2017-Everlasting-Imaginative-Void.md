@@ -127,7 +127,7 @@ In this routine, 10 rounds of aes encription are performed using the Intel's pro
 
 Something funny about this challenge is that the `ucomisd` instruction only compares the lower part of xmm registers. That is, the lowest 64 bits. Is quite obvious that the developer made an implementation mistake by using this instruction to compare the encription result. Just for the sake of curiosity, I have researched which instructions should have been used. One solution could have been the following
 
-```asm
+```nasm
 pcmpeqb xmm0, xmm1
 pmovmskb r15, xmm0
 cmp r15, 0xffff
