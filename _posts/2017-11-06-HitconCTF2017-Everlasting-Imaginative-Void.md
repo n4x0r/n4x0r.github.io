@@ -133,7 +133,7 @@ ptest  xmm0, xmm0
 jz     _same     
 ```
  
-Furthermore, something important to note about this aes routine, is that round-keys are actually hardcoded at addresses pointed by `rsi` (at the beginning of routine), so round keys can be restored to perform the `Inverse Mix Column` transformation in order to use them for decription. In order to do this we can use the `aesimc` instruction (note that aesimc should not be used on the first or last round key). Furthermore, original ciphertext can also be aquired by just getting the result of the `xmm0` register after `aesenclast` instruction at the end of the 10 rounds, since it will get compared against the computed ciphertext derived from our input in `xmm1`.
+Furthermore, something important to note about this aes routine, is that round-keys are actually hardcoded at addresses pointed by `rsi` (at the beginning of routine), so round keys can be restored to perform the `Inverse Mix Column` transformation in order to use them for decription. In order to do this we can use the `aesimc` instruction (note that aesimc should not be used on the first and last round key). Furthermore, original ciphertext can also be aquired by just getting the result of the `xmm0` register after `aesenclast` instruction at the end of the 10 rounds, since it will get compared against the computed ciphertext derived from our input in `xmm1`.
 
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/10.png" /></div>
 
