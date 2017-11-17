@@ -55,7 +55,7 @@ Program Headers:
 We can see that the binary's string table has been stripped, aswell as the section header table.
 In addition, the binary only contains two segments. Based on the number of segments, and the strange base address it holds (0x00c01000) we can assume that the file is packed.
 
-<h2> Static Analysis<h2/>
+<h2> Static Analysis</h2>
 <br/>
 If we open the binary with `IDA PRO` we can confirm this statement:
 <br/>
