@@ -53,11 +53,13 @@ Program Headers:
 We can see that the binary's string table has been stripped, aswell as the section header table.
 In addition, the binary only contains two segments. Based on the number of segments, and the strange base address it holds (0x00c01000) we can assume that the file is packed.
 
+<br/>
 If we open the binary with `IDA PRO` we can confirm this statement:
+<br/>
 
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/2.png" /></div>
 <br/>
-<br/>
+
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/3.png" /></div>
 
 
