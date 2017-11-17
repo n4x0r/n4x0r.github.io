@@ -64,13 +64,13 @@ If we open the binary with `IDA PRO` we can confirm this statement:
 
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/3.png" /></div>
 
-Functions 2 and 3 are pretty stright forward. One allocates a `RWX` page sized chunk, and the latter executes a write syscall, and then exits.
-<br/>
-
-<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/4.png" /></div>
+Second and third function seem straight forward. One allocates a `RWX` page sized chunk, and the latter executes a write syscall, and then exits.
 <br/>
 
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/5.png" /></div>
+<br/>
+
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/4.png" /></div>
 
 However, the entry point of the application looks certainly more messier, and by first glance we can assume that it will have a decryptor/decoder functionality
 <br/>
