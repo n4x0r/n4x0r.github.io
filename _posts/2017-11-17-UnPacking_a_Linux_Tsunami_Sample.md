@@ -19,7 +19,9 @@ In VirusTotal we can see that the malware is identified as a Tsunami Variant for
 
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/1.png" /></div>
 
+<br/>
 If we do some static recon about the file, we can see the following:
+<br/>
 
 ```c
 readelf -lh f22ffc07e0cc907f00fd6a4ecee09fe8411225badb2289c1bffa867a2a3bd863
@@ -61,6 +63,19 @@ If we open the binary with `IDA PRO` we can confirm this statement:
 <br/>
 
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/3.png" /></div>
+
+Functions 2 and 3 are pretty stright forward. One allocates a `RWX` page sized chunk, and the latter executes a write syscall, and then exits.
+<br/>
+
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/4.png" /></div>
+<br/>
+
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/5.png" /></div>
+
+However, the entry point of the application looks certainly more messier, and by first glance we can assume that it will have a decryptor/decoder functionality
+<br/>
+
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/6.png" /></div>
 
 
 
