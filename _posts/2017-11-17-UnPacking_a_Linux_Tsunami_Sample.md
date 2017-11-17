@@ -55,6 +55,7 @@ Program Headers:
 We can see that the binary's string table has been stripped, aswell as the section header table.
 In addition, the binary only contains two segments. Based on the number of segments, and the strange base address it holds (0x00c01000) we can assume that the file is packed.
 
+<h2> Static Analysis<h2/>
 <br/>
 If we open the binary with `IDA PRO` we can confirm this statement:
 <br/>
@@ -77,7 +78,16 @@ However, the entry point of the application looks certainly more messier, and by
 
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/6.png" /></div>
 
+Let's start the tour shall we.
+The very first thing that the entrypoint does is calling `0x00C8DC28`, which itself redirects execution to `allocate_rwx_page` and stores the return address (`start+5`) in ebp.
+<br/>
 
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/7.png" /></div>
+<br/>
+
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/8.png" /></div>
+
+Note the stub of data on `0x00C8DC31`, we will come back to it later.
 
 
 
