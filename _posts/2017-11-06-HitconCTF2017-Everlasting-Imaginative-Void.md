@@ -123,14 +123,21 @@ After stub if finally written, we end up in the following routine:
 
  <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/9.png" /></div>
 
-In this routine, 10 rounds of aes encription are performed using the Intel's processors AES instruction set. A nice refresher of these instructions can be found [here](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/Use_of_the_AES_Instruction_Set.pdf). At the end of the 10 rounds, this routine checks computed ciphertext from input from `scanf` agains a hardcoded ciphertext which the program retrieves into `xmm0` after the last round key. if check holds, the program will print `Good!` string by jumping to the sycall gate previously shown (the mprotect one), changing its arguments so that it executes a write instead of mprotect syscall.
+In this routine, 10 rounds of aes encription are performed using the Intel's processors AES instruction set. A nice refresher of these instructions can be found [here](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/Use_of_the_AES_Instruction_Set.pdf). At the end of the 10 rounds, the computed ciphertext from our input gets compared against a hardcoded ciphertext. This comparison is done with the instruction `ucomisd`. If check holds, the program will print `Good!` string by jumping to the sycall gate previously shown (the mprotect one), changing its arguments so that it executes a write instead of mprotect syscall. 
+
+Something funny about this challenge is that the `ucomisd` instruction only compares the lower part of xmm registers. That is, the lowest 64 bits. Is quite obvious that the developer made an implementation mistake by using this instruction to compare the encription result. Just for the sake of curiosity, I have researched which instructions should have been used. One solution could have been the following
+
+```nasm
+psubd  xmm0, xmm1	    
+ptest  xmm0, xmm0       
+jz     _same     
+```
  
-Something important to note about this aes routine, is that round-keys are actually hardcoded at adreses pointed by `rsi` (at the beginning of routine), so round keys can be restored to perform the `Inverse Mix Column` transformation in order to use them for decription. In order to do this we can use the `aesimc` instruction (note that aesimc should not be used on the first or last round key). Furthermore, final ciphertext can also be aquired by just getting the result of the `xmm0` register after `aesenclast` instruction at the end of the 10 rounds.
+Furthermore, something important to note about this aes routine, is that round-keys are actually hardcoded at addresses pointed by `rsi` (at the beginning of routine), so round keys can be restored to perform the `Inverse Mix Column` transformation in order to use them for decription. In order to do this we can use the `aesimc` instruction (note that aesimc should not be used on the first and last round key). Furthermore, original ciphertext can also be aquired by just getting the result of the `xmm0` register after `aesenclast` instruction at the end of the 10 rounds, since it will get compared against the computed ciphertext derived from our input in `xmm1`.
 
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/10.png" /></div>
 
-Having the inversed key rounds and the ciphertext, we can reconstruct the decription routine.
-
+Having the inversed key rounds and the original ciphertext, we can reconstruct the decription routine.
 The following code replicates the decription routine:
 
 {% raw %}
