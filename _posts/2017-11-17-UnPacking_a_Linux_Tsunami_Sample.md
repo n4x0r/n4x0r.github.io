@@ -113,7 +113,7 @@ On resume we will see that the trigered breakpoint is the one at `0x00C8DB46`.
 
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/12.png" /></div>
 
-We see that it does not pivot directly to the RWX chunk at `0x00c8f000`, but it returns first to `allocate_rwx_page+49, to then unwind the stack and return to the RWX chunk`
+We see that it does not pivot directly to the RWX chunk at `0x00c8f000`, but it returns first to `allocate_rwx_page+49`, to then unwind the stack and return to the RWX chunk.
 
 <br/>
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/13.png" /></div>
