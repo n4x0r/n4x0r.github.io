@@ -95,7 +95,28 @@ After allocating RWX memory, the malware then proceeds and copies a subroutine i
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/9.png" /></div>
 <br/>
 
-At this point, I coudnt do much more in terms of an static analysis stand-point. Now we will cover the Dynamic analysis phase.
+At this point, I coudnt do much progress just by static analysis. Now we will cover the Dynamic analysis phase.
 
 <h2> Dynamic Analysis </h2>
+
+Now that we know that the malware is building sort of a shellcode decoding the data block we saw previously, we need to pivot to it to remain out analysis journey. One way to do it could be putting a hardware breakpoint on access on the `RXW` chunk. However, we want to find the cleanest possible way towithness that transition in order to not miss details about the malware's behaviour. 
+On th entry point routine, after the function `pivot_to_allocate_rwx_pg` we can clearly see that the register context is being saved with a `pusha` instruction. At some point the malware will need to restore the register context in order to continue its mission. if we look in the start rotine for `popad` instructions, we see that there are two of them and they are just before the routine returns.
+
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/10.png" /></div>
+<br/>
+
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/11.png" /></div>
+
+If we put one breakpoint on each on this location, and then we resume the application's execution, we will have control of execution when decoding routine is over.
+On resume we will see that the trigered breakpoint is the one at `0x00C8DB46`.
+<br/>
+
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/12.png" /></div>
+
+We see that it does not pivot directly to the RWX chunk at `0x00c8f000`, but it returns first to `allocate_rwx_page+49, to then unwind the stack and return to the RWX chunk`
+
+<br/>
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/13.png" /></div>
+
+
 
