@@ -90,7 +90,7 @@ The very first thing that the entrypoint does is calling `0x00C8DC28`, which its
 Note the stub of data on `0x00C8DC31`, we will come back to it later.
 Execution then is driven by the `allocate_rwx_page` function, which as said before just allocates a page of memory with `RXW`permissions. This buffer will be allocated at `0x00C8F000`. If the allocation fails, then execution will branch into the `write_message_and_exit` funtion, in which the string `'nandemo wa shiranai wa yo,'` gets printed to `stderr`. On the other hand, if allocation of RWX chunk is sucessfull, execution will pivot back to `start+5`.
 
-After allocating RWX memory, the malware then proceeds and copies a subroutine inside that chunk. The data at `0x00C8DC31` is used to decode this routine. The malware uses different routines to copy data/code to different locations. The following picture is sort of a helper the malware uses for copying contents of different locations, and its used several times in the unpacking process.
+After allocating RWX memory, the malware then proceeds to copy a subroutine inside that chunk. The data at `0x00C8DC31` is used to decode this subroutine. The malware uses different fuctions to copy data/code to different locations. The following picture is sort of a helper the malware uses for this purpose, and its used several times in the unpacking process.
 
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/9.png" /></div>
 <br/>
