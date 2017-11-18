@@ -99,8 +99,8 @@ At this point, I coudnt do much progress just by static analysis. Now we will co
 
 <h2> Dynamic Analysis </h2>
 
-Now that we know that the malware is building sort of a shellcode decoding the data block we saw previously, we need to pivot to it to remain out analysis journey. One way to do it could be putting a hardware breakpoint on access on the `RXW` chunk. However, we want to find the cleanest possible way towithness that transition in order to not miss details about the malware's behaviour. 
-On th entry point routine, after the function `pivot_to_allocate_rwx_pg` we can clearly see that the register context is being saved with a `pusha` instruction. At some point the malware will need to restore the register context in order to continue its mission. if we look in the start rotine for `popad` instructions, we see that there are two of them and they are just before the routine returns.
+Now that we know that the malware is building sort of a shellcode by decoding the data block we saw previously, we need to pivot to it somehow to remain with our analysis. One way to do it could be putting a hardware breakpoint on access on the `RXW` chunk. However, we want to find the cleanest possible way to withness that transition in order to not miss details about the malware's behaviour. 
+On the entrypoint routine, after the function `pivot_to_allocate_rwx_pg` we can clearly see that the register context is being saved with a `pusha` instruction. At some point the malware will need to restore the register context. if we search  in the start rotine for `popad` instructions, we see that there are two of them and they are just before the routine returns.
 
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/10.png" /></div>
 <br/>
