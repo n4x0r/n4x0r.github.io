@@ -54,6 +54,7 @@ Program Headers:
 
 We can see that the binary's string table has been stripped, aswell as the section header table.
 In addition, the binary only contains two segments. Based on the number of segments, and the strange base address it holds (0x00c01000) we can assume that the file is packed.
+Furthermore, note that the file and size memory for the second `PT_LOAD` segment are set to 0. meaning that when segment will get loaded to memory, there will be a 0x1000 chunk at `0x0819b304` due to segment alignment.
 
 <h2> Static Analysis</h2>
 <br/>
@@ -117,6 +118,10 @@ We see that it does not pivot directly to the RWX chunk at `0x00c8f000`, but it 
 
 <br/>
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/13.png" /></div>
+
+<br/>
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/14.png" /></div>
+
 
 
 
