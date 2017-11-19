@@ -91,7 +91,7 @@ The very first thing that the entrypoint does is calling `0x00C8DC28`, which its
 Note the stub of data on `0x00C8DC31`, we will come back to it later.
 Execution then is driven by the `allocate_rwx_page` function, which as said before just allocates a page of memory with `RXW`permissions. This buffer will be allocated at `0x00C8F000`. If the allocation fails, then execution will branch into the `write_message_and_exit` funtion, in which the string `'nandemo wa shiranai wa yo,'` gets printed to `stderr`. On the other hand, if allocation of RWX chunk is sucessfull, execution will pivot back to `start+5`.
 
-After allocating RWX memory, the malware then proceeds to copy a subroutine inside that chunk. The data at `0x00C8DC31` is used to decode this subroutine. The malware uses different fuctions to copy data/code to different locations. The following picture is sort of a helper the malware uses for this purpose, and its used several times in the unpacking process.
+After allocating RWX memory, the malware then proceeds to copy and decode a given stub inside that chunk. The data at `0x00C8DC31` is used to decode this subroutine. After a while analysing the code, I came to the conclusion that function `start+5` (entrypoint+5) is the routine the malware uses to decode and copy packer stubs.
 
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/9.png" /></div>
 <br/>
@@ -100,18 +100,27 @@ At this point, I coudnt do much progress just by static analysis. Now we will co
 
 <h2> Dynamic Analysis </h2>
 
-Now that we know that the malware is building sort of a shellcode by decoding the data block we saw previously, we need to pivot to it somehow to remain with our analysis. One way to do it could be putting a hardware breakpoint on access on the `RXW` chunk. However, we want to find the cleanest possible way to withness that transition in order to not miss details about the malware's behaviour. 
-On the entrypoint routine, after the function `pivot_to_allocate_rwx_pg` we can clearly see that the register context is being saved with a `pusha` instruction. At some point the malware will need to restore the register context. if we search  in the start rotine for `popad` instructions, we see that there are two of them and they are just before the routine returns.
+Now that we know what subroutine the malware uses to decode and copy packer stub, the first stage the malware will do is to decode some stub inside the RWX chunk by decoding the data block previoslyshown. On our next move we will try to pivot to the destination chunk (chunk `0x00c8f000`) of the decoded stub somehow to remain with our analysis. One way to do it could be putting a hardware breakpoint on execution at the `RXW` chunk. However, we want to find the cleanest possible way to withness that transition in order to not miss details about the malware's behaviour. 
+On the entrypoint routine, after the function `pivot_to_allocate_rwx_pg` we can clearly see that the register context is being saved with a `pusha` instruction. After that we can see that two pointers are loaded into the `esi` and `edi` registers. Those pointers are the stub source address to be decoded, and the destination buffer addres to transfer the decoded stub.
 
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/10.png" /></div>
 <br/>
 
-<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/11.png" /></div>
+Further down `start` we can see how some of the data in the stub gets copied to the destination buffer:
 
-If we put one breakpoint on each on this location, and then we resume the application's execution, we will have control of execution when decoding routine is over.
-On resume we will see that the trigered breakpoint is the one at `0x00C8DB46`.
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/15.png" /></div>
 <br/>
 
+On the other hand, there are specific bytes that get processed differently, and multiple bytes get derived from it. Based on this we can assume that the decoding algorithm must be some sort of deflate implementation.
+ 
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/16.png" /></div>
+<br/>
+
+We can see that decoding will stop when second argument `stub_size` + first argument `stub_base` == current stub pointer at `esi`. If this conditio is true, the function simply returns.
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/11.png" /></div>
+
+If we put one breakpoint on this ret instruction, and then we resume the application's execution, we will get control of execution back when decoding is over.
+<br/>
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/12.png" /></div>
 
 We see that it does not pivot directly to the RWX chunk at `0x00c8f000`, but it returns first to `allocate_rwx_page+49`, to then unwind the stack and return to the RWX chunk.
@@ -122,6 +131,7 @@ We see that it does not pivot directly to the RWX chunk at `0x00c8f000`, but it 
 <br/>
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/14.png" /></div>
 
+Inside this routine, we see that it uses serveral other decoded functions. Function 
 
 
 
