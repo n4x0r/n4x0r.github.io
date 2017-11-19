@@ -196,6 +196,13 @@ In this function, a series of statistics are retrieved from the current file suc
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/19.jpg" /></div>
 <br/>
 
+This routine is the entry point of what would be the stub decoding stage. the first part of this function calls function `set_for_decoding` with arguents the already stack buffer for storing the decoded stub, and two stub flags. Function `set_for_decoding` looks as follows:
+ 
+<br/>
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/20.jpg" /></div>
+<br/>
+
+
 
 
 
