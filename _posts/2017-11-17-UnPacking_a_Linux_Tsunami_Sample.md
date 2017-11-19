@@ -215,6 +215,18 @@ Again, if we continue until our previously saved breakpoint we can identify that
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/22.png" /></div>
 <br/>
 
+After decoding the ELF header and the Program header table, execution continues after the call to `set_for_decoding` in the `init_decoding_stage` function.
+  
+<br/>
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/23.png" /></div>
+<br/>
+
+Now that the program header of embedded executable is decoded, the malware parse some of its values in order to have information about where to load in memory its correspondent program headers. Another thing that the malware does is to update the program's `Auxiliar vector` with statistics of the embedded file in order to reuse that structure on the loading process of the embedded executable. Malware updates `AT_PHNUM` , `AT_PHENT` and `AT_PHDR` fields of the `Auxiliar vector`. After updating the Auxiliar vector, malware calls ux_exec, which is sort of an `execve` userland implementation. This function looks as follows:
+  
+<br/>
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/23.png" /></div>
+<br/>
+
 
 
 
