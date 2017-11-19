@@ -206,13 +206,13 @@ Based on the flags passed to this function, it will copy different values of the
 If we step into we see that the values in `esi` and `edi` have changed:
  
 <br/>
-<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/21.jpg" /></div>
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/21.png" /></div>
 <br/>
 
 Again, if we continue until our previously saved breakpoint we can see that identify that an ELF header and a program header table have been decoded.
   
 <br/>
-<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/22.jpg" /></div>
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/22.png" /></div>
 <br/>
 
 
