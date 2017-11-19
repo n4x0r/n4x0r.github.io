@@ -108,7 +108,118 @@ There are only 3 identifiable functions. Second and third functions seem straigh
 <br/>
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/4.png" /></div>
 <br/>
+```nasm
+[0x00c8dbdc]> VV @ allocate_rwx_pg (nodes 5 edges 6 zoom 100%) BB-NORM mouse:canvas-y movements-speed:5
+│                            │
+│
+│                      ┌───────────────────────────────────────────────────┐
+│                      │  0xc8dba7 ;[ga]                                   │
+│                      │      ; JMP XREF from 0x00c8dc0b (allocate_rwx_pg) │
+│                      │ push 0x1d                                         │
+│                      │ pop edx                                           │
+│                      │ call 0xc8dbcc                                     │
+│                      │ or cl, byte [edx]                                 │
+│                      │ outsb dx, byte [esi]                              │
+│                      │ popal                                             │
+│                      │ outsb dx, byte [esi]                              │
+│                      │ insd dword es:[edi], dx                           │
+│                      │ outsd dx, dword [esi]                             │
+│                      │ and byte [edi + 0x61], dh                         │
+│                      │ and byte [ebx + 0x68], dh                         │
+│                      │ imul esi, dword [edx + 0x61], 0x2069616e          │
+│                      │ ja 0xc8dc28                                       │
+│                      └───────────────────────────────────────────────────┘
+│                              │ │
+│                              │ └─────────────────────────────────┐
+│             ┌────────────────┘                                   │
+│             │                                                    │
+│             │                                                    │
+│     ┌───────────────────────────────────────────────────┐        │
+│     │  0xc8dbc7 ;[gb]                                   │        │
+│     │ and byte [ecx + 0x6f], bh                         │        │
+│     │ sub al, 0xa                                       │        │
+│     │    ; CALL XREF from 0x00c8dbaa (allocate_rwx_pg)  │        │
+│     │ pop ecx                                           │        │
+│     │ push 2                                            │        │
+│     │ pop ebx                                           │        │
+│     │ push 4                                            │        │
+│     │ pop eax                                           │        │
+│     │ int 0x80                                          │        │
+│     │ mov bl, 0x7f                                      │        │
+│     │ push 1                                            │        │
+│     │ pop eax                                           │        │
+│     │ int 0x80                                          │        │
+│     └───────────────────────────────────────────────────┘        │
+│         │                                                        │
+│    ┌────┘                                                        │
+│    │                                                             │
+│    │                                                             │
+│┌────────────────────────────────────────────────────────────┐    │
+││  0xc8dbdc ;[gc]                                            │    │
+││ (fcn) allocate_rwx_pg 130                                  │    │
+││   allocate_rwx_pg ();                                      │    │
+││ ; var int local_9h @ ebp-0x9                               │    │
+││    ; CALL XREF from 0x00c8dc2a (pivot_to_allocate_rwx_pg)  │    │
+││ pop esi                                                    │    │
+││ lea eax, [local_9h]                                        │    │
+││ mov edi, dword [eax]                                       │    │
+││ sub eax, edi                                               │    │
+││ mov edx, eax                                               │    │
+││ add eax, dword [eax + 0x48]                                │    │
+││ add eax, 0xfff                                             │    │
+││ and eax, 0xfffff000                                        │    │
+││ push 1                                                     │    │
+││ push eax                                                   │    │
+││ xor ecx, ecx                                               │    │
+││ push 0xffffffffffffffff                                    │    │
+││ push 0x32                                                  │    │
+││ mov ch, 0x10                                               │    │
+││ push 7                                                     │    │
+││ push ecx                                                   │    │
+││ push eax                                                   │    │
+││ mov ebx, esp                                               │    │
+││ push 0x5a                                                  │    │
+││ pop eax                                                    │    │
+││ int 0x80                                                   │    │
+││ cmp eax, dword [ebx]                                       │    │
+││ jne 0xc8dba7                                               │    │
+│└────────────────────────────────────────────────────────────┘    │
+│        │ │                                                       │
+└──────────┘                                                       │
+         └───────────────┐                                         │
+                         │                                         │
+                         │                                         │
+                 ┌─────────────────────────────┐                   │
+                 │  0xc8dc11 ;[gd]             │                   │
+                 │ xchg eax, edx               │                   │
+                 │ xchg eax, ebx               │                   │
+                 │ cld                         │                   │
+                 │ lodsd eax, dword [esi]      │                   │
+                 │ push eax                    │                   │
+                 │ mov ecx, esp                │                   │
+                 │ push eax                    │                   │
+                 │ push ecx                    │                   │
+                 │ push edx                    │                   │
+                 │ lodsd eax, dword [esi]      │                   │
+                 │ push eax                    │                   │
+                 │ lodsd eax, dword [esi]      │                   │
+                 │ mov dword [esp + 0xc], eax  │                   │
+                 │ push esi                    │                   │
+                 │ call ebp                    │                   │
+                 │ add esp, 0x2c               │                   │
+                 └─────────────────────────────┘                   │
+                     │                                             │
+                     └─────┐                                       │
+                           │ ┌─────────────────────────────────────┘
+                           │ │
+                           │ │
+                       ┌───────────────────────────────────────────────────┐
+                       │  0xc8dc28 ;[ge]                                   │
+                       │      ; JMP XREF from 0x00c8dbc5 (allocate_rwx_pg) │
+                       │ ret                                               │
+                       └───────────────────────────────────────────────────┘
 
+```
 However, the entry point of the application looks certainly more messier, and by first glance we can assume that it will have a decryptor/decoder functionality
 
 <br/>
