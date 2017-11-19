@@ -62,7 +62,7 @@ Inn Linux systems is typical to encounter packed malware with UPX. If we check f
 Searching 3 bytes from 0x00000000 to 0xffffffffffffffff: 55 50 58 
 Searching 3 bytes in [0xc01000-0xc8e1c2]
 hits: 1
-0x00c8ddaa hit0_0 .@M{"UPX!u>RBuvkk.
+0x00c8ddaa hit0_0 .@M{UPX!u>RBuvkk.
 [0x00c8da20]> s hit0_0 -2
 [0x00c8dda8]> pd 1
             0x00c8dda8  ~   81f955505821   CMP ECX, 0x21585055
@@ -80,7 +80,8 @@ UPX 3.94        Markus Oberhumer, Laszlo Molnar & John Reiser   May 12th 2017
 
         File size         Ratio      Format      Name
    --------------------   ------   -----------   -----------
-upx: f22ffc07e0cc907f00fd6a4ecee09fe8411225badb2289c1bffa867a2a3bd863: NotPackedException: not packed by UPX
+upx: f22ffc07e0cc907f00fd6a4ecee09fe8411225badb2289c1bffa867a2a3bd863: 
+NotPackedException: not packed by UPX
 
 Unpacked 0 files.
 ```
