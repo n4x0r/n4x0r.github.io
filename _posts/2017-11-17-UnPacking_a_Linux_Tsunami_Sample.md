@@ -251,6 +251,20 @@ The segments get decoded in rounds, the following is the second round of the dec
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/28.png" /></div>
 <br/>
 
+After segment is decoded into it's right location, a `mprotect` system call is invoked in order to enforce the original segment attributes, since allocated chunk by `mmap` syscall must had wrtie permissions since the chunk has to be overwritten with the decoded stub.
+The code also checks if current segment base + size exceeds the end of the data segment. In that case, it will mmap a chunk of memory after the `DATA` segment, and then a `brk` syscall will be invoked. The `brk` system call will initialise a series of pointers that would make the mmap chunk at the end of the data segment seen as the `HEAP` segment. `brk` systemcall does not actually allocate any memory, just initialises the so called `program break` to give dimensions to the heap, `start_brk` and `end_data`, but the actual heap memory was allocated previously by using mmap.
+
+<br/>
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/29.png" /></div>
+<br/>
+
+After ux_exec is done loading the executable, control flow goes back to `init_decoding_stage` after the call to `ux_exec`. There is only one more check remaining the program does before pivoting to OEP. It checks wether there is a `PT_INTERP` segment. If this segment exists then the embedded executable is a dynamically linked executable, so the `RTLD` must be mapped. The `RTLD` will be opened, readed and then a call to `ux_exec` will be done again in order to map its correspondent segments into the right location within the virtual address space. 
+
+
+<br/>
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/30.png" /></div>
+<br/>
+
 
 
 
