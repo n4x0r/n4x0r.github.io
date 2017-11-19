@@ -184,8 +184,18 @@ The main purpose of this routine is to retrieve the `ELF Auxiliar vector` from t
 <br/>
 
 Once Auxiliar vector is retrived from stack then this function calls `call_read_link` function which looks as follows:
+ 
+<br/>
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/18.png" /></div>
+<br/>
+
+In this function, a series of statistics are retrieved from the current file such as the location of the decoded elf in the `PT_LOAD` segment along with 2 more flags used for decoding. Furthermore, the address of the aligned end of the first `PT_LOAD` segment is computed, and a stack buffer is set in order to hold the resulting decoded stub. After collecting these series of statistics, the function proceeds with stage 1 of the decoding process, and calls `init_decoding_stage` function. This function looks as follows:
 
  
+<br/>
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/17.png" /></div>
+<br/>
+
 
 
 
