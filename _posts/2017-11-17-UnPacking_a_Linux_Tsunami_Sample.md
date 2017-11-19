@@ -196,10 +196,23 @@ In this function, a series of statistics are retrieved from the current file suc
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/19.jpg" /></div>
 <br/>
 
-This routine is the entry point of what would be the stub decoding stage. the first part of this function calls function `set_for_decoding` with arguents the already stack buffer for storing the decoded stub, and two stub flags. Function `set_for_decoding` looks as follows:
+This routine is the entry point of what would be the stub decoding stage. the first part of this function calls function `set_for_decoding` with the already stack buffer for storing the decoded stub, and two stub flags as arguments. Function `set_for_decoding` looks as follows:
  
 <br/>
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/20.jpg" /></div>
+<br/>
+ 
+Based on the flags passed to this function, it will copy different values of the stub into a prepared buffer. We see that when stub buffer is prepared it will call the decoding function, that is `start+5`.
+If we step into we see that the values in `esi` and `edi` have changed:
+ 
+<br/>
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/21.jpg" /></div>
+<br/>
+
+Again, if we continue until our previously saved breakpoint we can see that identify that an ELF header and a program header table have been decoded.
+  
+<br/>
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/22.jpg" /></div>
 <br/>
 
 
