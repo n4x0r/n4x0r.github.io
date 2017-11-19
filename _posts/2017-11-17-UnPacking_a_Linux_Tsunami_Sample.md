@@ -193,7 +193,7 @@ In this function, a series of statistics are retrieved from the current file suc
 
  
 <br/>
-<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/17.png" /></div>
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/19.png" /></div>
 <br/>
 
 
