@@ -56,7 +56,7 @@ We can see that the binary's string table has been stripped, aswell as the secti
 In addition, the binary only contains two segments. Based on the number of segments, and the strange base address it holds (0x00c01000) we can assume that the file is packed.
 Furthermore, note that the file and size memory for the second `PT_LOAD` segment are set to 0. meaning that when segment will get loaded to memory, there will be a 0x1000 chunk at `0x0819b304` due to segment alignment.
 
-Inn Linux systems is typical to encounter packed malware with UPX. If we check for the `UPX` magic in the file we see the following:
+In Linux systems is typical to encounter packed malware with UPX. If we check for the `UPX` magic in the file we see the following:
 ```c
 [0x00c8da20]> / UPX
 Searching 3 bytes from 0x00000000 to 0xffffffffffffffff: 55 50 58 
@@ -87,11 +87,11 @@ Unpacked 0 files.
 ```
 
 Threfore, we may be dealing against a custom packer based on a modified version of `UPX`.
-We will start analysing the sample by doing static analysis, then I will continue with some dynamic analysis, and at the end will do a rief summary of the sample as a whole. Let's start with static analysis..
+We will start analysing the sample by doing static analysis, then I will continue with some dynamic analysis, and at the end will do a brief summary of the sample as a whole. Let's start with static analysis..
 
 <h2> Static Analysis</h2>
 <br/>
-If we open the binary with `IDA PRO` we can confirm this statement:
+If we open the binary with `IDA PRO` we can confirm that the sample is indeed packed.:
 <br/>
 
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/2.png" /></div>
@@ -99,7 +99,7 @@ If we open the binary with `IDA PRO` we can confirm this statement:
 
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/3.png" /></div>
 
-Second and third function seem straight forward. One allocates a `RWX` page sized chunk, and the latter executes a write syscall, and then exits.
+There are only 3 identifiable functions. Second and third functions seem straight forward. One allocates a `RWX` page sized chunk, and the latter executes a write syscall, and then exits.
 <br/>
 
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/5.png" /></div>
