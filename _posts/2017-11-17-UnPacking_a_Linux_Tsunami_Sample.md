@@ -224,7 +224,7 @@ After decoding the ELF header and the Program header table, execution continues 
 Now that the program header table of embedded executable is decoded, the malware is able to parse some of its fields in order to have information about where to load in memory its correspondent segments. Furthermore, the malware  updates it's own `Auxiliar vector` with statistics of the embedded file in order to reuse that same structure on the loading process of the embedded executable. Malware updates `AT_PHNUM` , `AT_PHENT` and `AT_PHDR` fields of the `Auxiliar vector` at this point. After updating the Auxiliar vector, malware calls `ux_exec` function. This function is sort of an `execve` userland implementation which is in charge of loading the ebmbedded executable segments and pivot execution to the `OEP`. This function looks as follows:
   
 <br/>
-<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/23.png" /></div>
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/24.jpg" /></div>
 <br/>
 
 
