@@ -177,7 +177,15 @@ When execution reaches the `0x00C8F000` chunk, we see the following routine:
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/14.png" /></div>
 <br/>
 
-Inside this routine, we see that it uses serveral other decoded functions. Function 
+The main purpose of this routine is to retrieve the `ELF Auxiliar vector` from the stack, and copy it into a local stack buffer. The struture of the Auxiliar vector looks as follows:
+
+<br/>
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/17.png" /></div>
+<br/>
+
+Once Auxiliar vector is retrived from stack then this function calls `call_read_link` function which looks as follows:
+
+ 
 
 
 
