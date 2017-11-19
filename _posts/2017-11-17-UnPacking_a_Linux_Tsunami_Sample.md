@@ -86,8 +86,8 @@ NotPackedException: not packed by UPX
 Unpacked 0 files.
 ```
 
-Threfore, we may be dealing against a custom packer, based on a modified version of `UPX`.
-Lets start analsing the file by doing some static analysis.
+Threfore, we may be dealing against a custom packer based on a modified version of `UPX`.
+We will start analysing the sample by doing static analysis, then I will continue with some dynamic analysis, and at the end will do a rief summary of the sample as a whole. Let's start with static analysis..
 
 <h2> Static Analysis</h2>
 <br/>
