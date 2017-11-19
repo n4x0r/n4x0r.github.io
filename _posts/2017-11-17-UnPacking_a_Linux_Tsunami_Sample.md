@@ -56,6 +56,38 @@ We can see that the binary's string table has been stripped, aswell as the secti
 In addition, the binary only contains two segments. Based on the number of segments, and the strange base address it holds (0x00c01000) we can assume that the file is packed.
 Furthermore, note that the file and size memory for the second `PT_LOAD` segment are set to 0. meaning that when segment will get loaded to memory, there will be a 0x1000 chunk at `0x0819b304` due to segment alignment.
 
+Inn Linux systems is typical to encounter packed malware with UPX. If we check for the `UPX` magic in the file we see the following:
+```c
+[0x00c8da20]> / UPX
+Searching 3 bytes from 0x00000000 to 0xffffffffffffffff: 55 50 58 
+Searching 3 bytes in [0xc01000-0xc8e1c2]
+hits: 1
+0x00c8ddaa hit0_0 .@M{"UPX!u>RBuvkk.
+[0x00c8da20]> s hit0_0 -2
+[0x00c8dda8]> pd 1
+            0x00c8dda8  ~   81f955505821   CMP ECX, 0x21585055
+[0x00c8dda8]> ? 0x21585055~[6]
+"UPX!" 
+[0x00c8dda8]> 
+```
+This is quite interesting because if we try to use the automated unpacking feature of UPX we get the following:
+
+```c
+upx -d f22ffc07e0cc907f00fd6a4ecee09fe8411225badb2289c1bffa867a2a3bd863
+                       Ultimate Packer for eXecutables
+                          Copyright (C) 1996 - 2017
+UPX 3.94        Markus Oberhumer, Laszlo Molnar & John Reiser   May 12th 2017
+
+        File size         Ratio      Format      Name
+   --------------------   ------   -----------   -----------
+upx: f22ffc07e0cc907f00fd6a4ecee09fe8411225badb2289c1bffa867a2a3bd863: NotPackedException: not packed by UPX
+
+Unpacked 0 files.
+```
+
+Threfore, we may be dealing against a custom packer, based on a modified version of `UPX`.
+Lets start analsing the file by doing some static analysis.
+
 <h2> Static Analysis</h2>
 <br/>
 If we open the binary with `IDA PRO` we can confirm this statement:
