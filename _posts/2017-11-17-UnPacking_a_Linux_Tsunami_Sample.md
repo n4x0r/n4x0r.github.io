@@ -227,6 +227,34 @@ Now that the program header table of embedded executable is decoded, the malware
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/24.jpg" /></div>
 <br/>
 
+This function first scans through all the segments to find the `CODE` segment, That is `First PT_LOAD` segment. Once it has found found the code segment, it calls a mmap system call via `mmap_gate` function  passing the segment's `p_vaddr` value along with its page aligned `p_memsz` field as arguments. After `CODE segment is allocated` it enters a loop in which scans for every `PT_LOAD` segments existent in the program header table to be decoded. If PT_LOAD segment is not CODE segment, this loop will call the `mmap_gate` function again in order to map the segment into memory.
+
+For every PT_LOAD segment, a call to `set_for_decoding` is made. We already cover this function, so I will try to avoid being redundant by explaining again this routine. After the `set_fo_decoding` call, we can see that our breakpoint in the decoding routine gets triggered. We can see that is decoding into the base_address of the embedded binary:
+  
+<br/>
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/25.png" /></div>
+<br/>
+
+We continue execution until our ret breakpoint and we see the decoded buffer being copied into the destination:
+  
+<br/>
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/26.png" /></div>
+<br/>
+
+The segments get decoded in rounds, the following is the second round of the decoding of the `CODE` segment so we can have an idea how the Decoding looks like:
+ 
+<br/>
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/27.png" /></div>
+<br/>
+
+<br/>
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/28.png" /></div>
+<br/>
+
+
+
+
+
 
 
 
