@@ -86,7 +86,9 @@ Unpacked 0 files.
 ```
 
 Threfore, we may be dealing against a custom packer based on a modified version of `UPX`.
-We will start analysing the sample by doing static analysis, then I will continue with some dynamic analysis, and at the end will do a brief summary of the sample as a whole. Let's start with static analysis..
+We will start analysing the sample by doing static analysis, then I will continue with some dynamic analysis, and at the end will do a brief summary of the sample as a whole. Let's start with static analysis.
+
+<br/>
 <br/>
 <h2> Static Analysis</h2>
 <br/>
@@ -125,9 +127,9 @@ The very first thing that the entrypoint does is calling `0x00C8DC28`, which its
 Note the stub of data on `0x00C8DC31`, we will come back to it later.
 Execution then is driven by the `allocate_rwx_page` function, which as said before just allocates a page of memory with `RXW`permissions. This buffer will be allocated at `0x00C8F000`. If the allocation fails, then execution will branch into the `write_message_and_exit` funtion, in which the string `'nandemo wa shiranai wa yo,'` gets printed to `stderr`. On the other hand, if allocation of RWX chunk is sucessfull, execution will pivot back to `start+5`.
 
-After allocating RWX memory, the malware will then proceed to copy and decode a given stub inside that chunk. After a while analysing the code, I came to the conclusion that function `start+5` (entrypoint+5) is the routine the malware uses to decode and copy packer stubAt this point, I coudnt do much progress just by static analysis. Now we will cover the Dynamic analysis phase.
-At this point, I coudnt do much progress just by static analysis, so I fired up the debugger to do some Dynamic analysis.
+After allocating RWX memory, the malware will then proceed to copy and decode a given stub inside that chunk. After a while analysing the code, I came to the conclusion that function `start+5` (entrypoint+5) is the routine the malware uses to decode and copy packer stub. At this point, I coudnt do much progress just by static analysis, so I fired up the debugger to do some Dynamic analysis.
 
+<br/>
 <br/>
 <h2> Dynamic Analysis </h2>
 <br/>
