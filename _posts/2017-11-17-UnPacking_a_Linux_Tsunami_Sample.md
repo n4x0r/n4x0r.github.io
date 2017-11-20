@@ -147,7 +147,7 @@ Further down `start` we can see the set of instructions in charge of copying dat
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/15.png" /></div>
 <br/>
 
-Nevertheless, There are specific bytes that get processed differently. Some of the stu bytes have a many to one relationship with decoded bytes, so that multiple decoded bytes get derived from a single stub byte. Based on this we can assume that the decoding algorithm must be some sort of deflate implementation.
+Nevertheless, There are specific bytes that get processed differently. Some of the stub bytes have a many to one relationship with decoded bytes, so that multiple decoded bytes get derived from a single stub byte. Based on this we can assume that the decoding algorithm must be some sort of deflate implementation.
  
 <br/>
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/16.png" /></div>
