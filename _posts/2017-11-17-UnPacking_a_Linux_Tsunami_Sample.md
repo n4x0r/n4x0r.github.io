@@ -313,7 +313,6 @@ def dumpElf(image_base):
     phnum = ehdr.e_phnum
     
     phdrtbl = bytes[phoff:]
-    pt_loadnum = 0
     
     for n in range(phnum):
         phdr = Elf32Phdr(phdrtbl[:0x20])
@@ -324,7 +323,6 @@ def dumpElf(image_base):
             phdata = GetManyBytes(paddr, psize)
             file.seek(poffs)
             file.write(phdata)
-            pt_loadnum += 1
         phdrtbl = phdrtbl[0x20:]   
     file.close()
     print "[+] File Dumped"
