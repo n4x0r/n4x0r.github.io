@@ -271,7 +271,7 @@ At this point we know that the file is fully loaded into its correspondent virtu
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/30.png" /></div>
 <br/>
 
-Executing the following script we can dump the embedded file succesfully:
+Executing the following IDA script we can dump the embedded file succesfully:
 
 ```python
 import struct
@@ -306,7 +306,7 @@ class ElfEhdr:
          self.e_shstrndx) = struct.unpack("2H5I6H", bytes[16:52])
 
 def dumpElf(image_base):
-    file = open("/Users/ignaciosanmillan/Desktop/dumped.elf", 'wb+')
+    file = open("/Users/n4x0r/Desktop/dumped.elf", 'wb+')
     bytes = GetManyBytes(image_base, 0x100)
     ehdr  = ElfEhdr(bytes) 
     phoff = ehdr.e_phoff
