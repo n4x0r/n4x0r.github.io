@@ -260,15 +260,116 @@ The code also checks if current segment base + size exceeds the end of the data 
 
 After ux_exec is done loading the executable, control flow goes back to `init_decoding_stage` after the call to `ux_exec`. There is only one more check remaining the program does before pivoting to OEP. It checks wether there is a `PT_INTERP` segment. If this segment exists then the embedded executable is a dynamically linked executable, so the `RTLD` must be mapped. The `RTLD` will be opened, readed and then a call to `ux_exec` will be done again in order to map its correspondent segments into the right location within the virtual address space. 
 
+<br/>
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/30.png" /></div>
+<br/>
+
+At this point we know that the file is fully loaded into its correspondent virtual address. If we check the mappings we see the following:
+
 
 <br/>
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/30.png" /></div>
 <br/>
 
+Executing the following script we can dump the embedded file succesfully:
+
+```python
+import struct
+
+class Elf32Phdr:
+    def __init__(self, bytes):
+        (self.p_type,
+        self.p_offset,
+        self.p_vaddr,
+        self.p_paddr,
+        self.p_filesz,
+        self.p_memsz,
+        self.p_flags,
+        self.p_align,
+        ) = struct.unpack("8I", bytes[:0x20])
 
 
+class ElfEhdr:
+    def __init__(self, bytes):
+         (self.e_type,
+         self.e_machine,
+         self.e_version,
+         self.e_entry,
+         self.e_phoff,
+         self.e_shoff,
+         self.e_flags,
+         self.e_ehsize,
+         self.e_phentsize,
+         self.e_phnum,
+         self.e_shentsize,
+         self.e_shnum,
+         self.e_shstrndx) = struct.unpack("2H5I6H", bytes[16:52])
 
+def dumpElf(image_base):
+    file = open("/Users/ignaciosanmillan/Desktop/dumped.elf", 'wb+')
+    bytes = GetManyBytes(image_base, 0x100)
+    ehdr  = ElfEhdr(bytes) 
+    phoff = ehdr.e_phoff
+    phnum = ehdr.e_phnum
+    
+    phdrtbl = bytes[phoff:]
+    pt_loadnum = 0
+    
+    for n in range(phnum):
+        phdr = Elf32Phdr(phdrtbl[:0x20])
+        if phdr.p_type == 1:
+            poffs = phdr.p_offset
+            psize = phdr.p_filesz
+            paddr = phdr.p_vaddr
+            phdata = GetManyBytes(paddr, psize)
+            file.seek(poffs)
+            file.write(phdata)
+            pt_loadnum += 1
+        phdrtbl = phdrtbl[0x20:]   
+    file.close()
+    print "[+] File Dumped"
+    
+```
 
+Once on disk we see that the dumped file is a 1.3M statically linked binary:
+
+```c
+ELF Header:
+  Magic:   7f 45 4c 46 01 01 01 03 00 00 00 00 00 00 00 00 
+  Class:                             ELF32
+  Data:                              2's complement, little endian
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - GNU
+  ABI Version:                       0
+  Type:                              EXEC (Executable file)
+  Machine:                           Intel 80386
+  Version:                           0x1
+  Entry point address:               0x8048d86
+  Start of program headers:          52 (bytes into file)
+  Start of section headers:          1369220 (bytes into file)
+  Flags:                             0x0
+  Size of this header:               52 (bytes)
+  Size of program headers:           32 (bytes)
+  Number of program headers:         6
+  Size of section headers:           40 (bytes)
+  Number of section headers:         33
+  Section header string table index: 32
+readelf: Error: Reading 0x528 bytes extends past end of file for section headers
+
+Program Headers:
+  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
+  LOAD           0x000000 0x08048000 0x08048000 0x14ba2e 0x14ba2e R E 0x1000
+  LOAD           0x14bea4 0x08194ea4 0x08194ea4 0x02374 0x06460 RW  0x1000
+  NOTE           0x0000f4 0x080480f4 0x080480f4 0x00044 0x00044 R   0x4
+  TLS            0x14bea4 0x08194ea4 0x08194ea4 0x00014 0x00038 R   0x4
+  GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x10
+  GNU_RELRO      0x14bea4 0x08194ea4 0x08194ea4 0x0115c 0x0115c R   0x1
+
+```
+
+<br/>
+<br/>
+<h2>Summary</h2>
 
 
 
