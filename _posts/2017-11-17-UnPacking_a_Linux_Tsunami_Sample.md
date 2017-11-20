@@ -268,7 +268,7 @@ At this point we know that the file is fully loaded into its correspondent virtu
 
 
 <br/>
-<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/30.png" /></div>
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/31.png" /></div>
 <br/>
 
 Executing the following IDA script we can dump the embedded file succesfully:
