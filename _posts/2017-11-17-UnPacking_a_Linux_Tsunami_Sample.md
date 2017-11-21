@@ -269,13 +269,13 @@ At this point we know that the file is fully loaded into its respective virtual 
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/31.png" /></div>
 <br/>
 
-A mminimal overview of the paker's functionality will be the following:
+A brief overview of the packer's functionality will be the following:
 
 <br/>
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/prev.png" /></div>
 <br/>
 
-In order to retrieved the embedded executable we can use the following IDA script to dump the embedded file succesfully:
+In order to retrieve the embedded executable we can use the following IDA script to dump the embedded file succesfully:
 
 ```python
 import struct
@@ -390,8 +390,15 @@ Program Headers:
 <br/>
 <br/>
 <h2>Summary</h2>
-This packer was straight forward to unpack since it did not implement any anti-debugging/anti-dump/anti-analysis techniques. Because so, the unpacking process could have been much quicker by just tracing until decoding of Elf header and program header table takes place, so that we can see the entry-point address in the Elf header to then put a hardware breakpoint on execution on it.
-The next write up I will cover the analysis process of the unpacked file. Thanks for reading and I hope you learned something useful from this post!.
+This packer was straight forward to unpack since it did not implement any anti-debugging/anti-dump/anti-analysis techniques. 
+Therefore, the unpacking process could have been much quicker:
+
+* Tracing until decoding of Elf header and program header table.
+* Set hardware breapoint on execution at entry-point address in the Elf header.
+* Profit.
+
+In the next write up I will cover the analysis process of the unpacked file. 
+Thanks for reading and I hope you learned something useful from this post!.
 
 n4x0r.
 
