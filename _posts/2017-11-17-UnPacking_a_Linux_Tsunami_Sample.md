@@ -269,7 +269,13 @@ At this point we know that the file is fully loaded into its respective virtual 
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/31.png" /></div>
 <br/>
 
-Executing the following IDA script we can dump the embedded file succesfully:
+A mminimal overview of the paker's functionality will be the following:
+
+<br/>
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/prev.png" /></div>
+<br/>
+
+In order to retrieved the embedded executable we ca use the following IDA script to dump the embedded file succesfully:
 
 ```python
 import struct
