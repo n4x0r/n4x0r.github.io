@@ -22,7 +22,7 @@ permalink: /malware/
 
     <div class="col-sm-4">
 
-        {% include archive_writeups.html %}
+        {% include archive_malware.html %}
 
     </div>
 </div>
