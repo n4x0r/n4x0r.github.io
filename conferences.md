@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Videos
+title: Talks
 permalink: /videos/
 ---
 <style>
