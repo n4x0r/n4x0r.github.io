@@ -275,7 +275,7 @@ A mminimal overview of the paker's functionality will be the following:
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/prev.png" /></div>
 <br/>
 
-In order to retrieved the embedded executable we ca use the following IDA script to dump the embedded file succesfully:
+In order to retrieved the embedded executable we can use the following IDA script to dump the embedded file succesfully:
 
 ```python
 import struct
