@@ -1,5 +1,5 @@
 ---
-layout: writeup
+layout: article
 title:  "Manually Unpacking a Linux/Tsunami sample"
 date:   2017-11-17 06:30
 categories: article
