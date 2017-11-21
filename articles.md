@@ -5,7 +5,7 @@ permalink: /malware/
 <div class="row">
     <div class="col-sm-8">
         <div>
-            {% for post in site.categories.writeup limit:site.recent_posts %}
+            {% for post in site.categories.article limit:site.recent_posts %}
             <div class="row amnesia_post-row">
                 <h2 class="amnesia_post-title"><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
                 </h2>
@@ -14,7 +14,7 @@ permalink: /malware/
                     {{ post.excerpt }}
                 </div>
                 <a href="{{ post.url | prepend: site.baseurl }}"><span
-                        class="amnesia_post-readmore">Continuar</span></a>
+                        class="amnesia_post-readmore">Continue</span></a>
             </div>
             {% endfor %}
         </div>
