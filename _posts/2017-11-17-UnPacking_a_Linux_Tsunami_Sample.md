@@ -1,6 +1,6 @@
 ---
 layout: article
-title:  "Manually Unpacking a Linux/Tsunami sample"
+title:  "Manually Unpacking Linux/Tsunami"
 date:   2017-11-17 06:30
 categories: article
 tags: [reverse,malware, ELF, packers]
