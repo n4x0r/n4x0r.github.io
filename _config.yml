@@ -28,8 +28,8 @@ navigation:
   url: /
 - text: About
   url: /acerca/
-- text: Articles
-  url: /articles/
+- text: Malware
+  url: /malware/
 - text: Writeups
   url: /writeups/
   layout: writeup
