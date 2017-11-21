@@ -33,7 +33,7 @@ navigation:
 - text: Writeups
   url: /writeups/
   layout: writeup
-- text: Videos
+- text: Talks
   url: /videos/
 
 
