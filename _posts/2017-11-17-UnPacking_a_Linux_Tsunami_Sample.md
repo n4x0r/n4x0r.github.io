@@ -399,9 +399,7 @@ Therefore, the unpacking process could have been much quicker:
 * Set hardware breapoint on execution at entry-point address in the Elf header.
 * Profit.
 
-</br>
 <script type="text/javascript" src="https://asciinema.org/a/OfiADjXfl73JB9mfe8vBqnidR.js" id="asciicast-OfiADjXfl73JB9mfe8vBqnidR" async></script>
-</br>
 
 In the next write up I will cover the analysis process of the unpacked file. 
 Thanks for reading and I hope you learned something useful from this post!.
