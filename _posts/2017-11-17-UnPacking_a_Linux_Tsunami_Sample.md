@@ -263,7 +263,7 @@ After `ux_exec` function is done loading all segments of embedded executable, co
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/30.png" /></div>
 <br/>
 
-So far we covered all steos the packer does for ecoding and loading the embedded executable. A brief overview of the packer's functionality is the following:
+So far we covered all steps the packer does for decoding and loading the embedded executable. A brief overview of the packer's functionality is the following:
 
 <br/>
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/prev.png" /></div>
