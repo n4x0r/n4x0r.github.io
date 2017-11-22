@@ -263,19 +263,21 @@ After `ux_exec` function is done loading all segments of embedded executable, co
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/30.png" /></div>
 <br/>
 
+So far we covered all steos the packer does for ecoding and loading the embedded executable. A brief overview of the packer's functionality is the following:
+
+<br/>
+<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/prev.png" /></div>
+<br/>
+
+
 At this point we know that the file is fully loaded into its respective virtual address. If we check the mappings we see the following:
 
 <br/>
 <div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/31.png" /></div>
 <br/>
 
-A brief overview of the packer's functionality will be the following:
-
-<br/>
-<div style="text-align:center"><img src ="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/prev.png" /></div>
-<br/>
-
 In order to retrieve the embedded executable we can use the following IDA script to dump the embedded file succesfully:
+
 
 ```python
 import struct
