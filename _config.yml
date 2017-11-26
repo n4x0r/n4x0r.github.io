@@ -6,9 +6,9 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-title: Mahatma Gandhi
+title:n4x0r's blog
 email: n4x0r@amn3s1a.com
-description: 'Learn as if you were to live forever.'
+description: 'Reverse and Conquer'
 baseurl: "/n4x0r.github.io/" # the subpath of your site, e.g. /blog
 url: "http://n4x0r.github.io"
 twitter_username: n4xor
