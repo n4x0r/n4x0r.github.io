@@ -35,5 +35,9 @@ navigation:
   layout: writeup
 - text: Talks
   url: /videos/
+- text: Misc
+  url: /misc/
+
+
 
 
