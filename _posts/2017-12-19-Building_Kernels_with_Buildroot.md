@@ -12,14 +12,13 @@ A number of steps must be followed:
 
 <h3>1 - Download latest Buildroot</h3>
 
-	`wget http://buildroot.uclibc.org/downloads/buildroot-20XX.YY.tar.gz`
+	wget http://buildroot.uclibc.org/downloads/buildroot-20XX.YY.tar.gz
 
 <h3>2 - Generate Buildroot preset config</h3>
 	
-	```bash
 	make qemu_x86_defconfig 	# EXAMPLE ARCH`
 	make menuconfig
-	```
+	
 	
 	* Change the following for Kernel Debugging support:
 	* 	In `Build options`, toggle `build packages with debugging symbols`.
@@ -29,9 +28,9 @@ A number of steps must be followed:
 	
 <h3>3 - Download Kernel source and configure it</h3>
 
-	```bash
+	
 	make linux-menuconfig
-	```
+	
 
 	* Change the following for Kernel Debugging support:
 	
@@ -43,9 +42,8 @@ A number of steps must be followed:
 		
 <h3>4 - Build your kernel</h3>
 
-	```bash
 	make
-	```
+	
 <h3>5 - Run Kernel</h3>
 
 	Once you have covered all steps, The following files should have been created:
@@ -57,17 +55,14 @@ A number of steps must be followed:
 
 	Done! all we got left is to execute the kernel image with qemu:
 
-	```bash
 	qemu-system-xx -kernel images/bzImage -hda images/rootfs.ext2 -append "root=/dev/sda rw" -s -S
-	```
+	
 
 	On another terminal execute gdb under the linux kernel directory:
 
-	```bash
 	(gdb) add-auto-load-safe-path output/build/linux-4.9.6/scripts/gdb/vmlinux-gdb.py
 	(gdb) file output/build/linux-XXX/vmlinux
 	(gdb) target remote :1234
 	(gdb) break init
 	(gdb) c
-	```
 
