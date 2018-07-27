@@ -55,7 +55,7 @@ A number of steps must be followed:
 
 	qemu-system-xx  -kernel images/bzImage  	\
 			-hda images/rootfs.ext2 	\
-			-append "root=/dev/sda rw" 	\
+			-append "nokaslr root=/dev/sda rw" 	\
 			-s 				\
 			-S
 	
