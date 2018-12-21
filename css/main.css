@@ -277,8 +277,6 @@
 
 body {
 	background-color: #111111;
-	margin: auto;
-	text-align: center;
 }
 
 a {
@@ -294,7 +292,9 @@ p {
   text-align: justify; }
 
 .center {
-  text-align: center; }
+  text-align: center; 
+  margin: auto;
+}
 
 img {
   max-width: 100%; }
@@ -304,14 +304,18 @@ img {
 .amnesia_site-header {
   text-align: center;
   margin-top: 20px;
-  margin-bottom: 5px; }
+  margin-bottom: 5px; 
+  margin: auto;
+}
 
 .amnesia_site-navbar {
   margin-bottom: 20px; }
 
 /* page */
 .amnesia_page-title {
-  font-size: 36px; }
+  font-size: 36px; 
+  margin: auto;
+}
 
 .amnesia_page-content {
   font-size: 16px; }
