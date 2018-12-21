@@ -318,7 +318,6 @@ img {
 /* page */
 .amnesia_page-title {
   font-size: 36px; 
-  margin: auto;
 }
 
 .amnesia_page-content {
@@ -342,7 +341,6 @@ img {
 .amnesia_post-readmore {
   float: right;
   display: block;
-  margin: auto;
   padding: auto; }
 
 .amnesia_post-row {
