@@ -295,8 +295,7 @@ p {
 
 }
 .container {
-  text-align: center; 
-  margin: auto;
+  margin: center;
 }
 .center {
   text-align: center; 
