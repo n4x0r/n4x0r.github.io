@@ -278,7 +278,10 @@
 
 body {
 	background-color: #111111;
-	margin-left: 50%;
+}
+
+.container {
+	margin-left:25%;
 }
 
 a {
