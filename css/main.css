@@ -291,7 +291,9 @@ a:hover {
   color: #ff66a3; }
 
 p {
-  text-align: center; }
+  text-align: center; 
+
+}
 
 .center {
   text-align: center; 
@@ -344,12 +346,12 @@ img {
   padding: auto; }
 
 .amnesia_post-row {
-  padding-left: auto;
-  padding-right: auto; }
+  padding-left: 0px;
+  padding-right: 0px; }
 
 /* pagina del equipo */
 .profile-row {
-  text-align: center; }
+  text-align: left; }
 
 .member-profile {
   margin-top: 20px; }
