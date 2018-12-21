@@ -277,6 +277,8 @@
 
 body {
 	background-color: #111111;
+	margin: auto;
+	text-align: center;
 }
 
 a {
