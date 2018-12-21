@@ -273,6 +273,7 @@
 #top {
 	position:absolute;
 	z-index: 100;
+	margin: auto;
 }
 
 body {
