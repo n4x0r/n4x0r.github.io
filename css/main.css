@@ -294,7 +294,10 @@ p {
   text-align: left; 
 
 }
-
+.container {
+  text-align: center; 
+  margin: auto;
+}
 .center {
   text-align: center; 
   margin: auto;
