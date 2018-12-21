@@ -278,6 +278,7 @@
 
 body {
 	background-color: #111111;
+	margin: auto;
 }
 
 a {
@@ -290,7 +291,7 @@ a:hover {
   color: #ff66a3; }
 
 p {
-  text-align: justify; }
+  text-align: center; }
 
 .center {
   text-align: center; 
@@ -327,7 +328,7 @@ img {
 
 .amnesia_post-content {
   font-size: 16px;
-  text-align: justify; }
+  text-align: center; }
 
 .amnesia_post-date {
   color: #777;
@@ -339,12 +340,12 @@ img {
 .amnesia_post-readmore {
   float: right;
   display: block;
-  margin: 0px;
-  padding: 0px; }
+  margin: auto;
+  padding: auto; }
 
 .amnesia_post-row {
-  padding-left: 20px;
-  padding-right: 20px; }
+  padding-left: auto;
+  padding-right: auto; }
 
 /* pagina del equipo */
 .profile-row {
@@ -374,7 +375,7 @@ img {
   text-align: left;
   font-size: 14px; }
   .member-links ul {
-    margin: 0px;
-    padding: 0px; }
+    margin: auto;
+    padding: auto; }
     .member-links ul li {
       list-style: none; }
