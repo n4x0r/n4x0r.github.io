@@ -1,13 +1,509 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>N4x0r's Blog</title>
-    <description>A Malware analysis and Exploitation Blog</description>
-    <link>http://localhost:4000/n4x0r.github.io//</link>
-    <atom:link href="http://localhost:4000/n4x0r.github.io//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 10 Nov 2017 08:30:30 -0800</pubDate>
-    <lastBuildDate>Fri, 10 Nov 2017 08:30:30 -0800</lastBuildDate>
-    <generator>Jekyll v3.3.1</generator>
+    <title>ulexec's blog</title>
+    <description>Reverse and Conquer</description>
+    <link>http://localhost:4000/ulexec.github.io//</link>
+    <atom:link href="http://localhost:4000/ulexec.github.io//feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Mon, 30 Dec 2019 23:54:50 +0100</pubDate>
+    <lastBuildDate>Mon, 30 Dec 2019 23:54:50 +0100</lastBuildDate>
+    <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>Manually Unpacking Linux/Tsunami</title>
+        <description>&lt;p&gt;In this writeup we’re going to unpack a Tsunami malware sample packed with a modified version of &lt;code class=&quot;highlighter-rouge&quot;&gt;UPX&lt;/code&gt;. Hashes of this specific sample are the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nl&quot;&gt;SHA256:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f22ffc07e0cc907f00fd6a4ecee09fe8411225badb2289c1bffa867a2a3bd863&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;SHA1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;76584&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c9a22835353186e753903ee0a853663bd83&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;MD5&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;171&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;edd284f6a19c6ed3fe010b79c94af&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In VirusTotal the malware is identified as a Tsunami Variant for the most part:&lt;/p&gt;
+
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/1.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;
+If we do some static recon about the file, we can see the following:
+&lt;br /&gt;&lt;/p&gt;
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;readelf&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lh&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f22ffc07e0cc907f00fd6a4ecee09fe8411225badb2289c1bffa867a2a3bd863&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;ELF&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Header&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Magic&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;   &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;45&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;46&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;01&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;01&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;01&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;03&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; 
+  &lt;span class=&quot;n&quot;&gt;Class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                             &lt;span class=&quot;n&quot;&gt;ELF32&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                              &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;complement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;little&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endian&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                           &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;current&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;OS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ABI&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                            &lt;span class=&quot;n&quot;&gt;UNIX&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GNU&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;ABI&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                       &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                              &lt;span class=&quot;n&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Executable&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Machine&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                           &lt;span class=&quot;n&quot;&gt;Intel&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;80386&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                           &lt;span class=&quot;mh&quot;&gt;0x1&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Entry&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;point&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;               &lt;span class=&quot;mh&quot;&gt;0xc8da20&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Start&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;program&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;          &lt;span class=&quot;mi&quot;&gt;52&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bytes&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;into&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Start&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;section&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;          &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bytes&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;into&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Flags&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                             &lt;span class=&quot;mh&quot;&gt;0x0&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Size&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;this&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;               &lt;span class=&quot;mi&quot;&gt;52&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Size&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;program&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;           &lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Number&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;program&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;         &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Size&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;section&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;           &lt;span class=&quot;mi&quot;&gt;40&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Number&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;section&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;         &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Section&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;header&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;Program&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Headers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Type&lt;/span&gt;           &lt;span class=&quot;n&quot;&gt;Offset&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;VirtAddr&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;PhysAddr&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;FileSiz&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MemSiz&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;Flg&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Align&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;LOAD&lt;/span&gt;           &lt;span class=&quot;mh&quot;&gt;0x000000&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x00c01000&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x00c01000&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x8d1c2&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x8d1c2&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;R&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;E&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x1000&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;LOAD&lt;/span&gt;           &lt;span class=&quot;mh&quot;&gt;0x000304&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x0819b304&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x0819b304&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x00000&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x00000&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RW&lt;/span&gt;  &lt;span class=&quot;mh&quot;&gt;0x1000&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The binary’s string table has been stripped, aswell as the section header table.
+In addition, the binary only contains two segments. Based on the number of segments, and the strange base address it holds (0x00c01000) we can assume that the file is packed.
+Furthermore, note that the file and size memory for the second &lt;code class=&quot;highlighter-rouge&quot;&gt;PT_LOAD&lt;/code&gt; segment are set to 0. meaning that when segment will get loaded to memory, there will be a 0x1000 chunk at &lt;code class=&quot;highlighter-rouge&quot;&gt;0x0819b304&lt;/code&gt; due to segment alignment.&lt;/p&gt;
+
+&lt;p&gt;Is common in Linux systems to encounter packed malware with UPX. I then tried to see if I could find the &lt;code class=&quot;highlighter-rouge&quot;&gt;UPX&lt;/code&gt; magic in the file.&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x00c8da20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UPX&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Searching&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bytes&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x00000000&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xffffffffffffffff&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;55&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;58&lt;/span&gt; 
+&lt;span class=&quot;n&quot;&gt;Searching&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bytes&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0xc01000&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0xc8e1c2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;hits&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;mh&quot;&gt;0x00c8ddaa&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit0_0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UPX&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;u&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RBuvkk&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x00c8da20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit0_0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x00c8dda8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+            &lt;span class=&quot;mh&quot;&gt;0x00c8dda8&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;   &lt;span class=&quot;mi&quot;&gt;81&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f955505821&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;CMP&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ECX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x21585055&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x00c8dda8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x21585055&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;UPX!&quot;&lt;/span&gt; 
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x00c8dda8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;This is quite interesting because if we try to use the automated unpacking feature of &lt;code class=&quot;highlighter-rouge&quot;&gt;UPX&lt;/code&gt; we get an error:&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;upx&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;d&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f22ffc07e0cc907f00fd6a4ecee09fe8411225badb2289c1bffa867a2a3bd863&lt;/span&gt;
+                       &lt;span class=&quot;n&quot;&gt;Ultimate&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Packer&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eXecutables&lt;/span&gt;
+                          &lt;span class=&quot;n&quot;&gt;Copyright&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;C&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1996&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2017&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;UPX&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;94&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;Markus&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Oberhumer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Laszlo&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Molnar&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;John&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Reiser&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;May&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;th&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2017&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;File&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;Ratio&lt;/span&gt;      &lt;span class=&quot;n&quot;&gt;Format&lt;/span&gt;      &lt;span class=&quot;n&quot;&gt;Name&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;--------------------&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;------&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;-----------&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;-----------&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;upx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f22ffc07e0cc907f00fd6a4ecee09fe8411225badb2289c1bffa867a2a3bd863&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; 
+&lt;span class=&quot;n&quot;&gt;NotPackedException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;packed&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;by&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UPX&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;Unpacked&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;files&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Threfore, we may be dealing with a custom packer based on a modified version of &lt;code class=&quot;highlighter-rouge&quot;&gt;UPX&lt;/code&gt;.
+We will statically analyse the sample first, then we will continue our analysis with some dynamic analysis. At the end a brief summary of the sample will be discussed. Let’s start with static analysis.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+&lt;h2&gt; Static Analysis&lt;/h2&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;If we open the binary with &lt;code class=&quot;highlighter-rouge&quot;&gt;IDA PRO&lt;/code&gt; we can confirm that the sample is indeed packed:&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/2.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/3.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;There are only 3 identifiable functions. Second and third functions seem straight forward. One allocates a &lt;code class=&quot;highlighter-rouge&quot;&gt;RWX&lt;/code&gt; page sized chunk, and the latter executes a write syscall and then exits.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/5.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/4.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;The entry point of the application looks certainly more messier, and by first glance we can assume that it will have a decryptor/decoder functionality.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/6.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;The first thing that the entrypoint does is calling &lt;code class=&quot;highlighter-rouge&quot;&gt;0x00C8DC28&lt;/code&gt;, which itself redirects execution to &lt;code class=&quot;highlighter-rouge&quot;&gt;allocate_rwx_page&lt;/code&gt; and stores the return address (&lt;code class=&quot;highlighter-rouge&quot;&gt;start+5&lt;/code&gt;) in ebp.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/7.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/8.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Note the stub of data on &lt;code class=&quot;highlighter-rouge&quot;&gt;0x00C8DC31&lt;/code&gt;, we will come back to it later.
+Execution then falls into &lt;code class=&quot;highlighter-rouge&quot;&gt;allocate_rwx_page&lt;/code&gt; function, which as said before just allocates a memory page with &lt;code class=&quot;highlighter-rouge&quot;&gt;RXW&lt;/code&gt; permissions. This buffer will be allocated at &lt;code class=&quot;highlighter-rouge&quot;&gt;0x00C8F000&lt;/code&gt;. If the allocation fails, then execution will branch into the &lt;code class=&quot;highlighter-rouge&quot;&gt;write_message_and_exit&lt;/code&gt; funtion, in which the string &lt;code class=&quot;highlighter-rouge&quot;&gt;'nandemo wa shiranai wa yo,'&lt;/code&gt; gets printed to &lt;code class=&quot;highlighter-rouge&quot;&gt;stderr&lt;/code&gt;. On the other hand, if allocation of RWX chunk is sucessfull, execution will pivot back to &lt;code class=&quot;highlighter-rouge&quot;&gt;start+5&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;After allocating RWX memory, the malware will then proceed to copy and decode a given stub inside it. After a while analysing the code, I got to the conclusion that function &lt;code class=&quot;highlighter-rouge&quot;&gt;start+5&lt;/code&gt; (entrypoint+5) is the routine the malware uses to decode and copy packer stub. At this point I coudn’t do much progress just by static analysis. Therefore, I fired up the debugger ready to do some dynamic analysis.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+&lt;h2&gt; Dynamic Analysis &lt;/h2&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Now that we have identified what routine the malware uses to decode and copy packer stub, It will be straight forward to trace the malware’s first stage, that is to decode some stub inside the RWX chunk by decoding the data block previosly shown. We will try to follow along execution flow until the destination chunk (chunk &lt;code class=&quot;highlighter-rouge&quot;&gt;0x00c8f000&lt;/code&gt;) of the decoded stub to remain with our analysis. One way this could be achieved would be by setting a hardware breakpoint on execution at the &lt;code class=&quot;highlighter-rouge&quot;&gt;RXW&lt;/code&gt; chunk. However, we want to find the cleanest possible way to withness the execution transition into the chunk in order to not overlook details about the first malware’s pivoting endeavour.&lt;/p&gt;
+
+&lt;p&gt;On the entrypoint routine, after the function &lt;code class=&quot;highlighter-rouge&quot;&gt;pivot_to_allocate_rwx_pg&lt;/code&gt; we can clearly see that the register context is being saved with a &lt;code class=&quot;highlighter-rouge&quot;&gt;pusha&lt;/code&gt; instruction. Furthermore, two pointers are loaded into the &lt;code class=&quot;highlighter-rouge&quot;&gt;esi&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;edi&lt;/code&gt; registers. Those pointers are the stub source address to be decoded, and the destination buffer address to transfer the decoded stub.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/10.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Further down &lt;code class=&quot;highlighter-rouge&quot;&gt;start&lt;/code&gt; we can see the set of instructions in charge of copying data from stub to the destination buffer:&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/15.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Nevertheless, There are specific bytes that get processed differently. Some of the stub bytes have a many to one relationship with decoded bytes, so that multiple decoded bytes get derived from a single stub byte. Based on this we can assume that the decoding algorithm must be some sort of deflate implementation.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/16.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;We can see that decoding will stop when second argument &lt;code class=&quot;highlighter-rouge&quot;&gt;stub_size&lt;/code&gt; + first argument &lt;code class=&quot;highlighter-rouge&quot;&gt;stub_base&lt;/code&gt; == current stub pointer at &lt;code class=&quot;highlighter-rouge&quot;&gt;esi&lt;/code&gt;. If this condition is true, the function simply returns.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/11.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;If we put a breakpoint on this &lt;code class=&quot;highlighter-rouge&quot;&gt;retn&lt;/code&gt; instruction and then resume the application we will get control of execution back when decoding is over.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/12.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Upon decoding finalization, decoding routine does not pivot directly to the RWX chunk at &lt;code class=&quot;highlighter-rouge&quot;&gt;0x00c8f000&lt;/code&gt;, but it returns first to &lt;code class=&quot;highlighter-rouge&quot;&gt;allocate_rwx_page+49&lt;/code&gt; to then unwind the stack and return to the RWX chunk.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/13.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;When execution reaches the &lt;code class=&quot;highlighter-rouge&quot;&gt;0x00C8F000&lt;/code&gt; chunk, we see the following routine:&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/14.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;The main purpose of this routine is to retrieve the &lt;code class=&quot;highlighter-rouge&quot;&gt;ELF Auxiliar vector&lt;/code&gt; from the stack and copy it into a local stack buffer. The retrieved struture of the Auxiliar vector looks as follows:&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/17.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Once Auxiliar vector is retrived from stack then &lt;code class=&quot;highlighter-rouge&quot;&gt;call_read_link&lt;/code&gt; function gets called. This function looks as follows:&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/18.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;In this function a series of statistics are retrieved from the current file such as the location of the embedded &lt;code class=&quot;highlighter-rouge&quot;&gt;Elf&lt;/code&gt; file in the first &lt;code class=&quot;highlighter-rouge&quot;&gt;PT_LOAD&lt;/code&gt; segment along with 2 more flags used for decoding. Furthermore, the address of the page-aligned end of the first &lt;code class=&quot;highlighter-rouge&quot;&gt;PT_LOAD&lt;/code&gt; segment is computed and a stack buffer is reserved in order to store decoded stub. After collecting these fields this function proceeds with &lt;code class=&quot;highlighter-rouge&quot;&gt;stage1&lt;/code&gt; of the decoding process and calls &lt;code class=&quot;highlighter-rouge&quot;&gt;init_decoding_stage&lt;/code&gt; function. This function looks as follows:&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/19.jpg&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;This routine is the entry point of what would be the stub decoding stage. the first part of this function calls &lt;code class=&quot;highlighter-rouge&quot;&gt;set_for_decoding&lt;/code&gt; function . This function gets called with the previously reserved stack buffer dedicated for storing decoded stub and two stub flags as arguments. Function &lt;code class=&quot;highlighter-rouge&quot;&gt;set_for_decoding&lt;/code&gt; looks as follows:&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/20.jpg&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Based on the flags passed to this function it will copy different values of the stub into a prepared buffer. We see that when stub buffer is ready the decoding function will get called (&lt;code class=&quot;highlighter-rouge&quot;&gt;start+5&lt;/code&gt;).
+If we step into the decoding function we see that the values in &lt;code class=&quot;highlighter-rouge&quot;&gt;esi&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;edi&lt;/code&gt; registers have changed in comparison with the earlier call to this function:&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/21.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;If we continue until our previously saved breakpoint at &lt;code class=&quot;highlighter-rouge&quot;&gt;retn&lt;/code&gt; instruction we can identify an ELF header and a program header table within the destination buffer after decoding.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/22.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Once the ELF header and the Program header table of embedded file get decded, execution continues after the call to &lt;code class=&quot;highlighter-rouge&quot;&gt;set_for_decoding&lt;/code&gt; in the &lt;code class=&quot;highlighter-rouge&quot;&gt;init_decoding_stage&lt;/code&gt; function.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/23.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Now that the program header table of embedded executable is decoded the malware is able to parse some of its fields in order to figure out where to load in memory its correspondent segments for sucesfull unpacking. Furthermore, the malware updates it’s own &lt;code class=&quot;highlighter-rouge&quot;&gt;Auxiliar vector&lt;/code&gt; with statistics of the embedded file in order to reuse that same structure on the loading process of the embedded executable. Malware updates &lt;code class=&quot;highlighter-rouge&quot;&gt;AT_PHNUM&lt;/code&gt; , &lt;code class=&quot;highlighter-rouge&quot;&gt;AT_PHENT&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;AT_PHDR&lt;/code&gt; fields of the &lt;code class=&quot;highlighter-rouge&quot;&gt;Auxiliar vector&lt;/code&gt; at this point but it will be updating more fields in the remaining decoding process. After updating the Auxiliar vector, malware calls &lt;code class=&quot;highlighter-rouge&quot;&gt;ux_exec&lt;/code&gt; function. This function is sort of an &lt;code class=&quot;highlighter-rouge&quot;&gt;execve&lt;/code&gt; userland implementation which is in charge of loading the embedded executable segments and pivot execution to the &lt;code class=&quot;highlighter-rouge&quot;&gt;OEP&lt;/code&gt; without interaction with the kernel. This function looks as follows:&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/24.jpg&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Ux_exec&lt;/code&gt; function first scans all segments in decoded proram header table in order to find the &lt;code class=&quot;highlighter-rouge&quot;&gt;CODE&lt;/code&gt; segment( the first &lt;code class=&quot;highlighter-rouge&quot;&gt;PT_LOAD&lt;/code&gt; segment). Once &lt;code class=&quot;highlighter-rouge&quot;&gt;CODE&lt;/code&gt; segment has been found, a mmap system call gets invoked via &lt;code class=&quot;highlighter-rouge&quot;&gt;mmap_gate&lt;/code&gt; function, passing the segment’s &lt;code class=&quot;highlighter-rouge&quot;&gt;p_vaddr&lt;/code&gt; value along with its page aligned &lt;code class=&quot;highlighter-rouge&quot;&gt;p_memsz&lt;/code&gt; field as arguments. Upon&lt;code class=&quot;highlighter-rouge&quot;&gt;CODE&lt;/code&gt; segment allocation execution flow enters a loop in which every &lt;code class=&quot;highlighter-rouge&quot;&gt;PT_LOAD&lt;/code&gt; segments existent in the program header table gets scanned to be decoded. For every &lt;code class=&quot;highlighter-rouge&quot;&gt;PT_LOAD&lt;/code&gt; segment that is not the &lt;code class=&quot;highlighter-rouge&quot;&gt;CODE&lt;/code&gt; segment, this loop will call &lt;code class=&quot;highlighter-rouge&quot;&gt;mmap_gate&lt;/code&gt; function again in order to map the segment.&lt;/p&gt;
+
+&lt;p&gt;For every existent &lt;code class=&quot;highlighter-rouge&quot;&gt;PT_LOAD&lt;/code&gt; segment, a call to &lt;code class=&quot;highlighter-rouge&quot;&gt;set_for_decoding&lt;/code&gt; is made. We already cover this function previously. Therefore, I will try to avoid redundancy and I will not explain this routine again. After the &lt;code class=&quot;highlighter-rouge&quot;&gt;set_fo_decoding&lt;/code&gt; call, our breakpoint in the decoding routine gets triggered once again and this time seems to be decoding into the base address of the embedded binary:&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/25.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Once our &lt;code class=&quot;highlighter-rouge&quot;&gt;retn&lt;/code&gt; breakpoint gets triggered, the destination buffer seems partially decoded:&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/26.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;The segments get decoded in rounds, the following screenshot is the second round of the &lt;code class=&quot;highlighter-rouge&quot;&gt;CODE&lt;/code&gt; segment’s decoding, so we can have an idea how the decoding looks like:&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/27.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/28.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Upon segment decoding completion, a &lt;code class=&quot;highlighter-rouge&quot;&gt;mprotect&lt;/code&gt; system call is invoked in order to enforce the original segment’s attributes. This is due to the fact that when container chunk was allocated by &lt;code class=&quot;highlighter-rouge&quot;&gt;mmap&lt;/code&gt; syscall it must had wrtie permissions in order to write the decoded stub into the chunk.
+The code also checks if current segment base + size exceeds the end of the &lt;code class=&quot;highlighter-rouge&quot;&gt;DATA&lt;/code&gt; segment. If that is the case, a chunk will be mmapped after the &lt;code class=&quot;highlighter-rouge&quot;&gt;DATA&lt;/code&gt; segment, and a &lt;code class=&quot;highlighter-rouge&quot;&gt;brk&lt;/code&gt; syscall will be invoked. The &lt;code class=&quot;highlighter-rouge&quot;&gt;brk&lt;/code&gt; system call will initialise a series of pointers that would make the mmap chunk at the end of the data segment being initialised as the &lt;code class=&quot;highlighter-rouge&quot;&gt;HEAP&lt;/code&gt; segment. &lt;code class=&quot;highlighter-rouge&quot;&gt;brk&lt;/code&gt; systemcall does not actually allocate any memory, just initialises &lt;code class=&quot;highlighter-rouge&quot;&gt;program break&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;start_brk&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;end_data&lt;/code&gt;. However, at this very point there is no &lt;code class=&quot;highlighter-rouge&quot;&gt;HEAP&lt;/code&gt; segment since initially program break = start_brk. Nevertheless, in future malloc calls the program break address will increase and the &lt;code class=&quot;highlighter-rouge&quot;&gt;HEAP&lt;/code&gt; segment (space between start_brk and program break) will fall within the mmapped chunk at the end of the &lt;code class=&quot;highlighter-rouge&quot;&gt;DATA&lt;/code&gt; segment.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/29.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;After &lt;code class=&quot;highlighter-rouge&quot;&gt;ux_exec&lt;/code&gt; function is done loading all segments of embedded executable, control flow returns back to &lt;code class=&quot;highlighter-rouge&quot;&gt;init_decoding_stage&lt;/code&gt; after the call to &lt;code class=&quot;highlighter-rouge&quot;&gt;ux_exec&lt;/code&gt;. There is just one more thing remaining to do before pivoting to OEP, check for a &lt;code class=&quot;highlighter-rouge&quot;&gt;PT_INTERP&lt;/code&gt; segment. If this segment exists then the embedded executable is a dynamically linked executable, and the &lt;code class=&quot;highlighter-rouge&quot;&gt;RTLD&lt;/code&gt; must be mapped. The &lt;code class=&quot;highlighter-rouge&quot;&gt;RTLD&lt;/code&gt; will be opened, read and then a call to &lt;code class=&quot;highlighter-rouge&quot;&gt;ux_exec&lt;/code&gt; will be done again in order to map the shared object’s segments into the right location within the virtual address space.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/30.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;So far we covered all steps the packer does for decoding and loading the embedded executable. A brief overview of the packer’s functionality is the following:&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/prev.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;At this point we know that the file is fully loaded into its respective virtual address. If we check the mappings we see the following:&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/Tsunami/31.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;In order to retrieve the embedded executable we can use the following IDA script to dump the embedded file succesfully:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;struct&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Elf32Phdr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;bytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p_type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p_offset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p_vaddr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p_paddr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p_filesz&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p_memsz&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p_flags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p_align&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;struct&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;unpack&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;8I&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;bytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ElfEhdr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;bytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+         &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_machine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_version&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_entry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_phoff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_shoff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_flags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_ehsize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_phentsize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_phnum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_shentsize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_shnum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_shstrndx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;struct&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;unpack&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;2H5I6H&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;bytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;52&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+     
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__str__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+         &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;struct&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pack&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;2H5I6H&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_machine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_version&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_entry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_phoff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_shoff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_flags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_ehsize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_phentsize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_phnum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_shentsize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_shnum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_shstrndx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;dumpElf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;image_base&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;file&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/Users/n4x0r/Desktop/dumped.elf&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'wb'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;bytes&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GetManyBytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;image_base&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    
+    &lt;span class=&quot;n&quot;&gt;ehdr&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ElfEhdr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;bytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;n&quot;&gt;phoff&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ehdr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_phoff&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;phnum&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ehdr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_phnum&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;phdrtbl&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;bytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;phoff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:]&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;ehdr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_shoff&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ehdr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_shnum&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ehdr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_shstrndx&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+    
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;phnum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;phdr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Elf32Phdr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;phdrtbl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phdr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p_type&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;poffs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phdr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p_offset&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;psize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phdr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p_filesz&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;paddr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phdr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p_vaddr&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;phdata&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GetManyBytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;paddr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;psize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;nb&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;seek&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;poffs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;nb&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;phdata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;phdrtbl&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phdrtbl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:]&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;seek&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;bytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ehdr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;   
+    &lt;span class=&quot;nb&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;[+] Elf Dumped&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Once on disk we see that the dumped file is a 1.3M statically linked binary:&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;ELF&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Header&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Magic&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;   &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;45&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;46&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;01&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;01&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;01&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;03&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; 
+  &lt;span class=&quot;n&quot;&gt;Class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                             &lt;span class=&quot;n&quot;&gt;ELF32&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                              &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;complement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;little&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endian&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                           &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;current&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;OS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ABI&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                            &lt;span class=&quot;n&quot;&gt;UNIX&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GNU&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;ABI&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                       &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                              &lt;span class=&quot;n&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Executable&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Machine&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                           &lt;span class=&quot;n&quot;&gt;Intel&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;80386&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                           &lt;span class=&quot;mh&quot;&gt;0x1&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Entry&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;point&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;               &lt;span class=&quot;mh&quot;&gt;0x8048d86&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Start&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;program&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;          &lt;span class=&quot;mi&quot;&gt;52&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bytes&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;into&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Start&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;section&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;          &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bytes&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;into&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Flags&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                             &lt;span class=&quot;mh&quot;&gt;0x0&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Size&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;this&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;               &lt;span class=&quot;mi&quot;&gt;52&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Size&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;program&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;           &lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Number&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;program&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;         &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Size&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;section&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;           &lt;span class=&quot;mi&quot;&gt;40&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Number&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;section&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;         &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Section&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;header&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;Program&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Headers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Type&lt;/span&gt;           &lt;span class=&quot;n&quot;&gt;Offset&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;VirtAddr&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;PhysAddr&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;FileSiz&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MemSiz&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;Flg&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Align&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;LOAD&lt;/span&gt;           &lt;span class=&quot;mh&quot;&gt;0x000000&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x08048000&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x08048000&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x14ba2e&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x14ba2e&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;R&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;E&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x1000&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;LOAD&lt;/span&gt;           &lt;span class=&quot;mh&quot;&gt;0x14bea4&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x08194ea4&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x08194ea4&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x02374&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x06460&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RW&lt;/span&gt;  &lt;span class=&quot;mh&quot;&gt;0x1000&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;NOTE&lt;/span&gt;           &lt;span class=&quot;mh&quot;&gt;0x0000f4&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x080480f4&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x080480f4&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x00044&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x00044&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;R&lt;/span&gt;   &lt;span class=&quot;mh&quot;&gt;0x4&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;TLS&lt;/span&gt;            &lt;span class=&quot;mh&quot;&gt;0x14bea4&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x08194ea4&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x08194ea4&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x00014&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x00038&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;R&lt;/span&gt;   &lt;span class=&quot;mh&quot;&gt;0x4&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;GNU_STACK&lt;/span&gt;      &lt;span class=&quot;mh&quot;&gt;0x000000&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x00000000&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x00000000&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x00000&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x00000&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RW&lt;/span&gt;  &lt;span class=&quot;mh&quot;&gt;0x10&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;GNU_RELRO&lt;/span&gt;      &lt;span class=&quot;mh&quot;&gt;0x14bea4&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x08194ea4&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x08194ea4&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x0115c&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x0115c&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;R&lt;/span&gt;   &lt;span class=&quot;mh&quot;&gt;0x1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+&lt;h2&gt;Summary&lt;/h2&gt;
+&lt;p&gt;This packer was straight forward to unpack since it did not implement any anti-debugging/anti-dump/anti-analysis techniques. 
+Therefore, the unpacking process could have been much quicker:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Tracing until decoding of Elf header and program header table.&lt;/li&gt;
+  &lt;li&gt;Set hardware breapoint on execution at entry-point address in the Elf header.&lt;/li&gt;
+  &lt;li&gt;Profit.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;https://asciinema.org/a/OfiADjXfl73JB9mfe8vBqnidR.js&quot; id=&quot;asciicast-OfiADjXfl73JB9mfe8vBqnidR&quot; async=&quot;&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;In the next write up I will cover the analysis process of the unpacked file. 
+Thanks for reading and I hope you learned something useful from this post!.&lt;/p&gt;
+
+&lt;p&gt;n4x0r.&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 17 Nov 2017 06:30:00 +0100</pubDate>
+        <link>http://localhost:4000/ulexec.github.io//article/2017/11/17/UnPacking_a_Linux_Tsunami_Sample.html</link>
+        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io//article/2017/11/17/UnPacking_a_Linux_Tsunami_Sample.html</guid>
+        
+        <category>reverse</category>
+        
+        <category>malware</category>
+        
+        <category>ELF</category>
+        
+        <category>packers</category>
+        
+        
+        <category>article</category>
+        
+      </item>
+    
+      <item>
+        <title>Building Kernel debugging images with Buildroot</title>
+        <description>&lt;p&gt;Installing a new kernel image is quite simple thanks to the &lt;code class=&quot;highlighter-rouge&quot;&gt;buildroot&lt;/code&gt; utility.
+A number of steps must be followed:&lt;/p&gt;
+
+&lt;h3&gt;1 - Download latest Buildroot&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;wget http://buildroot.uclibc.org/downloads/buildroot-20XX.YY.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3&gt;2 - Generate Buildroot preset config&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;make qemu_x86_defconfig 	# EXAMPLE ARCH
+make menuconfig
+
+* Change the following for Kernel Debugging support:
+      * In Build options, toggle build packages with debugging symbols.
+      * In Toolchain, change linux version to desired one
+      * In Toolchain, change Custom kernel version headers to desired ones
+      * In Kernel, change Kernel version to desired one
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3&gt;3 - Download Kernel source and configure it&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;make linux-menuconfig
+
+* Change the following for Kernel Debugging support:
+
+      *	In Kernel hacking, toggle Kernel Debugging
+      * Under Kernel hacking in Compile-time checks and compiler options toggle
+		- Compile kernel with debug infopp
+		- Provide GDB sripts for kernel debugging`
+		- Compile kernel with frame pointers
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3&gt;4 - Build your kernel&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;make
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3&gt;5 - Run Kernel&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Once you have covered all steps, The following files should have been created:
+
+* Kernel source code at output/build/linux-XXX
+* Compressed kernel image at output/images/bzImage
+* Root filesystem (rootfs) at output/images/rootfs.ext2
+* Raw kernel image at output/build/linux-XXX/vmlinux
+
+Done! all we got left is to execute the kernel image with qemu:
+
+qemu-system-xx  -kernel images/bzImage  	\
+		-hda images/rootfs.ext2 	\
+		-append &quot;nokaslr root=/dev/sda rw&quot; 	\
+		-s 				\
+		-S
+
+
+On another terminal execute gdb under the linux kernel directory:
+
+(gdb) add-auto-load-safe-path output/build/linux-4.9.6/scripts/gdb/vmlinux-gdb.py
+(gdb) file output/build/linux-XXX/vmlinux
+(gdb) target remote :1234
+(gdb) break init
+(gdb) c
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+</description>
+        <pubDate>Fri, 03 Nov 2017 06:30:00 +0100</pubDate>
+        <link>http://localhost:4000/ulexec.github.io//misc/2017/11/03/Building_Kernels_with_Buildroot.html</link>
+        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io//misc/2017/11/03/Building_Kernels_with_Buildroot.html</guid>
+        
+        <category>Kernel</category>
+        
+        <category>Linux</category>
+        
+        <category>Debugging</category>
+        
+        
+        <category>misc</category>
+        
+      </item>
     
       <item>
         <title>Hitcon2017CTF - 家徒四壁~Everlasting Imaginative Void~</title>
@@ -19,18 +515,16 @@ The challenge description was the following:&lt;/p&gt;
 &lt;p&gt;Not much information.
 Executing a &lt;code class=&quot;highlighter-rouge&quot;&gt;file&lt;/code&gt; command, we get the following information:&lt;/p&gt;
 
-&lt;div class=&quot;language-perl highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;n4x0r@pwn1e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;file&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;b63cbab5d58da4294c2f97d6b60f568&lt;/span&gt; 
+&lt;div class=&quot;language-perl highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;n4x0r@pwn1e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;file&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;b63cbab5d58da4294c2f97d6b60f568&lt;/span&gt; 
 &lt;span class=&quot;nv&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;b63cbab5d58da4294c2f97d6b60f568:&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ELF&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;bit&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;LSB&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;shared&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;x86&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;version&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;SYSV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;dynamically&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;linked&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;interpreter&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;/lib64/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ld&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;linux&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x86&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;so&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;.2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;GNU&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Linux&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;2.6.32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;BuildID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;sha1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;f8a87150720003c217508ffd74883c715ffe7c3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;stripped&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;If we execute the file we see the following:&lt;/p&gt;
 
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;n4x0r&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pwn1e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b63cbab5d58da4294c2f97d6b60f568&lt;/span&gt;
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;n4x0r&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pwn1e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b63cbab5d58da4294c2f97d6b60f568&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;blabla&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;hitcon&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;blabla&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Ok, Lets dig inside and see what we can find.
 Surprisingly, the main function of the application was just the following:&lt;/p&gt;
@@ -55,16 +549,15 @@ In my mind I thought about two potential possibilities:&lt;/p&gt;
 
 &lt;p&gt;The reason why there is not pivoting into PLT[0] for each PLT entry in &lt;code class=&quot;highlighter-rouge&quot;&gt;.plt.got&lt;/code&gt; is because binary was linked with immediate binding as previously mentioned. Therefore, there is no need to jump back to resolver since all GOT entries will be resolved at load time.&lt;/p&gt;
 
-&lt;p&gt;We can see the binary has been linked with immediate binding by looking at the &lt;code class=&quot;highlighter-rouge&quot;&gt;DYNAMIC&lt;/code&gt; segment &lt;code class=&quot;highlighter-rouge&quot;&gt;FLAGS&lt;/code&gt; entry:
-&lt;code class=&quot;highlighter-rouge&quot;&gt;c
-0x000000000000001e (FLAGS)              BIND_NOW
-&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;We can see the binary has been linked with immediate binding by looking at the &lt;code class=&quot;highlighter-rouge&quot;&gt;DYNAMIC&lt;/code&gt; segment &lt;code class=&quot;highlighter-rouge&quot;&gt;FLAGS&lt;/code&gt; entry:&lt;/p&gt;
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;mh&quot;&gt;0x000000000000001e&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FLAGS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;              &lt;span class=&quot;n&quot;&gt;BIND_NOW&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Therefore, GOT/PLT hooks are discartded at this point.
 The other technique that we have left is the Constructors/Destructors pointer injection.
 This technique is based on injecting an additional pointer to the &lt;code class=&quot;highlighter-rouge&quot;&gt;.init_array&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;.fini_array&lt;/code&gt; sections for constructors and destructors respectively.&lt;/p&gt;
 
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Nr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Name&lt;/span&gt;              &lt;span class=&quot;n&quot;&gt;Type&lt;/span&gt;             &lt;span class=&quot;n&quot;&gt;Address&lt;/span&gt;           &lt;span class=&quot;n&quot;&gt;Offset&lt;/span&gt;
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Nr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Name&lt;/span&gt;              &lt;span class=&quot;n&quot;&gt;Type&lt;/span&gt;             &lt;span class=&quot;n&quot;&gt;Address&lt;/span&gt;           &lt;span class=&quot;n&quot;&gt;Offset&lt;/span&gt;
        &lt;span class=&quot;n&quot;&gt;Size&lt;/span&gt;              &lt;span class=&quot;n&quot;&gt;EntSize&lt;/span&gt;          &lt;span class=&quot;n&quot;&gt;Flags&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;Link&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;Info&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;Align&lt;/span&gt;
 
  &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
@@ -73,19 +566,17 @@ This technique is based on injecting an additional pointer to the &lt;code class
        &lt;span class=&quot;mo&quot;&gt;000000000000000&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;  &lt;span class=&quot;mo&quot;&gt;000000000000000&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;WA&lt;/span&gt;       &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;     &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;     &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;19&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fini_array&lt;/span&gt;       &lt;span class=&quot;n&quot;&gt;FINI_ARRAY&lt;/span&gt;       &lt;span class=&quot;mo&quot;&gt;0000000000200&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dd0&lt;/span&gt;  &lt;span class=&quot;mo&quot;&gt;00000&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dd0&lt;/span&gt;
        &lt;span class=&quot;mo&quot;&gt;000000000000000&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;  &lt;span class=&quot;mo&quot;&gt;000000000000000&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;WA&lt;/span&gt;       &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;     &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;     &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;We can see that the correspondent sizes of those sections seem to be correct. However, once one gets to know the purpose of sections and segments and the loading process of ELF files, one realizes that sections are complete rubish from an analysis standpoint. Section information can be easily crafted and they may not resemble the reality of the binary’s layout. In addition, sections are only needed at compile time, but not at runtime. For runtime we have segments.&lt;/p&gt;
 
 &lt;p&gt;If we take a look at the binary’s &lt;code class=&quot;highlighter-rouge&quot;&gt;DYNAMIC&lt;/code&gt; segment, it tell us a different story:&lt;/p&gt;
 
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;mh&quot;&gt;0x0000000000000019&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;INIT_ARRAY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;         &lt;span class=&quot;mh&quot;&gt;0x200dc8&lt;/span&gt;
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;mh&quot;&gt;0x0000000000000019&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;INIT_ARRAY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;         &lt;span class=&quot;mh&quot;&gt;0x200dc8&lt;/span&gt;
 &lt;span class=&quot;mh&quot;&gt;0x000000000000001b&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;INIT_ARRAYSZ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;       &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;mh&quot;&gt;0x000000000000001a&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FINI_ARRAY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;         &lt;span class=&quot;mh&quot;&gt;0x200dd0&lt;/span&gt;
 &lt;span class=&quot;mh&quot;&gt;0x000000000000001c&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FINI_ARRAYSZ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;       &lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;We can clearly see, that &lt;code class=&quot;highlighter-rouge&quot;&gt;FINI_ARRAYSZ&lt;/code&gt; is 1 pointer size bigger than what &lt;code class=&quot;highlighter-rouge&quot;&gt;.fini_array&lt;/code&gt; section stated. Therefore, binary has corrupted control flow by destructor pointer injection.&lt;/p&gt;
 
@@ -132,13 +623,23 @@ After stub if finally written, we end up in the following routine:&lt;/p&gt;
 
 &lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/9.png&quot; /&gt;&lt;/div&gt;
 
-&lt;p&gt;In this routine, 10 rounds of aes encription are performed using the Intel’s processors AES instruction set. A nice refresher of these instructions can be found &lt;a href=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/Use_of_the_AES_Instruction_Set.pdf&quot;&gt;here&lt;/a&gt;. At the end of the 10 rounds, this routine checks ciphertext with input from &lt;code class=&quot;highlighter-rouge&quot;&gt;scanf&lt;/code&gt;. if check holds, the program will print &lt;code class=&quot;highlighter-rouge&quot;&gt;Good!&lt;/code&gt; string by jumping to the sycall gate previously shown (the mprotect one), changing its arguments so that it executes a write instead of mprotect syscall.&lt;/p&gt;
+&lt;p&gt;In this routine, 10 rounds of aes encription are performed using the Intel’s processors AES instruction set. A nice refresher of these instructions can be found &lt;a href=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/Use_of_the_AES_Instruction_Set.pdf&quot;&gt;here&lt;/a&gt;. At the end of the 10 rounds, the computed ciphertext from our input gets compared against a hardcoded ciphertext. This comparison is done with the instruction &lt;code class=&quot;highlighter-rouge&quot;&gt;ucomisd&lt;/code&gt;. If check holds, the program will print &lt;code class=&quot;highlighter-rouge&quot;&gt;Good!&lt;/code&gt; string by jumping to the sycall gate previously shown (the mprotect one), changing its arguments so that it executes a write instead of mprotect syscall.&lt;/p&gt;
 
-&lt;p&gt;Something important to note about this aes routine, is that round-keys are actually hardcoded at adreses pointed by &lt;code class=&quot;highlighter-rouge&quot;&gt;rsi&lt;/code&gt; (at the beginning of routine), so round keys can be restored and perform the &lt;code class=&quot;highlighter-rouge&quot;&gt;Inverse Mix Column&lt;/code&gt; transformation in order to use them for decription. In order to do this we can user the &lt;code class=&quot;highlighter-rouge&quot;&gt;aesimc&lt;/code&gt; instruction (note that aesimc should not be used either with the first or last round key). Furthermore, final ciphertext can also be aquired by just getting the result of the &lt;code class=&quot;highlighter-rouge&quot;&gt;xmm1&lt;/code&gt; register after &lt;code class=&quot;highlighter-rouge&quot;&gt;aesenclast&lt;/code&gt; instruction at the end of the 10 rounds.&lt;/p&gt;
+&lt;p&gt;Something funny about this challenge is that the &lt;code class=&quot;highlighter-rouge&quot;&gt;ucomisd&lt;/code&gt; instruction only compares the lower part of xmm registers. That is, the lowest 64 bits. Is quite obvious that the developer made an implementation mistake by using this instruction to compare the encription result. Just for the sake of curiosity, I have researched which instructions should have been used. One solution could have been the following&lt;/p&gt;
 
-&lt;p&gt;The following code replicates the decription routine:&lt;/p&gt;
+&lt;div class=&quot;language-nasm highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;psubd&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;xmm0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xmm1&lt;/span&gt;	    
+&lt;span class=&quot;n&quot;&gt;ptest&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;xmm0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xmm0&lt;/span&gt;       
+&lt;span class=&quot;k&quot;&gt;jz&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;_same&lt;/span&gt;     
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;stdio.h&amp;gt;
+&lt;p&gt;Furthermore, something important to note about this aes routine, is that round-keys are actually hardcoded at addresses pointed by &lt;code class=&quot;highlighter-rouge&quot;&gt;rsi&lt;/code&gt; (at the beginning of routine), so round keys can be restored to perform the &lt;code class=&quot;highlighter-rouge&quot;&gt;Inverse Mix Column&lt;/code&gt; transformation in order to use them for decription. In order to do this we can use the &lt;code class=&quot;highlighter-rouge&quot;&gt;aesimc&lt;/code&gt; instruction (note that aesimc should not be used on the first and last round key). Furthermore, original ciphertext can also be aquired by just getting the result of the &lt;code class=&quot;highlighter-rouge&quot;&gt;xmm0&lt;/code&gt; register after &lt;code class=&quot;highlighter-rouge&quot;&gt;aesenclast&lt;/code&gt; instruction at the end of the 10 rounds, since it will get compared against the computed ciphertext derived from our input in &lt;code class=&quot;highlighter-rouge&quot;&gt;xmm1&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/10.png&quot; /&gt;&lt;/div&gt;
+
+&lt;p&gt;Having the inversed key rounds and the original ciphertext, we can reconstruct the decription routine.
+The following code replicates the decription routine:&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;stdio.h&amp;gt;
 #include &amp;lt;string.h&amp;gt;
 #include &amp;lt;stdint.h&amp;gt;
 #include &amp;lt;stdlib.h&amp;gt;
@@ -230,15 +731,14 @@ After stub if finally written, we end up in the following routine:&lt;/p&gt;
   &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hitcon{%s}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flag&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;if we execute the previous code, we will get the flag &lt;code class=&quot;highlighter-rouge&quot;&gt;hitcon{code_in_BuildID!}&lt;/code&gt;&lt;/p&gt;
 
 </description>
-        <pubDate>Fri, 03 Nov 2017 06:30:00 -0700</pubDate>
-        <link>http://localhost:4000/n4x0r.github.io//writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html</link>
-        <guid isPermaLink="true">http://localhost:4000/n4x0r.github.io//writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html</guid>
+        <pubDate>Fri, 03 Nov 2017 06:30:00 +0100</pubDate>
+        <link>http://localhost:4000/ulexec.github.io//writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html</link>
+        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io//writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html</guid>
         
         <category>reverse</category>
         
@@ -271,11 +771,10 @@ After stub if finally written, we end up in the following routine:&lt;/p&gt;
 
 &lt;p&gt;When I attempted to execute the file, I found out that it wil not execute. The reason for this is because the functions at the beginning of &lt;code class=&quot;highlighter-rouge&quot;&gt;main&lt;/code&gt; are in charge to avoid execution of the program. One can see things like:&lt;/p&gt;
 
-&lt;div class=&quot;language-nasm highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;	&lt;span class=&quot;k&quot;&gt;mov&lt;/span&gt;		&lt;span class=&quot;n&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;div class=&quot;language-nasm highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;	&lt;span class=&quot;k&quot;&gt;mov&lt;/span&gt;		&lt;span class=&quot;n&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
 	&lt;span class=&quot;k&quot;&gt;test&lt;/span&gt;		&lt;span class=&quot;n&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eax&lt;/span&gt;
 	&lt;span class=&quot;k&quot;&gt;jz&lt;/span&gt; 		&lt;span class=&quot;n&quot;&gt;_exit&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Anyways, at the time of the challenge I was too lazy to patch the binary to debug it, Also the idea of going trough every single block was overwhelming.
 I decided to follow my intuition and try some &lt;code class=&quot;highlighter-rouge&quot;&gt;symbolic execution magic&lt;/code&gt;.&lt;/p&gt;
@@ -294,7 +793,7 @@ I decided to follow my intuition and try some &lt;code class=&quot;highlighter-r
 
 &lt;p&gt;This being said and with a bit of vim magic I came up with the following python script:&lt;/p&gt;
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sys&lt;/span&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sys&lt;/span&gt;
 &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;angr&lt;/span&gt;
 &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;simuvex&lt;/span&gt;
 &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;claripy&lt;/span&gt;
@@ -754,14 +1253,13 @@ I decided to follow my intuition and try some &lt;code class=&quot;highlighter-r
 &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pg&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;found&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;state&lt;/span&gt;
 
 &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;flag&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;se&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;any_str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;memory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;frame_addr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;After running this script we will get the flag, which was: &lt;code class=&quot;highlighter-rouge&quot;&gt;Im_so_cute&amp;amp;pretty_:)&lt;/code&gt;&lt;/p&gt;
 </description>
-        <pubDate>Sat, 11 Feb 2017 20:30:00 -0800</pubDate>
-        <link>http://localhost:4000/n4x0r.github.io//writeup/2017/02/11/CodeGateCTF2017-Angrybird.html</link>
-        <guid isPermaLink="true">http://localhost:4000/n4x0r.github.io//writeup/2017/02/11/CodeGateCTF2017-Angrybird.html</guid>
+        <pubDate>Sat, 11 Feb 2017 20:30:00 +0100</pubDate>
+        <link>http://localhost:4000/ulexec.github.io//writeup/2017/02/11/CodeGateCTF2017-Angrybird.html</link>
+        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io//writeup/2017/02/11/CodeGateCTF2017-Angrybird.html</guid>
         
         <category>reverse</category>
         
@@ -780,12 +1278,11 @@ I decided to follow my intuition and try some &lt;code class=&quot;highlighter-r
 
 &lt;p&gt;The retrieved binary is called &lt;code class=&quot;highlighter-rouge&quot;&gt;move&lt;/code&gt;. if we run the &lt;code class=&quot;highlighter-rouge&quot;&gt;file&lt;/code&gt; command over it we find the following:&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;move: ELF 32-bit LSB executable, Intel 80386, version 1 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;GNU/Linux&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, statically linked, stripped
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;move: ELF 32-bit LSB executable, Intel 80386, version 1 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;GNU/Linux&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, statically linked, stripped
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;Even more interesting is when we see the binaries segments with &lt;code class=&quot;highlighter-rouge&quot;&gt;readelf -l move&lt;/code&gt;&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Elf file &lt;span class=&quot;nb&quot;&gt;type &lt;/span&gt;is EXEC &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;Executable file&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Elf file &lt;span class=&quot;nb&quot;&gt;type &lt;/span&gt;is EXEC &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;Executable file&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 Entry point 0xd906d0
 There are 2 program headers, starting at offset 52
 
@@ -793,8 +1290,7 @@ Program Headers:
   Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
   LOAD           0x000000 0x00c01000 0x00c01000 0x18fea1 0x18fea1 R E 0x1000
   LOAD           0x000300 0x0880b300 0x0880b300 0x00000 0x00000 RW  0x1000
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;The fact that the binary only contains two &lt;code class=&quot;highlighter-rouge&quot;&gt;LOAD&lt;/code&gt; segments suggest us that the binary is possibly packed.&lt;/p&gt;
 
@@ -806,20 +1302,19 @@ Program Headers:
 
 &lt;p&gt;If we run the &lt;code class=&quot;highlighter-rouge&quot;&gt;strings move | grep UPX&lt;/code&gt; command we will confirm this binary has been packed with &lt;code class=&quot;highlighter-rouge&quot;&gt;UPX&lt;/code&gt;:&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;9vUPX!
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;9vUPX!
 &lt;span class=&quot;nv&quot;&gt;$Info&lt;/span&gt;: This file is packed with the UPX executable packer http://upx.sf.net &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;
 &lt;span class=&quot;nv&quot;&gt;$Id&lt;/span&gt;: UPX 3.91 Copyright &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;C&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 1996-2013 the UPX Team. All Rights Reserved. &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;
 UPX!u
 UPX!
 UPX!
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Fortunately, &lt;code class=&quot;highlighter-rouge&quot;&gt;UPX&lt;/code&gt; also contains a flag for decompression. If we run the &lt;code class=&quot;highlighter-rouge&quot;&gt;upx -d move -o dem&lt;/code&gt; command it will decompress the &lt;code class=&quot;highlighter-rouge&quot;&gt;move&lt;/code&gt; binary and save a copy of the decompressed binary into disk with the name &lt;code class=&quot;highlighter-rouge&quot;&gt;dem&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;If we run &lt;code class=&quot;highlighter-rouge&quot;&gt;readelf -l dem&lt;/code&gt; command to see &lt;code class=&quot;highlighter-rouge&quot;&gt;dem's&lt;/code&gt; segments we see the following:&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Elf file &lt;span class=&quot;nb&quot;&gt;type &lt;/span&gt;is EXEC &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;Executable file&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Elf file &lt;span class=&quot;nb&quot;&gt;type &lt;/span&gt;is EXEC &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;Executable file&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 Entry point 0x804829c
 There are 6 program headers, starting at offset 52
 
@@ -841,15 +1336,13 @@ Program Headers:
    03     .dynamic .got.plt .data .bss 
    04     .dynamic 
    05     .dynamic 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;This looks more like what we are looking for. Now that we have a decompressed file is a good chance to see what the binary on execution looks like. When we execute the file we see the following:&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Guess a flag: AAAAAAA
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Guess a flag: AAAAAAA
 Wrong Flag!
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;Easy enough. Lets see how the binary looks like. When we open the &lt;code class=&quot;highlighter-rouge&quot;&gt;dem&lt;/code&gt; binary in &lt;code class=&quot;highlighter-rouge&quot;&gt;IDA&lt;/code&gt; we see the following:&lt;/p&gt;
 
 &lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/n4x0r/n4x0r.github.io/master/images/AlextCTF7/2.png&quot; /&gt;&lt;/div&gt;
@@ -896,7 +1389,7 @@ Both of these registers will then be loaded into the &lt;code class=&quot;highli
 
 &lt;p&gt;Running the following &lt;code class=&quot;highlighter-rouge&quot;&gt;IDA python&lt;/code&gt; sript will help us find exactly that:&lt;/p&gt;
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;idc&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;idc&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
 &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;idaapi&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
 
 &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;
@@ -910,14 +1403,13 @@ Both of these registers will then be loaded into the &lt;code class=&quot;highli
 &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;line&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
         &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GetOpnd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'R2'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
             &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;hex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GetDisasm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Make sure to extend the end of the main function down to the end of the &lt;code class=&quot;highlighter-rouge&quot;&gt;_text&lt;/code&gt; section. This is because &lt;code class=&quot;highlighter-rouge&quot;&gt;IDA&lt;/code&gt; fails on analyzing the entire main function. That address is &lt;code class=&quot;highlighter-rouge&quot;&gt;0x08060B38&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;The result of this script is the following:&lt;/p&gt;
 
-&lt;div class=&quot;language-nasm highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;mh&quot;&gt;0x80493dbL&lt;/span&gt; 	&lt;span class=&quot;k&quot;&gt;mov&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;R2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;41&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+&lt;div class=&quot;language-nasm highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;mh&quot;&gt;0x80493dbL&lt;/span&gt; 	&lt;span class=&quot;k&quot;&gt;mov&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;R2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;41&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
 &lt;span class=&quot;mh&quot;&gt;0x8049ddeL&lt;/span&gt; 	&lt;span class=&quot;k&quot;&gt;mov&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;R2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Ch&lt;/span&gt;
 &lt;span class=&quot;mh&quot;&gt;0x804a7e1L&lt;/span&gt; 	&lt;span class=&quot;k&quot;&gt;mov&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;R2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;45&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
 &lt;span class=&quot;mh&quot;&gt;0x804b1e4L&lt;/span&gt; 	&lt;span class=&quot;k&quot;&gt;mov&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;R2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;58&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
@@ -954,14 +1446,13 @@ Both of these registers will then be loaded into the &lt;code class=&quot;highli
 &lt;span class=&quot;mh&quot;&gt;0x805e541L&lt;/span&gt; 	&lt;span class=&quot;k&quot;&gt;mov&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;R2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;31&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
 &lt;span class=&quot;mh&quot;&gt;0x805ef44L&lt;/span&gt; 	&lt;span class=&quot;k&quot;&gt;mov&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;R2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;63&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
 &lt;span class=&quot;mh&quot;&gt;0x805f8ccL&lt;/span&gt; 	&lt;span class=&quot;k&quot;&gt;mov&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;R2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Dh&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;If we modify the script above to print the characters that are been stored into &lt;code class=&quot;highlighter-rouge&quot;&gt;R2&lt;/code&gt; we should get the flag.&lt;/p&gt;
 
 &lt;p&gt;final script is:&lt;/p&gt;
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;idc&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;idc&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
 &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;idaapi&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
 
 &lt;span class=&quot;n&quot;&gt;flag&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;''&lt;/span&gt;
@@ -978,14 +1469,13 @@ Both of these registers will then be loaded into the &lt;code class=&quot;highli
             &lt;span class=&quot;n&quot;&gt;flag&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;chr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetOpnd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
             
 &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flag&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;By Executing the previous script we will get the flag : &lt;code class=&quot;highlighter-rouge&quot;&gt;ALEXCTF{M0Vfusc4t0r_w0rk5_l1ke_m4g1c}&lt;/code&gt;&lt;/p&gt;
 </description>
-        <pubDate>Fri, 10 Feb 2017 20:30:00 -0800</pubDate>
-        <link>http://localhost:4000/n4x0r.github.io//writeup/2017/02/10/AlexCTF-PackedMovement.html</link>
-        <guid isPermaLink="true">http://localhost:4000/n4x0r.github.io//writeup/2017/02/10/AlexCTF-PackedMovement.html</guid>
+        <pubDate>Fri, 10 Feb 2017 20:30:00 +0100</pubDate>
+        <link>http://localhost:4000/ulexec.github.io//writeup/2017/02/10/AlexCTF-PackedMovement.html</link>
+        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io//writeup/2017/02/10/AlexCTF-PackedMovement.html</guid>
         
         <category>reverse</category>
         
@@ -1000,10 +1490,9 @@ Both of these registers will then be loaded into the &lt;code class=&quot;highli
         <title>SharifCTF7 - Nanomites</title>
         <description>&lt;p&gt;Nanomites was a Reverse engineering challenge of 300 point in SharifCTF7. The specification of this problem was the following:&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Analyze the given file. Find the C&amp;amp;C IP address and the data sent to it &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;plain text.
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Analyze the given file. Find the C&amp;amp;C IP address and the data sent to it &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;plain text.
 Flag &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; SharifCTF&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;md5&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;strcat&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;IP, Data&lt;span class=&quot;o&quot;&gt;))}&lt;/span&gt;_
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;For the ones that coud not attend the competition, You can download the challenge from &lt;a href=&quot;../files/Nanomites.exe&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;After running the command &lt;code class=&quot;highlighter-rouge&quot;&gt;file&lt;/code&gt; against the binary, I got the following output:&lt;/p&gt;
@@ -1041,7 +1530,7 @@ If we look above the call to &lt;code class=&quot;highlighter-rouge&quot;&gt;sen
 
 &lt;p&gt;For sake of simplicity we are not really going to explain the purpose of function 0x402c97 since I think this function is merely used for confusion purposes. Depending how well we do debugging it, this function will return a value of &lt;code class=&quot;highlighter-rouge&quot;&gt;34&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;22&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;0&lt;/code&gt; or instead redirect execution into an end_point of execution. Moreover, this function even though retrieves a different return value in &lt;code class=&quot;highlighter-rouge&quot;&gt;eax&lt;/code&gt; depending which path is executed, this return value is never actually used outside the context of itself. However it really doesnt matter what this function returns. The actual purpose of this function is to copy the contents of its 3rd argument to its 1st argument. Wheter this copy will be successfull will be determined by the value of the second argument. The following is a decompilation of this function:&lt;/p&gt;
 
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;signed&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;__cdecl&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;copy_cond&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;copy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;centinel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;payload&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;signed&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;__cdecl&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;copy_cond&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;copy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;centinel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;payload&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; 
   &lt;span class=&quot;n&quot;&gt;_DWORD&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; 
   &lt;span class=&quot;kt&quot;&gt;signed&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; 
@@ -1078,8 +1567,7 @@ If we look above the call to &lt;code class=&quot;highlighter-rouge&quot;&gt;sen
   &lt;span class=&quot;n&quot;&gt;trigger_exception&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Furthermore, something more interesting happens when we analyze the function at &lt;code class=&quot;highlighter-rouge&quot;&gt;0x401260&lt;/code&gt;. In this function, the function discussed above (&lt;code class=&quot;highlighter-rouge&quot;&gt;copy_cond&lt;/code&gt;) is called. Interesting enough, one of its arguments results some what familiar:&lt;/p&gt;
 
@@ -1092,7 +1580,7 @@ If we look above the call to &lt;code class=&quot;highlighter-rouge&quot;&gt;sen
 
 &lt;p&gt;The previous routine is xoring each byte of the buffer-copy of the encrypted payload against &lt;code class=&quot;highlighter-rouge&quot;&gt;70 (0x46)&lt;/code&gt;. Knowing this, I run the following python script:&lt;/p&gt;
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!usr/bin/env python&lt;/span&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!usr/bin/env python&lt;/span&gt;
 
 &lt;span class=&quot;n&quot;&gt;payload&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x2e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x2f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x35&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x19&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x0f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x35&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x19&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; \
             &lt;span class=&quot;mh&quot;&gt;0x12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x2e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x23&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x19&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x23&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x25&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x34&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; \
@@ -1100,8 +1588,7 @@ If we look above the call to &lt;code class=&quot;highlighter-rouge&quot;&gt;sen
 
 &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;chr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;^&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;70&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;payload&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;The output of this script is: &lt;code class=&quot;highlighter-rouge&quot;&gt;This_Is_The_Secret_Data&lt;/code&gt;.&lt;/p&gt;
 
@@ -1110,9 +1597,9 @@ If we look above the call to &lt;code class=&quot;highlighter-rouge&quot;&gt;sen
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SharifCTF{fb0e90f2ec7a701783e70e674fa94848}&lt;/code&gt;.&lt;/p&gt;
 
 </description>
-        <pubDate>Mon, 19 Dec 2016 20:30:00 -0800</pubDate>
-        <link>http://localhost:4000/n4x0r.github.io//writeup/2016/12/19/SharifCTF2016-Nanomites.html</link>
-        <guid isPermaLink="true">http://localhost:4000/n4x0r.github.io//writeup/2016/12/19/SharifCTF2016-Nanomites.html</guid>
+        <pubDate>Mon, 19 Dec 2016 20:30:00 +0100</pubDate>
+        <link>http://localhost:4000/ulexec.github.io//writeup/2016/12/19/SharifCTF2016-Nanomites.html</link>
+        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io//writeup/2016/12/19/SharifCTF2016-Nanomites.html</guid>
         
         <category>reverse</category>
         

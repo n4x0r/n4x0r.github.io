@@ -10,7 +10,7 @@
 	<title>SharifCTF7 - Nanomites</title>
 	
 	<!-- Bootstrap -->
-	<link rel="stylesheet" href="/n4x0r.github.io//css/bootstrap.min.css" >
+	<link rel="stylesheet" href="/ulexec.github.io//css/bootstrap.min.css" >
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
@@ -18,9 +18,9 @@
 	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 	
-	<link rel="stylesheet" href="/n4x0r.github.io//css/main.css">
-	<link rel="canonical" href="http://localhost:4000/n4x0r.github.io//writeup/2016/12/19/SharifCTF2016-Nanomites.html">
-	<link rel="alternate" type="application/rss+xml" title="N4x0r's Blog" href="http://localhost:4000/n4x0r.github.io//feed.xml">
+	<link rel="stylesheet" href="/ulexec.github.io//css/main.css">
+	<link rel="canonical" href="http://localhost:4000/ulexec.github.io//writeup/2016/12/19/SharifCTF2016-Nanomites.html">
+	<link rel="alternate" type="application/rss+xml" title="ulexec's blog" href="http://localhost:4000/ulexec.github.io//feed.xml">
 </head>
 	<body>
 
@@ -28,8 +28,33 @@
 	<div id="particles-js"></div>
 	<div id="top">
 			<div class="container">
-				<header class="container-fluid amnesia_site-header">
-	<img src="/n4x0r.github.io//images/naxor.png">
+				
+<style>
+.ascii-art {
+    font-family: courier;
+    white-space: pre;
+    color: #f7006f;
+     font-size: 0%;
+}
+.hex {
+    font-family: courier;
+    white-space: pre;
+    color: #f7006f;
+     font-size: 120%;
+}
+.name {
+    font-family: courier;
+    white-space: pre;
+    color: #00f7ef;
+     font-size: 120%;
+}
+</style>
+
+<header class="container-fluid amnesia_site-header">
+      <div class="ascii-art">
+          <img src="../images/bg.png" width="550" height="550">
+</div>	
+
 </header>
 
 				
@@ -40,31 +65,37 @@
 		
 		
 		<li role="presentation" class="">
-			<a href="/n4x0r.github.io//">Home</a>
+			<a href="/ulexec.github.io//">Home</a>
 		</li>
 		
 		
 		
 		<li role="presentation" class="">
-			<a href="/n4x0r.github.io//acerca/">About</a>
-		</li>
-		
-		
-		
-		<li role="presentation" class="">
-			<a href="/n4x0r.github.io//articles/">Articles</a>
+			<a href="/ulexec.github.io//malware/">Malware</a>
 		</li>
 		
 		
 		
 		<li role="presentation" class="active">
-			<a href="/n4x0r.github.io//writeups/">Writeups</a>
+			<a href="/ulexec.github.io//writeups/">CTF</a>
 		</li>
 		
 		
 		
 		<li role="presentation" class="">
-			<a href="/n4x0r.github.io//videos/">Videos</a>
+			<a href="/ulexec.github.io//videos/">Talks</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io//misc/">Misc</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io//cyber/">Cyber Warfare</a>
 		</li>
 		
 		
@@ -78,7 +109,7 @@
             <header class="post-header">
                 <h1 class="post-title" itemprop="name headline">SharifCTF7 - Nanomites</h1>
                 <p class="post-meta">
-                    <time datetime="2016-12-19T20:30:00-08:00" itemprop="datePublished">Dec 19,
+                    <time datetime="2016-12-19T20:30:00+01:00" itemprop="datePublished">Dec 19,
                         2016
                     </time>
                      • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span
@@ -89,10 +120,9 @@
             <div class="post-content" itemprop="articleBody">
                 <p>Nanomites was a Reverse engineering challenge of 300 point in SharifCTF7. The specification of this problem was the following:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>Analyze the given file. Find the C&amp;C IP address and the data sent to it <span class="k">in </span>plain text.
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Analyze the given file. Find the C&amp;C IP address and the data sent to it <span class="k">in </span>plain text.
 Flag <span class="o">=</span> SharifCTF<span class="o">{</span>md5<span class="o">(</span>strcat<span class="o">(</span>IP, Data<span class="o">))}</span>_
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>For the ones that coud not attend the competition, You can download the challenge from <a href="../files/Nanomites.exe">here</a>.</p>
 
 <p>After running the command <code class="highlighter-rouge">file</code> against the binary, I got the following output:</p>
@@ -130,7 +160,7 @@ If we look above the call to <code class="highlighter-rouge">send</code> we can 
 
 <p>For sake of simplicity we are not really going to explain the purpose of function 0x402c97 since I think this function is merely used for confusion purposes. Depending how well we do debugging it, this function will return a value of <code class="highlighter-rouge">34</code>, <code class="highlighter-rouge">22</code>, <code class="highlighter-rouge">0</code> or instead redirect execution into an end_point of execution. Moreover, this function even though retrieves a different return value in <code class="highlighter-rouge">eax</code> depending which path is executed, this return value is never actually used outside the context of itself. However it really doesnt matter what this function returns. The actual purpose of this function is to copy the contents of its 3rd argument to its 1st argument. Wheter this copy will be successfull will be determined by the value of the second argument. The following is a decompilation of this function:</p>
 
-<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">signed</span> <span class="kt">int</span> <span class="kr">__cdecl</span> <span class="nf">copy_cond</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">copy</span><span class="p">,</span> <span class="kt">int</span> <span class="n">centinel</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">payload</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">signed</span> <span class="kt">int</span> <span class="kr">__cdecl</span> <span class="nf">copy_cond</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">copy</span><span class="p">,</span> <span class="kt">int</span> <span class="n">centinel</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">payload</span><span class="p">)</span> <span class="p">{</span>
   <span class="kt">int</span> <span class="n">v3</span><span class="p">;</span> 
   <span class="n">_DWORD</span> <span class="o">*</span><span class="n">v4</span><span class="p">;</span> 
   <span class="kt">signed</span> <span class="kt">int</span> <span class="n">v5</span><span class="p">;</span> 
@@ -167,8 +197,7 @@ If we look above the call to <code class="highlighter-rouge">send</code> we can 
   <span class="n">trigger_exception</span><span class="p">();</span>
   <span class="k">return</span> <span class="n">v5</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Furthermore, something more interesting happens when we analyze the function at <code class="highlighter-rouge">0x401260</code>. In this function, the function discussed above (<code class="highlighter-rouge">copy_cond</code>) is called. Interesting enough, one of its arguments results some what familiar:</p>
 
@@ -181,7 +210,7 @@ If we look above the call to <code class="highlighter-rouge">send</code> we can 
 
 <p>The previous routine is xoring each byte of the buffer-copy of the encrypted payload against <code class="highlighter-rouge">70 (0x46)</code>. Knowing this, I run the following python script:</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c">#!usr/bin/env python</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!usr/bin/env python</span>
 
 <span class="n">payload</span> <span class="o">=</span> <span class="p">[</span> <span class="mh">0x12</span><span class="p">,</span> <span class="mh">0x2e</span><span class="p">,</span> <span class="mh">0x2f</span><span class="p">,</span> <span class="mh">0x35</span><span class="p">,</span> <span class="mh">0x19</span><span class="p">,</span> <span class="mh">0x0f</span><span class="p">,</span> <span class="mh">0x35</span><span class="p">,</span> <span class="mh">0x19</span><span class="p">,</span> \
             <span class="mh">0x12</span><span class="p">,</span> <span class="mh">0x2e</span><span class="p">,</span> <span class="mh">0x23</span><span class="p">,</span> <span class="mh">0x19</span><span class="p">,</span> <span class="mh">0x15</span><span class="p">,</span> <span class="mh">0x23</span><span class="p">,</span> <span class="mh">0x25</span><span class="p">,</span> <span class="mh">0x34</span><span class="p">,</span> \
@@ -189,8 +218,7 @@ If we look above the call to <code class="highlighter-rouge">send</code> we can 
 
 <span class="k">print</span> <span class="s">''</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">chr</span><span class="p">(</span><span class="n">i</span> <span class="o">^</span> <span class="mi">70</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">payload</span><span class="p">])</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The output of this script is: <code class="highlighter-rouge">This_Is_The_Secret_Data</code>.</p>
 
@@ -224,7 +252,7 @@ If we look above the call to <code class="highlighter-rouge">send</code> we can 
                 
                 
                 <li class="list-group-item">
-                    <a href="/n4x0r.github.io//writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html">Hitcon2017CTF - 家徒四壁~Everlast...</a>
+                    <a href="/ulexec.github.io//writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html">Hitcon2017CTF - 家徒四壁~Everlast...</a>
                         <span class="badge">
                             <time>03 Nov</time>
                         </span>
@@ -233,7 +261,7 @@ If we look above the call to <code class="highlighter-rouge">send</code> we can 
                 
                 
                 <li class="list-group-item">
-                    <a href="/n4x0r.github.io//writeup/2017/02/11/CodeGateCTF2017-Angrybird.html">CodeGateCTF - Angrybird</a>
+                    <a href="/ulexec.github.io//writeup/2017/02/11/CodeGateCTF2017-Angrybird.html">CodeGateCTF - Angrybird</a>
                         <span class="badge">
                             <time>11 Feb</time>
                         </span>
@@ -242,7 +270,7 @@ If we look above the call to <code class="highlighter-rouge">send</code> we can 
                 
                 
                 <li class="list-group-item">
-                    <a href="/n4x0r.github.io//writeup/2017/02/10/AlexCTF-PackedMovement.html">AlexCTF - PackedMovement</a>
+                    <a href="/ulexec.github.io//writeup/2017/02/10/AlexCTF-PackedMovement.html">AlexCTF - PackedMovement</a>
                         <span class="badge">
                             <time>10 Feb</time>
                         </span>
@@ -261,7 +289,7 @@ If we look above the call to <code class="highlighter-rouge">send</code> we can 
             <ul class="list-group archive-list" style="display: none;">
                 
                 <li class="list-group-item">
-                    <a href="/n4x0r.github.io//writeup/2016/12/19/SharifCTF2016-Nanomites.html">SharifCTF7 - Nanomites</a>
+                    <a href="/ulexec.github.io//writeup/2016/12/19/SharifCTF2016-Nanomites.html">SharifCTF7 - Nanomites</a>
                         <span class="badge">
                             <time>19 Dec</time>
                         </span>
@@ -285,18 +313,18 @@ If we look above the call to <code class="highlighter-rouge">send</code> we can 
         <div class="col-xs-6">
 
 			<span style="margin:20px">	
-				<a target="_blank" href="https://twitter.com/n4xor"><img style="max-height: 50px;"
-                                                                                               src="/n4x0r.github.io//images/twitter.svg"/></a>
+				<a target="_blank" href="https://twitter.com/ulexec"><img style="max-height: 50px;"
+                                                                                               src="/ulexec.github.io//images/twitter.svg"/></a>
 			</span>
 
             <span target="_blank" style="margin:20px">
-                    <a href="/n4x0r.github.io//feed.xml"><img style="max-height: 50px;"
-                                                                             src="/n4x0r.github.io//images/rss.svg"/></a>
+                    <a href="/ulexec.github.io//feed.xml"><img style="max-height: 50px;"
+                                                                             src="/ulexec.github.io//images/rss.svg"/></a>
             </span>
 
 			<span style="margin:20px">
-				<a target="_blank" href="https://telegram.me/n4x0r"><img
-                        style="max-height: 50px;" src="/n4x0r.github.io//images/telegram.svg"/></a>
+				<a target="_blank" href="https://telegram.me/ulexec"><img
+                        style="max-height: 50px;" src="/ulexec.github.io//images/telegram.svg"/></a>
 			</span>
 
         </div>
@@ -304,10 +332,10 @@ If we look above the call to <code class="highlighter-rouge">send</code> we can 
         <div class="col-xs-6">
             <blockquote>
                 <p>
-                    A Malware analysis and Exploitation Blog
+                    Reverse and Conquer
                 </p>
                 <p>
-                    <small>N4x0r's Blog</small>
+                    <small>ulexec's blog</small>
                 </p>
             </blockquote>
         </div>
@@ -318,11 +346,11 @@ If we look above the call to <code class="highlighter-rouge">send</code> we can 
 	</div>
 	</body>	
 		
-		<script src="/n4x0r.github.io//js/particles.js"></script>
-		<script src="/n4x0r.github.io//js/app.js"></script>
-		<script src="/n4x0r.github.io//js/jquery.min.js"></script>
-		<script src="/n4x0r.github.io//js/bootstrap.min.js"></script>
-		<script src="/n4x0r.github.io//js/scripts.js"></script>
+		<script src="/ulexec.github.io//js/particles.js"></script>
+		<script src="/ulexec.github.io//js/app.js"></script>
+		<script src="/ulexec.github.io//js/jquery.min.js"></script>
+		<script src="/ulexec.github.io//js/bootstrap.min.js"></script>
+		<script src="/ulexec.github.io//js/scripts.js"></script>
 
 
 </html>

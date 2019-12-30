@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="description" content="Installing a new kernel image is quite simple thanks to the buildroot utility.A number of steps must be followed:">
+
+	<title>Building Kernel debugging images with Buildroot</title>
+	
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="/ulexec.github.io//css/bootstrap.min.css" >
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	
+	<link rel="stylesheet" href="/ulexec.github.io//css/main.css">
+	<link rel="canonical" href="http://localhost:4000/ulexec.github.io//misc/2017/11/03/Building_Kernels_with_Buildroot.html">
+	<link rel="alternate" type="application/rss+xml" title="ulexec's blog" href="http://localhost:4000/ulexec.github.io//feed.xml">
+</head>
+	<body>
+
+
+	<div id="particles-js"></div>
+	<div id="top">
+			<div class="container">
+				
+<style>
+.ascii-art {
+    font-family: courier;
+    white-space: pre;
+    color: #f7006f;
+     font-size: 0%;
+}
+.hex {
+    font-family: courier;
+    white-space: pre;
+    color: #f7006f;
+     font-size: 120%;
+}
+.name {
+    font-family: courier;
+    white-space: pre;
+    color: #00f7ef;
+     font-size: 120%;
+}
+</style>
+
+<header class="container-fluid amnesia_site-header">
+      <div class="ascii-art">
+          <img src="../images/bg.png" width="550" height="550">
+</div>	
+
+</header>
+
+				
+				<nav class="container-fluid amnesia_site-navbar">
+	<ul class="nav nav-tabs">
+		
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io//">Home</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io//malware/">Malware</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="active">
+			<a href="/ulexec.github.io//writeups/">CTF</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io//videos/">Talks</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io//misc/">Misc</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io//cyber/">Cyber Warfare</a>
+		</li>
+		
+		
+	</ul>
+</nav>
+
+				<div class="row">
+    <div class="col-sm-8">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+            <header class="post-header">
+                <h1 class="post-title" itemprop="name headline">Building Kernel debugging images with Buildroot</h1>
+                <p class="post-meta">
+                    <time datetime="2017-11-03T06:30:00+01:00" itemprop="datePublished">Nov 3,
+                        2017
+                    </time>
+                     • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span
+                        itemprop="name">n4x0r</span></span>
+                </p>
+            </header>
+
+            <div class="post-content" itemprop="articleBody">
+                <p>Installing a new kernel image is quite simple thanks to the <code class="highlighter-rouge">buildroot</code> utility.
+A number of steps must be followed:</p>
+
+<h3>1 - Download latest Buildroot</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget http://buildroot.uclibc.org/downloads/buildroot-20XX.YY.tar.gz
+</code></pre></div></div>
+
+<h3>2 - Generate Buildroot preset config</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make qemu_x86_defconfig 	# EXAMPLE ARCH
+make menuconfig
+
+* Change the following for Kernel Debugging support:
+      * In Build options, toggle build packages with debugging symbols.
+      * In Toolchain, change linux version to desired one
+      * In Toolchain, change Custom kernel version headers to desired ones
+      * In Kernel, change Kernel version to desired one
+</code></pre></div></div>
+
+<h3>3 - Download Kernel source and configure it</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make linux-menuconfig
+
+* Change the following for Kernel Debugging support:
+
+      *	In Kernel hacking, toggle Kernel Debugging
+      * Under Kernel hacking in Compile-time checks and compiler options toggle
+		- Compile kernel with debug infopp
+		- Provide GDB sripts for kernel debugging`
+		- Compile kernel with frame pointers
+</code></pre></div></div>
+
+<h3>4 - Build your kernel</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make
+</code></pre></div></div>
+
+<h3>5 - Run Kernel</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Once you have covered all steps, The following files should have been created:
+
+* Kernel source code at output/build/linux-XXX
+* Compressed kernel image at output/images/bzImage
+* Root filesystem (rootfs) at output/images/rootfs.ext2
+* Raw kernel image at output/build/linux-XXX/vmlinux
+
+Done! all we got left is to execute the kernel image with qemu:
+
+qemu-system-xx  -kernel images/bzImage  	\
+		-hda images/rootfs.ext2 	\
+		-append "nokaslr root=/dev/sda rw" 	\
+		-s 				\
+		-S
+
+
+On another terminal execute gdb under the linux kernel directory:
+
+(gdb) add-auto-load-safe-path output/build/linux-4.9.6/scripts/gdb/vmlinux-gdb.py
+(gdb) file output/build/linux-XXX/vmlinux
+(gdb) target remote :1234
+(gdb) break init
+(gdb) c
+</code></pre></div></div>
+
+
+            </div>
+
+        </article>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>Writeups</strong>
+    </div>
+
+    <div class="panel-body">
+        
+        
+        
+        <div>
+            <h4 class="archive-title">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <a href="#">2017</a>
+            </h4>
+            <ul class="list-group archive-list" style="display: none;">
+                
+                
+                
+                <li class="list-group-item">
+                    <a href="/ulexec.github.io//writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html">Hitcon2017CTF - 家徒四壁~Everlast...</a>
+                        <span class="badge">
+                            <time>03 Nov</time>
+                        </span>
+                </li>
+                
+                
+                
+                <li class="list-group-item">
+                    <a href="/ulexec.github.io//writeup/2017/02/11/CodeGateCTF2017-Angrybird.html">CodeGateCTF - Angrybird</a>
+                        <span class="badge">
+                            <time>11 Feb</time>
+                        </span>
+                </li>
+                
+                
+                
+                <li class="list-group-item">
+                    <a href="/ulexec.github.io//writeup/2017/02/10/AlexCTF-PackedMovement.html">AlexCTF - PackedMovement</a>
+                        <span class="badge">
+                            <time>10 Feb</time>
+                        </span>
+                </li>
+                
+                
+                
+                
+            </ul>
+        </div>
+        <div>
+            <h4 class="archive-title">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <a href="#">2016</a>
+            </h4>
+            <ul class="list-group archive-list" style="display: none;">
+                
+                <li class="list-group-item">
+                    <a href="/ulexec.github.io//writeup/2016/12/19/SharifCTF2016-Nanomites.html">SharifCTF7 - Nanomites</a>
+                        <span class="badge">
+                            <time>19 Dec</time>
+                        </span>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+
+				<hr />
+				
+				<footer class="container-fluid amnesia_site-footer">
+    <div class="row">
+        <div class="col-xs-6">
+
+			<span style="margin:20px">	
+				<a target="_blank" href="https://twitter.com/ulexec"><img style="max-height: 50px;"
+                                                                                               src="/ulexec.github.io//images/twitter.svg"/></a>
+			</span>
+
+            <span target="_blank" style="margin:20px">
+                    <a href="/ulexec.github.io//feed.xml"><img style="max-height: 50px;"
+                                                                             src="/ulexec.github.io//images/rss.svg"/></a>
+            </span>
+
+			<span style="margin:20px">
+				<a target="_blank" href="https://telegram.me/ulexec"><img
+                        style="max-height: 50px;" src="/ulexec.github.io//images/telegram.svg"/></a>
+			</span>
+
+        </div>
+
+        <div class="col-xs-6">
+            <blockquote>
+                <p>
+                    Reverse and Conquer
+                </p>
+                <p>
+                    <small>ulexec's blog</small>
+                </p>
+            </blockquote>
+        </div>
+    </div>
+</footer>
+
+			</div>
+	</div>
+	</body>	
+		
+		<script src="/ulexec.github.io//js/particles.js"></script>
+		<script src="/ulexec.github.io//js/app.js"></script>
+		<script src="/ulexec.github.io//js/jquery.min.js"></script>
+		<script src="/ulexec.github.io//js/bootstrap.min.js"></script>
+		<script src="/ulexec.github.io//js/scripts.js"></script>
+
+
+</html>

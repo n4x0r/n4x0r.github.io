@@ -26,8 +26,6 @@ highlighter: rouge
 navigation:
 - text: Home
   url: /
-- text: About
-  url: /acerca/
 - text: Malware
   url: /malware/
 - text: CTF
@@ -37,6 +35,8 @@ navigation:
   url: /videos/
 - text: Misc
   url: /misc/
+- text: Cyber Warfare
+  url: /cyber/
 
 
 

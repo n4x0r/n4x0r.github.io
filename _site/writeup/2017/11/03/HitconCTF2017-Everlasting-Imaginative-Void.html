@@ -10,7 +10,7 @@
 	<title>Hitcon2017CTF - 家徒四壁~Everlasting Imaginative Void~</title>
 	
 	<!-- Bootstrap -->
-	<link rel="stylesheet" href="/n4x0r.github.io//css/bootstrap.min.css" >
+	<link rel="stylesheet" href="/ulexec.github.io//css/bootstrap.min.css" >
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
@@ -18,9 +18,9 @@
 	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 	
-	<link rel="stylesheet" href="/n4x0r.github.io//css/main.css">
-	<link rel="canonical" href="http://localhost:4000/n4x0r.github.io//writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html">
-	<link rel="alternate" type="application/rss+xml" title="N4x0r's Blog" href="http://localhost:4000/n4x0r.github.io//feed.xml">
+	<link rel="stylesheet" href="/ulexec.github.io//css/main.css">
+	<link rel="canonical" href="http://localhost:4000/ulexec.github.io//writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html">
+	<link rel="alternate" type="application/rss+xml" title="ulexec's blog" href="http://localhost:4000/ulexec.github.io//feed.xml">
 </head>
 	<body>
 
@@ -28,8 +28,33 @@
 	<div id="particles-js"></div>
 	<div id="top">
 			<div class="container">
-				<header class="container-fluid amnesia_site-header">
-	<img src="/n4x0r.github.io//images/naxor.png">
+				
+<style>
+.ascii-art {
+    font-family: courier;
+    white-space: pre;
+    color: #f7006f;
+     font-size: 0%;
+}
+.hex {
+    font-family: courier;
+    white-space: pre;
+    color: #f7006f;
+     font-size: 120%;
+}
+.name {
+    font-family: courier;
+    white-space: pre;
+    color: #00f7ef;
+     font-size: 120%;
+}
+</style>
+
+<header class="container-fluid amnesia_site-header">
+      <div class="ascii-art">
+          <img src="../images/bg.png" width="550" height="550">
+</div>	
+
 </header>
 
 				
@@ -40,31 +65,37 @@
 		
 		
 		<li role="presentation" class="">
-			<a href="/n4x0r.github.io//">Home</a>
+			<a href="/ulexec.github.io//">Home</a>
 		</li>
 		
 		
 		
 		<li role="presentation" class="">
-			<a href="/n4x0r.github.io//acerca/">About</a>
-		</li>
-		
-		
-		
-		<li role="presentation" class="">
-			<a href="/n4x0r.github.io//articles/">Articles</a>
+			<a href="/ulexec.github.io//malware/">Malware</a>
 		</li>
 		
 		
 		
 		<li role="presentation" class="active">
-			<a href="/n4x0r.github.io//writeups/">Writeups</a>
+			<a href="/ulexec.github.io//writeups/">CTF</a>
 		</li>
 		
 		
 		
 		<li role="presentation" class="">
-			<a href="/n4x0r.github.io//videos/">Videos</a>
+			<a href="/ulexec.github.io//videos/">Talks</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io//misc/">Misc</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io//cyber/">Cyber Warfare</a>
 		</li>
 		
 		
@@ -78,7 +109,7 @@
             <header class="post-header">
                 <h1 class="post-title" itemprop="name headline">Hitcon2017CTF - 家徒四壁~Everlasting Imaginative Void~</h1>
                 <p class="post-meta">
-                    <time datetime="2017-11-03T06:30:00-07:00" itemprop="datePublished">Nov 3,
+                    <time datetime="2017-11-03T06:30:00+01:00" itemprop="datePublished">Nov 3,
                         2017
                     </time>
                      • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span
@@ -95,18 +126,16 @@ The challenge description was the following:</p>
 <p>Not much information.
 Executing a <code class="highlighter-rouge">file</code> command, we get the following information:</p>
 
-<div class="language-perl highlighter-rouge"><pre class="highlight"><code><span class="nv">n4x0r@pwn1e</span><span class="o">~</span><span class="nv">$</span> <span class="nv">file</span> <span class="nv">void</span><span class="o">-</span><span class="mi">1</span><span class="nv">b63cbab5d58da4294c2f97d6b60f568</span> 
+<div class="language-perl highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">n4x0r@pwn1e</span><span class="o">~</span><span class="nv">$</span> <span class="nv">file</span> <span class="nv">void</span><span class="o">-</span><span class="mi">1</span><span class="nv">b63cbab5d58da4294c2f97d6b60f568</span> 
 <span class="nv">void</span><span class="o">-</span><span class="mi">1</span><span class="nv">b63cbab5d58da4294c2f97d6b60f568:</span> <span class="nv">ELF</span> <span class="mi">64</span><span class="o">-</span><span class="nv">bit</span> <span class="nv">LSB</span> <span class="nv">shared</span> <span class="nv">object</span><span class="p">,</span> <span class="nv">x86</span><span class="o">-</span><span class="mi">64</span><span class="p">,</span> <span class="nv">version</span> <span class="mi">1</span> <span class="p">(</span><span class="nv">SYSV</span><span class="p">),</span> <span class="nv">dynamically</span> <span class="nv">linked</span><span class="p">,</span> <span class="nv">interpreter</span> <span class="sr">/lib64/</span><span class="nv">ld</span><span class="o">-</span><span class="nv">linux</span><span class="o">-</span><span class="nv">x86</span><span class="o">-</span><span class="mi">64</span><span class="o">.</span><span class="nv">so</span><span class="mf">.2</span><span class="p">,</span> <span class="k">for</span> <span class="nv">GNU</span><span class="o">/</span><span class="nv">Linux</span> <span class="mf">2.6.32</span><span class="p">,</span> <span class="nv">BuildID</span><span class="p">[</span><span class="nv">sha1</span><span class="p">]</span><span class="o">=</span><span class="mi">5</span><span class="nv">f8a87150720003c217508ffd74883c715ffe7c3</span><span class="p">,</span> <span class="nv">stripped</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>If we execute the file we see the following:</p>
 
-<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="n">n4x0r</span><span class="err">@</span><span class="n">pwn1e</span><span class="o">~</span><span class="err">$</span> <span class="p">.</span><span class="o">/</span><span class="kt">void</span><span class="o">-</span><span class="mi">1</span><span class="n">b63cbab5d58da4294c2f97d6b60f568</span>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">n4x0r</span><span class="err">@</span><span class="n">pwn1e</span><span class="o">~</span><span class="err">$</span> <span class="p">.</span><span class="o">/</span><span class="kt">void</span><span class="o">-</span><span class="mi">1</span><span class="n">b63cbab5d58da4294c2f97d6b60f568</span>
 <span class="n">blabla</span>
 <span class="n">hitcon</span><span class="p">{</span><span class="n">blabla</span><span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Ok, Lets dig inside and see what we can find.
 Surprisingly, the main function of the application was just the following:</p>
@@ -131,16 +160,15 @@ In my mind I thought about two potential possibilities:</p>
 
 <p>The reason why there is not pivoting into PLT[0] for each PLT entry in <code class="highlighter-rouge">.plt.got</code> is because binary was linked with immediate binding as previously mentioned. Therefore, there is no need to jump back to resolver since all GOT entries will be resolved at load time.</p>
 
-<p>We can see the binary has been linked with immediate binding by looking at the <code class="highlighter-rouge">DYNAMIC</code> segment <code class="highlighter-rouge">FLAGS</code> entry:
-<code class="highlighter-rouge">c
-0x000000000000001e (FLAGS)              BIND_NOW
-</code></p>
+<p>We can see the binary has been linked with immediate binding by looking at the <code class="highlighter-rouge">DYNAMIC</code> segment <code class="highlighter-rouge">FLAGS</code> entry:</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mh">0x000000000000001e</span> <span class="p">(</span><span class="n">FLAGS</span><span class="p">)</span>              <span class="n">BIND_NOW</span>
+</code></pre></div></div>
 
 <p>Therefore, GOT/PLT hooks are discartded at this point.
 The other technique that we have left is the Constructors/Destructors pointer injection.
 This technique is based on injecting an additional pointer to the <code class="highlighter-rouge">.init_array</code>, <code class="highlighter-rouge">.fini_array</code> sections for constructors and destructors respectively.</p>
 
-<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="n">Nr</span><span class="p">]</span> <span class="n">Name</span>              <span class="n">Type</span>             <span class="n">Address</span>           <span class="n">Offset</span>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="n">Nr</span><span class="p">]</span> <span class="n">Name</span>              <span class="n">Type</span>             <span class="n">Address</span>           <span class="n">Offset</span>
        <span class="n">Size</span>              <span class="n">EntSize</span>          <span class="n">Flags</span>  <span class="n">Link</span>  <span class="n">Info</span>  <span class="n">Align</span>
 
  <span class="p">...</span>
@@ -149,19 +177,17 @@ This technique is based on injecting an additional pointer to the <code class="h
        <span class="mo">000000000000000</span><span class="mi">8</span>  <span class="mo">000000000000000</span><span class="mi">8</span>  <span class="n">WA</span>       <span class="mi">0</span>     <span class="mi">0</span>     <span class="mi">8</span>
 <span class="p">[</span><span class="mi">19</span><span class="p">]</span> <span class="p">.</span><span class="n">fini_array</span>       <span class="n">FINI_ARRAY</span>       <span class="mo">0000000000200</span><span class="n">dd0</span>  <span class="mo">00000</span><span class="n">dd0</span>
        <span class="mo">000000000000000</span><span class="mi">8</span>  <span class="mo">000000000000000</span><span class="mi">8</span>  <span class="n">WA</span>       <span class="mi">0</span>     <span class="mi">0</span>     <span class="mi">8</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>We can see that the correspondent sizes of those sections seem to be correct. However, once one gets to know the purpose of sections and segments and the loading process of ELF files, one realizes that sections are complete rubish from an analysis standpoint. Section information can be easily crafted and they may not resemble the reality of the binary’s layout. In addition, sections are only needed at compile time, but not at runtime. For runtime we have segments.</p>
 
 <p>If we take a look at the binary’s <code class="highlighter-rouge">DYNAMIC</code> segment, it tell us a different story:</p>
 
-<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="mh">0x0000000000000019</span> <span class="p">(</span><span class="n">INIT_ARRAY</span><span class="p">)</span>         <span class="mh">0x200dc8</span>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mh">0x0000000000000019</span> <span class="p">(</span><span class="n">INIT_ARRAY</span><span class="p">)</span>         <span class="mh">0x200dc8</span>
 <span class="mh">0x000000000000001b</span> <span class="p">(</span><span class="n">INIT_ARRAYSZ</span><span class="p">)</span>       <span class="mi">8</span> <span class="p">(</span><span class="n">bytes</span><span class="p">)</span>
 <span class="mh">0x000000000000001a</span> <span class="p">(</span><span class="n">FINI_ARRAY</span><span class="p">)</span>         <span class="mh">0x200dd0</span>
 <span class="mh">0x000000000000001c</span> <span class="p">(</span><span class="n">FINI_ARRAYSZ</span><span class="p">)</span>       <span class="mi">16</span> <span class="p">(</span><span class="n">bytes</span><span class="p">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>We can clearly see, that <code class="highlighter-rouge">FINI_ARRAYSZ</code> is 1 pointer size bigger than what <code class="highlighter-rouge">.fini_array</code> section stated. Therefore, binary has corrupted control flow by destructor pointer injection.</p>
 
@@ -208,13 +234,23 @@ After stub if finally written, we end up in the following routine:</p>
 
 <div style="text-align:center"><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/9.png" /></div>
 
-<p>In this routine, 10 rounds of aes encription are performed using the Intel’s processors AES instruction set. A nice refresher of these instructions can be found <a href="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/Use_of_the_AES_Instruction_Set.pdf">here</a>. At the end of the 10 rounds, this routine checks ciphertext with input from <code class="highlighter-rouge">scanf</code>. if check holds, the program will print <code class="highlighter-rouge">Good!</code> string by jumping to the sycall gate previously shown (the mprotect one), changing its arguments so that it executes a write instead of mprotect syscall.</p>
+<p>In this routine, 10 rounds of aes encription are performed using the Intel’s processors AES instruction set. A nice refresher of these instructions can be found <a href="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/Use_of_the_AES_Instruction_Set.pdf">here</a>. At the end of the 10 rounds, the computed ciphertext from our input gets compared against a hardcoded ciphertext. This comparison is done with the instruction <code class="highlighter-rouge">ucomisd</code>. If check holds, the program will print <code class="highlighter-rouge">Good!</code> string by jumping to the sycall gate previously shown (the mprotect one), changing its arguments so that it executes a write instead of mprotect syscall.</p>
 
-<p>Something important to note about this aes routine, is that round-keys are actually hardcoded at adreses pointed by <code class="highlighter-rouge">rsi</code> (at the beginning of routine), so round keys can be restored and perform the <code class="highlighter-rouge">Inverse Mix Column</code> transformation in order to use them for decription. In order to do this we can user the <code class="highlighter-rouge">aesimc</code> instruction (note that aesimc should not be used either with the first or last round key). Furthermore, final ciphertext can also be aquired by just getting the result of the <code class="highlighter-rouge">xmm1</code> register after <code class="highlighter-rouge">aesenclast</code> instruction at the end of the 10 rounds.</p>
+<p>Something funny about this challenge is that the <code class="highlighter-rouge">ucomisd</code> instruction only compares the lower part of xmm registers. That is, the lowest 64 bits. Is quite obvious that the developer made an implementation mistake by using this instruction to compare the encription result. Just for the sake of curiosity, I have researched which instructions should have been used. One solution could have been the following</p>
 
-<p>The following code replicates the decription routine:</p>
+<div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">psubd</span>  <span class="n">xmm0</span><span class="p">,</span> <span class="n">xmm1</span>	    
+<span class="n">ptest</span>  <span class="n">xmm0</span><span class="p">,</span> <span class="n">xmm0</span>       
+<span class="k">jz</span>     <span class="n">_same</span>     
+</code></pre></div></div>
 
-<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+<p>Furthermore, something important to note about this aes routine, is that round-keys are actually hardcoded at addresses pointed by <code class="highlighter-rouge">rsi</code> (at the beginning of routine), so round keys can be restored to perform the <code class="highlighter-rouge">Inverse Mix Column</code> transformation in order to use them for decription. In order to do this we can use the <code class="highlighter-rouge">aesimc</code> instruction (note that aesimc should not be used on the first and last round key). Furthermore, original ciphertext can also be aquired by just getting the result of the <code class="highlighter-rouge">xmm0</code> register after <code class="highlighter-rouge">aesenclast</code> instruction at the end of the 10 rounds, since it will get compared against the computed ciphertext derived from our input in <code class="highlighter-rouge">xmm1</code>.</p>
+
+<div style="text-align:center"><img src="https://github.com/n4x0r/n4x0r.github.io/raw/master/images/HitconCTF7/10.png" /></div>
+
+<p>Having the inversed key rounds and the original ciphertext, we can reconstruct the decription routine.
+The following code replicates the decription routine:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
 #include &lt;string.h&gt;
 #include &lt;stdint.h&gt;
 #include &lt;stdlib.h&gt;
@@ -306,8 +342,7 @@ After stub if finally written, we end up in the following routine:</p>
   <span class="n">printf</span><span class="p">(</span><span class="s">"hitcon{%s}</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">flag</span><span class="p">);</span>
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>if we execute the previous code, we will get the flag <code class="highlighter-rouge">hitcon{code_in_BuildID!}</code></p>
 
@@ -337,7 +372,7 @@ After stub if finally written, we end up in the following routine:</p>
                 
                 
                 <li class="list-group-item">
-                    <a href="/n4x0r.github.io//writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html">Hitcon2017CTF - 家徒四壁~Everlast...</a>
+                    <a href="/ulexec.github.io//writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html">Hitcon2017CTF - 家徒四壁~Everlast...</a>
                         <span class="badge">
                             <time>03 Nov</time>
                         </span>
@@ -346,7 +381,7 @@ After stub if finally written, we end up in the following routine:</p>
                 
                 
                 <li class="list-group-item">
-                    <a href="/n4x0r.github.io//writeup/2017/02/11/CodeGateCTF2017-Angrybird.html">CodeGateCTF - Angrybird</a>
+                    <a href="/ulexec.github.io//writeup/2017/02/11/CodeGateCTF2017-Angrybird.html">CodeGateCTF - Angrybird</a>
                         <span class="badge">
                             <time>11 Feb</time>
                         </span>
@@ -355,7 +390,7 @@ After stub if finally written, we end up in the following routine:</p>
                 
                 
                 <li class="list-group-item">
-                    <a href="/n4x0r.github.io//writeup/2017/02/10/AlexCTF-PackedMovement.html">AlexCTF - PackedMovement</a>
+                    <a href="/ulexec.github.io//writeup/2017/02/10/AlexCTF-PackedMovement.html">AlexCTF - PackedMovement</a>
                         <span class="badge">
                             <time>10 Feb</time>
                         </span>
@@ -374,7 +409,7 @@ After stub if finally written, we end up in the following routine:</p>
             <ul class="list-group archive-list" style="display: none;">
                 
                 <li class="list-group-item">
-                    <a href="/n4x0r.github.io//writeup/2016/12/19/SharifCTF2016-Nanomites.html">SharifCTF7 - Nanomites</a>
+                    <a href="/ulexec.github.io//writeup/2016/12/19/SharifCTF2016-Nanomites.html">SharifCTF7 - Nanomites</a>
                         <span class="badge">
                             <time>19 Dec</time>
                         </span>
@@ -398,18 +433,18 @@ After stub if finally written, we end up in the following routine:</p>
         <div class="col-xs-6">
 
 			<span style="margin:20px">	
-				<a target="_blank" href="https://twitter.com/n4xor"><img style="max-height: 50px;"
-                                                                                               src="/n4x0r.github.io//images/twitter.svg"/></a>
+				<a target="_blank" href="https://twitter.com/ulexec"><img style="max-height: 50px;"
+                                                                                               src="/ulexec.github.io//images/twitter.svg"/></a>
 			</span>
 
             <span target="_blank" style="margin:20px">
-                    <a href="/n4x0r.github.io//feed.xml"><img style="max-height: 50px;"
-                                                                             src="/n4x0r.github.io//images/rss.svg"/></a>
+                    <a href="/ulexec.github.io//feed.xml"><img style="max-height: 50px;"
+                                                                             src="/ulexec.github.io//images/rss.svg"/></a>
             </span>
 
 			<span style="margin:20px">
-				<a target="_blank" href="https://telegram.me/n4x0r"><img
-                        style="max-height: 50px;" src="/n4x0r.github.io//images/telegram.svg"/></a>
+				<a target="_blank" href="https://telegram.me/ulexec"><img
+                        style="max-height: 50px;" src="/ulexec.github.io//images/telegram.svg"/></a>
 			</span>
 
         </div>
@@ -417,10 +452,10 @@ After stub if finally written, we end up in the following routine:</p>
         <div class="col-xs-6">
             <blockquote>
                 <p>
-                    A Malware analysis and Exploitation Blog
+                    Reverse and Conquer
                 </p>
                 <p>
-                    <small>N4x0r's Blog</small>
+                    <small>ulexec's blog</small>
                 </p>
             </blockquote>
         </div>
@@ -431,11 +466,11 @@ After stub if finally written, we end up in the following routine:</p>
 	</div>
 	</body>	
 		
-		<script src="/n4x0r.github.io//js/particles.js"></script>
-		<script src="/n4x0r.github.io//js/app.js"></script>
-		<script src="/n4x0r.github.io//js/jquery.min.js"></script>
-		<script src="/n4x0r.github.io//js/bootstrap.min.js"></script>
-		<script src="/n4x0r.github.io//js/scripts.js"></script>
+		<script src="/ulexec.github.io//js/particles.js"></script>
+		<script src="/ulexec.github.io//js/app.js"></script>
+		<script src="/ulexec.github.io//js/jquery.min.js"></script>
+		<script src="/ulexec.github.io//js/bootstrap.min.js"></script>
+		<script src="/ulexec.github.io//js/scripts.js"></script>
 
 
 </html>

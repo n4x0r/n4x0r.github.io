@@ -10,7 +10,7 @@
 	<title>CodeGateCTF - Angrybird</title>
 	
 	<!-- Bootstrap -->
-	<link rel="stylesheet" href="/n4x0r.github.io//css/bootstrap.min.css" >
+	<link rel="stylesheet" href="/ulexec.github.io//css/bootstrap.min.css" >
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
@@ -18,9 +18,9 @@
 	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 	
-	<link rel="stylesheet" href="/n4x0r.github.io//css/main.css">
-	<link rel="canonical" href="http://localhost:4000/n4x0r.github.io//writeup/2017/02/11/CodeGateCTF2017-Angrybird.html">
-	<link rel="alternate" type="application/rss+xml" title="N4x0r's Blog" href="http://localhost:4000/n4x0r.github.io//feed.xml">
+	<link rel="stylesheet" href="/ulexec.github.io//css/main.css">
+	<link rel="canonical" href="http://localhost:4000/ulexec.github.io//writeup/2017/02/11/CodeGateCTF2017-Angrybird.html">
+	<link rel="alternate" type="application/rss+xml" title="ulexec's blog" href="http://localhost:4000/ulexec.github.io//feed.xml">
 </head>
 	<body>
 
@@ -28,8 +28,33 @@
 	<div id="particles-js"></div>
 	<div id="top">
 			<div class="container">
-				<header class="container-fluid amnesia_site-header">
-	<img src="/n4x0r.github.io//images/naxor.png">
+				
+<style>
+.ascii-art {
+    font-family: courier;
+    white-space: pre;
+    color: #f7006f;
+     font-size: 0%;
+}
+.hex {
+    font-family: courier;
+    white-space: pre;
+    color: #f7006f;
+     font-size: 120%;
+}
+.name {
+    font-family: courier;
+    white-space: pre;
+    color: #00f7ef;
+     font-size: 120%;
+}
+</style>
+
+<header class="container-fluid amnesia_site-header">
+      <div class="ascii-art">
+          <img src="../images/bg.png" width="550" height="550">
+</div>	
+
 </header>
 
 				
@@ -40,31 +65,37 @@
 		
 		
 		<li role="presentation" class="">
-			<a href="/n4x0r.github.io//">Home</a>
+			<a href="/ulexec.github.io//">Home</a>
 		</li>
 		
 		
 		
 		<li role="presentation" class="">
-			<a href="/n4x0r.github.io//acerca/">About</a>
-		</li>
-		
-		
-		
-		<li role="presentation" class="">
-			<a href="/n4x0r.github.io//articles/">Articles</a>
+			<a href="/ulexec.github.io//malware/">Malware</a>
 		</li>
 		
 		
 		
 		<li role="presentation" class="active">
-			<a href="/n4x0r.github.io//writeups/">Writeups</a>
+			<a href="/ulexec.github.io//writeups/">CTF</a>
 		</li>
 		
 		
 		
 		<li role="presentation" class="">
-			<a href="/n4x0r.github.io//videos/">Videos</a>
+			<a href="/ulexec.github.io//videos/">Talks</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io//misc/">Misc</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io//cyber/">Cyber Warfare</a>
 		</li>
 		
 		
@@ -78,7 +109,7 @@
             <header class="post-header">
                 <h1 class="post-title" itemprop="name headline">CodeGateCTF - Angrybird</h1>
                 <p class="post-meta">
-                    <time datetime="2017-02-11T20:30:00-08:00" itemprop="datePublished">Feb 11,
+                    <time datetime="2017-02-11T20:30:00+01:00" itemprop="datePublished">Feb 11,
                         2017
                     </time>
                      • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span
@@ -107,11 +138,10 @@
 
 <p>When I attempted to execute the file, I found out that it wil not execute. The reason for this is because the functions at the beginning of <code class="highlighter-rouge">main</code> are in charge to avoid execution of the program. One can see things like:</p>
 
-<div class="language-nasm highlighter-rouge"><pre class="highlight"><code>	<span class="k">mov</span>		<span class="n">eax</span><span class="p">,</span> <span class="mi">0</span>
+<div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">mov</span>		<span class="n">eax</span><span class="p">,</span> <span class="mi">0</span>
 	<span class="k">test</span>		<span class="n">eax</span><span class="p">,</span> <span class="n">eax</span>
 	<span class="k">jz</span> 		<span class="n">_exit</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Anyways, at the time of the challenge I was too lazy to patch the binary to debug it, Also the idea of going trough every single block was overwhelming.
 I decided to follow my intuition and try some <code class="highlighter-rouge">symbolic execution magic</code>.</p>
@@ -130,7 +160,7 @@ I decided to follow my intuition and try some <code class="highlighter-rouge">sy
 
 <p>This being said and with a bit of vim magic I came up with the following python script:</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">angr</span>
 <span class="kn">import</span> <span class="nn">simuvex</span>
 <span class="kn">import</span> <span class="nn">claripy</span>
@@ -590,8 +620,7 @@ I decided to follow my intuition and try some <code class="highlighter-rouge">sy
 <span class="n">s</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">found</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">state</span>
 
 <span class="k">print</span> <span class="s">"flag"</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">se</span><span class="o">.</span><span class="n">any_str</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">frame_addr</span><span class="o">-</span><span class="mh">0x50</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>After running this script we will get the flag, which was: <code class="highlighter-rouge">Im_so_cute&amp;pretty_:)</code></p>
 
@@ -620,7 +649,7 @@ I decided to follow my intuition and try some <code class="highlighter-rouge">sy
                 
                 
                 <li class="list-group-item">
-                    <a href="/n4x0r.github.io//writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html">Hitcon2017CTF - 家徒四壁~Everlast...</a>
+                    <a href="/ulexec.github.io//writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html">Hitcon2017CTF - 家徒四壁~Everlast...</a>
                         <span class="badge">
                             <time>03 Nov</time>
                         </span>
@@ -629,7 +658,7 @@ I decided to follow my intuition and try some <code class="highlighter-rouge">sy
                 
                 
                 <li class="list-group-item">
-                    <a href="/n4x0r.github.io//writeup/2017/02/11/CodeGateCTF2017-Angrybird.html">CodeGateCTF - Angrybird</a>
+                    <a href="/ulexec.github.io//writeup/2017/02/11/CodeGateCTF2017-Angrybird.html">CodeGateCTF - Angrybird</a>
                         <span class="badge">
                             <time>11 Feb</time>
                         </span>
@@ -638,7 +667,7 @@ I decided to follow my intuition and try some <code class="highlighter-rouge">sy
                 
                 
                 <li class="list-group-item">
-                    <a href="/n4x0r.github.io//writeup/2017/02/10/AlexCTF-PackedMovement.html">AlexCTF - PackedMovement</a>
+                    <a href="/ulexec.github.io//writeup/2017/02/10/AlexCTF-PackedMovement.html">AlexCTF - PackedMovement</a>
                         <span class="badge">
                             <time>10 Feb</time>
                         </span>
@@ -657,7 +686,7 @@ I decided to follow my intuition and try some <code class="highlighter-rouge">sy
             <ul class="list-group archive-list" style="display: none;">
                 
                 <li class="list-group-item">
-                    <a href="/n4x0r.github.io//writeup/2016/12/19/SharifCTF2016-Nanomites.html">SharifCTF7 - Nanomites</a>
+                    <a href="/ulexec.github.io//writeup/2016/12/19/SharifCTF2016-Nanomites.html">SharifCTF7 - Nanomites</a>
                         <span class="badge">
                             <time>19 Dec</time>
                         </span>
@@ -681,18 +710,18 @@ I decided to follow my intuition and try some <code class="highlighter-rouge">sy
         <div class="col-xs-6">
 
 			<span style="margin:20px">	
-				<a target="_blank" href="https://twitter.com/n4xor"><img style="max-height: 50px;"
-                                                                                               src="/n4x0r.github.io//images/twitter.svg"/></a>
+				<a target="_blank" href="https://twitter.com/ulexec"><img style="max-height: 50px;"
+                                                                                               src="/ulexec.github.io//images/twitter.svg"/></a>
 			</span>
 
             <span target="_blank" style="margin:20px">
-                    <a href="/n4x0r.github.io//feed.xml"><img style="max-height: 50px;"
-                                                                             src="/n4x0r.github.io//images/rss.svg"/></a>
+                    <a href="/ulexec.github.io//feed.xml"><img style="max-height: 50px;"
+                                                                             src="/ulexec.github.io//images/rss.svg"/></a>
             </span>
 
 			<span style="margin:20px">
-				<a target="_blank" href="https://telegram.me/n4x0r"><img
-                        style="max-height: 50px;" src="/n4x0r.github.io//images/telegram.svg"/></a>
+				<a target="_blank" href="https://telegram.me/ulexec"><img
+                        style="max-height: 50px;" src="/ulexec.github.io//images/telegram.svg"/></a>
 			</span>
 
         </div>
@@ -700,10 +729,10 @@ I decided to follow my intuition and try some <code class="highlighter-rouge">sy
         <div class="col-xs-6">
             <blockquote>
                 <p>
-                    A Malware analysis and Exploitation Blog
+                    Reverse and Conquer
                 </p>
                 <p>
-                    <small>N4x0r's Blog</small>
+                    <small>ulexec's blog</small>
                 </p>
             </blockquote>
         </div>
@@ -714,11 +743,11 @@ I decided to follow my intuition and try some <code class="highlighter-rouge">sy
 	</div>
 	</body>	
 		
-		<script src="/n4x0r.github.io//js/particles.js"></script>
-		<script src="/n4x0r.github.io//js/app.js"></script>
-		<script src="/n4x0r.github.io//js/jquery.min.js"></script>
-		<script src="/n4x0r.github.io//js/bootstrap.min.js"></script>
-		<script src="/n4x0r.github.io//js/scripts.js"></script>
+		<script src="/ulexec.github.io//js/particles.js"></script>
+		<script src="/ulexec.github.io//js/app.js"></script>
+		<script src="/ulexec.github.io//js/jquery.min.js"></script>
+		<script src="/ulexec.github.io//js/bootstrap.min.js"></script>
+		<script src="/ulexec.github.io//js/scripts.js"></script>
 
 
 </html>

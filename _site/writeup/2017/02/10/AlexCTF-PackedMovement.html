@@ -10,7 +10,7 @@
 	<title>AlexCTF - PackedMovement</title>
 	
 	<!-- Bootstrap -->
-	<link rel="stylesheet" href="/n4x0r.github.io//css/bootstrap.min.css" >
+	<link rel="stylesheet" href="/ulexec.github.io//css/bootstrap.min.css" >
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
@@ -18,9 +18,9 @@
 	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 	
-	<link rel="stylesheet" href="/n4x0r.github.io//css/main.css">
-	<link rel="canonical" href="http://localhost:4000/n4x0r.github.io//writeup/2017/02/10/AlexCTF-PackedMovement.html">
-	<link rel="alternate" type="application/rss+xml" title="N4x0r's Blog" href="http://localhost:4000/n4x0r.github.io//feed.xml">
+	<link rel="stylesheet" href="/ulexec.github.io//css/main.css">
+	<link rel="canonical" href="http://localhost:4000/ulexec.github.io//writeup/2017/02/10/AlexCTF-PackedMovement.html">
+	<link rel="alternate" type="application/rss+xml" title="ulexec's blog" href="http://localhost:4000/ulexec.github.io//feed.xml">
 </head>
 	<body>
 
@@ -28,8 +28,33 @@
 	<div id="particles-js"></div>
 	<div id="top">
 			<div class="container">
-				<header class="container-fluid amnesia_site-header">
-	<img src="/n4x0r.github.io//images/naxor.png">
+				
+<style>
+.ascii-art {
+    font-family: courier;
+    white-space: pre;
+    color: #f7006f;
+     font-size: 0%;
+}
+.hex {
+    font-family: courier;
+    white-space: pre;
+    color: #f7006f;
+     font-size: 120%;
+}
+.name {
+    font-family: courier;
+    white-space: pre;
+    color: #00f7ef;
+     font-size: 120%;
+}
+</style>
+
+<header class="container-fluid amnesia_site-header">
+      <div class="ascii-art">
+          <img src="../images/bg.png" width="550" height="550">
+</div>	
+
 </header>
 
 				
@@ -40,31 +65,37 @@
 		
 		
 		<li role="presentation" class="">
-			<a href="/n4x0r.github.io//">Home</a>
+			<a href="/ulexec.github.io//">Home</a>
 		</li>
 		
 		
 		
 		<li role="presentation" class="">
-			<a href="/n4x0r.github.io//acerca/">About</a>
-		</li>
-		
-		
-		
-		<li role="presentation" class="">
-			<a href="/n4x0r.github.io//articles/">Articles</a>
+			<a href="/ulexec.github.io//malware/">Malware</a>
 		</li>
 		
 		
 		
 		<li role="presentation" class="active">
-			<a href="/n4x0r.github.io//writeups/">Writeups</a>
+			<a href="/ulexec.github.io//writeups/">CTF</a>
 		</li>
 		
 		
 		
 		<li role="presentation" class="">
-			<a href="/n4x0r.github.io//videos/">Videos</a>
+			<a href="/ulexec.github.io//videos/">Talks</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io//misc/">Misc</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io//cyber/">Cyber Warfare</a>
 		</li>
 		
 		
@@ -78,7 +109,7 @@
             <header class="post-header">
                 <h1 class="post-title" itemprop="name headline">AlexCTF - PackedMovement</h1>
                 <p class="post-meta">
-                    <time datetime="2017-02-10T20:30:00-08:00" itemprop="datePublished">Feb 10,
+                    <time datetime="2017-02-10T20:30:00+01:00" itemprop="datePublished">Feb 10,
                         2017
                     </time>
                      • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span
@@ -93,12 +124,11 @@
 
 <p>The retrieved binary is called <code class="highlighter-rouge">move</code>. if we run the <code class="highlighter-rouge">file</code> command over it we find the following:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>move: ELF 32-bit LSB executable, Intel 80386, version 1 <span class="o">(</span>GNU/Linux<span class="o">)</span>, statically linked, stripped
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>move: ELF 32-bit LSB executable, Intel 80386, version 1 <span class="o">(</span>GNU/Linux<span class="o">)</span>, statically linked, stripped
+</code></pre></div></div>
 <p>Even more interesting is when we see the binaries segments with <code class="highlighter-rouge">readelf -l move</code></p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>Elf file <span class="nb">type </span>is EXEC <span class="o">(</span>Executable file<span class="o">)</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Elf file <span class="nb">type </span>is EXEC <span class="o">(</span>Executable file<span class="o">)</span>
 Entry point 0xd906d0
 There are 2 program headers, starting at offset 52
 
@@ -106,8 +136,7 @@ Program Headers:
   Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
   LOAD           0x000000 0x00c01000 0x00c01000 0x18fea1 0x18fea1 R E 0x1000
   LOAD           0x000300 0x0880b300 0x0880b300 0x00000 0x00000 RW  0x1000
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The fact that the binary only contains two <code class="highlighter-rouge">LOAD</code> segments suggest us that the binary is possibly packed.</p>
 
@@ -119,20 +148,19 @@ Program Headers:
 
 <p>If we run the <code class="highlighter-rouge">strings move | grep UPX</code> command we will confirm this binary has been packed with <code class="highlighter-rouge">UPX</code>:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>9vUPX!
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>9vUPX!
 <span class="nv">$Info</span>: This file is packed with the UPX executable packer http://upx.sf.net <span class="err">$</span>
 <span class="nv">$Id</span>: UPX 3.91 Copyright <span class="o">(</span>C<span class="o">)</span> 1996-2013 the UPX Team. All Rights Reserved. <span class="err">$</span>
 UPX!u
 UPX!
 UPX!
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Fortunately, <code class="highlighter-rouge">UPX</code> also contains a flag for decompression. If we run the <code class="highlighter-rouge">upx -d move -o dem</code> command it will decompress the <code class="highlighter-rouge">move</code> binary and save a copy of the decompressed binary into disk with the name <code class="highlighter-rouge">dem</code></p>
 
 <p>If we run <code class="highlighter-rouge">readelf -l dem</code> command to see <code class="highlighter-rouge">dem's</code> segments we see the following:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>Elf file <span class="nb">type </span>is EXEC <span class="o">(</span>Executable file<span class="o">)</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Elf file <span class="nb">type </span>is EXEC <span class="o">(</span>Executable file<span class="o">)</span>
 Entry point 0x804829c
 There are 6 program headers, starting at offset 52
 
@@ -154,15 +182,13 @@ Program Headers:
    03     .dynamic .got.plt .data .bss 
    04     .dynamic 
    05     .dynamic 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This looks more like what we are looking for. Now that we have a decompressed file is a good chance to see what the binary on execution looks like. When we execute the file we see the following:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>Guess a flag: AAAAAAA
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Guess a flag: AAAAAAA
 Wrong Flag!
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>Easy enough. Lets see how the binary looks like. When we open the <code class="highlighter-rouge">dem</code> binary in <code class="highlighter-rouge">IDA</code> we see the following:</p>
 
 <div style="text-align:center"><img src="https://raw.githubusercontent.com/n4x0r/n4x0r.github.io/master/images/AlextCTF7/2.png" /></div>
@@ -209,7 +235,7 @@ Both of these registers will then be loaded into the <code class="highlighter-ro
 
 <p>Running the following <code class="highlighter-rouge">IDA python</code> sript will help us find exactly that:</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">idc</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">idc</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">idaapi</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">main</span> <span class="o">=</span> <span class="bp">None</span>
@@ -223,14 +249,13 @@ Both of these registers will then be loaded into the <code class="highlighter-ro
 <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">code</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">GetOpnd</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="s">'R2'</span><span class="p">:</span>
             <span class="k">print</span> <span class="nb">hex</span><span class="p">(</span><span class="n">line</span><span class="p">),</span> <span class="s">"</span><span class="se">\t</span><span class="s">"</span><span class="p">,</span> <span class="n">GetDisasm</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Make sure to extend the end of the main function down to the end of the <code class="highlighter-rouge">_text</code> section. This is because <code class="highlighter-rouge">IDA</code> fails on analyzing the entire main function. That address is <code class="highlighter-rouge">0x08060B38</code>.</p>
 
 <p>The result of this script is the following:</p>
 
-<div class="language-nasm highlighter-rouge"><pre class="highlight"><code><span class="mh">0x80493dbL</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">41</span><span class="n">h</span>
+<div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mh">0x80493dbL</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">41</span><span class="n">h</span>
 <span class="mh">0x8049ddeL</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">4</span><span class="n">Ch</span>
 <span class="mh">0x804a7e1L</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">45</span><span class="n">h</span>
 <span class="mh">0x804b1e4L</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">58</span><span class="n">h</span>
@@ -267,14 +292,13 @@ Both of these registers will then be loaded into the <code class="highlighter-ro
 <span class="mh">0x805e541L</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">31</span><span class="n">h</span>
 <span class="mh">0x805ef44L</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">63</span><span class="n">h</span>
 <span class="mh">0x805f8ccL</span> 	<span class="k">mov</span>     <span class="n">R2</span><span class="p">,</span> <span class="mi">7</span><span class="n">Dh</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>If we modify the script above to print the characters that are been stored into <code class="highlighter-rouge">R2</code> we should get the flag.</p>
 
 <p>final script is:</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">idc</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">idc</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">idaapi</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">flag</span> <span class="o">=</span> <span class="s">''</span>
@@ -291,8 +315,7 @@ Both of these registers will then be loaded into the <code class="highlighter-ro
             <span class="n">flag</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">GetOpnd</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">16</span><span class="p">))</span>
             
 <span class="k">print</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">,</span> <span class="n">flag</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>By Executing the previous script we will get the flag : <code class="highlighter-rouge">ALEXCTF{M0Vfusc4t0r_w0rk5_l1ke_m4g1c}</code></p>
 
@@ -321,7 +344,7 @@ Both of these registers will then be loaded into the <code class="highlighter-ro
                 
                 
                 <li class="list-group-item">
-                    <a href="/n4x0r.github.io//writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html">Hitcon2017CTF - 家徒四壁~Everlast...</a>
+                    <a href="/ulexec.github.io//writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html">Hitcon2017CTF - 家徒四壁~Everlast...</a>
                         <span class="badge">
                             <time>03 Nov</time>
                         </span>
@@ -330,7 +353,7 @@ Both of these registers will then be loaded into the <code class="highlighter-ro
                 
                 
                 <li class="list-group-item">
-                    <a href="/n4x0r.github.io//writeup/2017/02/11/CodeGateCTF2017-Angrybird.html">CodeGateCTF - Angrybird</a>
+                    <a href="/ulexec.github.io//writeup/2017/02/11/CodeGateCTF2017-Angrybird.html">CodeGateCTF - Angrybird</a>
                         <span class="badge">
                             <time>11 Feb</time>
                         </span>
@@ -339,7 +362,7 @@ Both of these registers will then be loaded into the <code class="highlighter-ro
                 
                 
                 <li class="list-group-item">
-                    <a href="/n4x0r.github.io//writeup/2017/02/10/AlexCTF-PackedMovement.html">AlexCTF - PackedMovement</a>
+                    <a href="/ulexec.github.io//writeup/2017/02/10/AlexCTF-PackedMovement.html">AlexCTF - PackedMovement</a>
                         <span class="badge">
                             <time>10 Feb</time>
                         </span>
@@ -358,7 +381,7 @@ Both of these registers will then be loaded into the <code class="highlighter-ro
             <ul class="list-group archive-list" style="display: none;">
                 
                 <li class="list-group-item">
-                    <a href="/n4x0r.github.io//writeup/2016/12/19/SharifCTF2016-Nanomites.html">SharifCTF7 - Nanomites</a>
+                    <a href="/ulexec.github.io//writeup/2016/12/19/SharifCTF2016-Nanomites.html">SharifCTF7 - Nanomites</a>
                         <span class="badge">
                             <time>19 Dec</time>
                         </span>
@@ -382,18 +405,18 @@ Both of these registers will then be loaded into the <code class="highlighter-ro
         <div class="col-xs-6">
 
 			<span style="margin:20px">	
-				<a target="_blank" href="https://twitter.com/n4xor"><img style="max-height: 50px;"
-                                                                                               src="/n4x0r.github.io//images/twitter.svg"/></a>
+				<a target="_blank" href="https://twitter.com/ulexec"><img style="max-height: 50px;"
+                                                                                               src="/ulexec.github.io//images/twitter.svg"/></a>
 			</span>
 
             <span target="_blank" style="margin:20px">
-                    <a href="/n4x0r.github.io//feed.xml"><img style="max-height: 50px;"
-                                                                             src="/n4x0r.github.io//images/rss.svg"/></a>
+                    <a href="/ulexec.github.io//feed.xml"><img style="max-height: 50px;"
+                                                                             src="/ulexec.github.io//images/rss.svg"/></a>
             </span>
 
 			<span style="margin:20px">
-				<a target="_blank" href="https://telegram.me/n4x0r"><img
-                        style="max-height: 50px;" src="/n4x0r.github.io//images/telegram.svg"/></a>
+				<a target="_blank" href="https://telegram.me/ulexec"><img
+                        style="max-height: 50px;" src="/ulexec.github.io//images/telegram.svg"/></a>
 			</span>
 
         </div>
@@ -401,10 +424,10 @@ Both of these registers will then be loaded into the <code class="highlighter-ro
         <div class="col-xs-6">
             <blockquote>
                 <p>
-                    A Malware analysis and Exploitation Blog
+                    Reverse and Conquer
                 </p>
                 <p>
-                    <small>N4x0r's Blog</small>
+                    <small>ulexec's blog</small>
                 </p>
             </blockquote>
         </div>
@@ -415,11 +438,11 @@ Both of these registers will then be loaded into the <code class="highlighter-ro
 	</div>
 	</body>	
 		
-		<script src="/n4x0r.github.io//js/particles.js"></script>
-		<script src="/n4x0r.github.io//js/app.js"></script>
-		<script src="/n4x0r.github.io//js/jquery.min.js"></script>
-		<script src="/n4x0r.github.io//js/bootstrap.min.js"></script>
-		<script src="/n4x0r.github.io//js/scripts.js"></script>
+		<script src="/ulexec.github.io//js/particles.js"></script>
+		<script src="/ulexec.github.io//js/app.js"></script>
+		<script src="/ulexec.github.io//js/jquery.min.js"></script>
+		<script src="/ulexec.github.io//js/bootstrap.min.js"></script>
+		<script src="/ulexec.github.io//js/scripts.js"></script>
 
 
 </html>

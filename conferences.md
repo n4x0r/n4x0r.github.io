@@ -22,3 +22,15 @@ permalink: /videos/
 </div>
 <br/>
 <br/>
+<br/>
+<br/>
+<h2> - Virus Bulletin 2018 Exploring The Chinese DDoS Ecosystem </h2>
+<h4>During this presentation, Intezer researcher Nacho Sanmillan will provide an overview of the Chinese DDoS landscape and discuss the current state of ChinaZ, a threat actor group notorious for targeting Windows and Linux systems with botnets since November 2014. He will also provide context into Nitol, a malware family with alleged Chinese origins and a prominent player in the DDoS ecosystem. Nacho will present the various methods employed to discover ChinaZ and Nitol's servers and analyse code reuse relationships with groups such as MrBlack and Iron Tiger APT.</h4>
+<br/>
+<br/>
+<div align="middle">	
+<iframe width="806" height="453" src="https://www.youtube.com/embed/Pj9Zt6C2ong" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
+<br/>
+<br/>
