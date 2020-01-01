@@ -35,8 +35,8 @@ navigation:
   url: /videos/
 - text: Misc
   url: /misc/
-- text: Cyber Warfare
-  url: /cyber/
+- text: CTI
+  url: /cti/
 
 
 
