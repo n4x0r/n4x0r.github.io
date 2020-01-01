@@ -1,6 +1,6 @@
 ---
 layout: equipo
-permalink: /cyber/
+permalink: /cti/
 ---
 <div class="row">
     <div class="col-sm-8">
