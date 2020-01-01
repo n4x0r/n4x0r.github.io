@@ -5,8 +5,8 @@
     <description>Reverse and Conquer</description>
     <link>http://localhost:4000/ulexec.github.io//</link>
     <atom:link href="http://localhost:4000/ulexec.github.io//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 01 Jan 2020 20:00:55 +0100</pubDate>
-    <lastBuildDate>Wed, 01 Jan 2020 20:00:55 +0100</lastBuildDate>
+    <pubDate>Wed, 01 Jan 2020 21:01:50 +0100</pubDate>
+    <lastBuildDate>Wed, 01 Jan 2020 21:01:50 +0100</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
     
       <item>
@@ -38,7 +38,7 @@
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;teams&quot;&gt;&lt;strong&gt;Teams&lt;/strong&gt;&lt;/h2&gt;
-&lt;p&gt;Cyber Warfare is not really about computers, is more about people and information. Cyber operations are operated via private and public sector companies, with managers, salaries budget etc, etc …&lt;/p&gt;
+&lt;p&gt;Cyber Warfare is not really about computers, is more about people and information. Cyber operations are operated via private and public sector companies, with managers, salaries, budget etc, etc …&lt;/p&gt;
 
 &lt;p&gt;Is important to understand that based on these environments, burocracy is a major factor which enables the capacity of cyber operations in a number of different ways. Burocracy enables teams to work at maximum capacity making it fundamental for any type of cyber operation.&lt;/p&gt;
 
@@ -47,13 +47,13 @@
 &lt;h3 id=&quot;factors-of-team-capacity&quot;&gt;&lt;strong&gt;Factors of Team Capacity&lt;/strong&gt;&lt;/h3&gt;
 &lt;ul&gt;
   &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;Addaptability&lt;/strong&gt; - How well a team can adapt to external events.&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;Addaptability&lt;/strong&gt; - How well a team can adapt newer technologies to be utilized and aligned with an ultimate outcome on cyber conflict.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;Agility&lt;/strong&gt; - How rapid a team can change goals.&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;Agility&lt;/strong&gt; - How rapid a team can change an operational approach to achieve a common goal.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;Speed&lt;/strong&gt; - How fast a team can leverage an idea from an execution.&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;Speed&lt;/strong&gt; - How fast a team can leverage an idea from an execution. Usually a measure of burocracy flexibility.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;&lt;strong&gt;Creativity&lt;/strong&gt; - How well a team comes up with newer innovative techniques.&lt;/p&gt;
@@ -63,10 +63,14 @@
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;The previous factors serve as a good standard to measure a given team’s efficiency. Likely important is to know that there are a series of standard strategies to organise teams dedicated to conduct cyber operations. The following shows this strategies as Dave Aitel’s (former NSA cyber-operative) Meta operational team structures:&lt;/p&gt;
+&lt;p&gt;The previous factors serve as a good standard to measure a given team’s efficiency. Likely important is to know that there are a series of standard strategies to organise teams dedicated to conduct cyber operations. The following table shows these strategies also known as Dave Aitel’s (former NSA cyber-operative) Meta - operational team structures:&lt;/p&gt;
 
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://github.com/ulexec/ulexec.github.io/raw/master/images/dave_aitel_meta.png&quot; /&gt;&lt;/div&gt;
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Knowing this information will help interpreting the capabilities and the reasons behind the team structures and rate of success or failure of the various cyber operations of the 
+following states.&lt;/p&gt;
 
 &lt;p&gt;&lt;br /&gt;
 &lt;br /&gt;&lt;/p&gt;

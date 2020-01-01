@@ -27,28 +27,31 @@ Based on these intersections we can build a high level theoritical overview of t
 <br/>
 
 ## **Teams**  
-Cyber Warfare is not really about computers, is more about people and information. Cyber operations are operated via private and public sector companies, with managers, salaries budget etc, etc ...
+Cyber Warfare is not really about computers, is more about people and information. Cyber operations are operated via private and public sector companies, with managers, salaries, budget etc, etc ...
 
 Is important to understand that based on these environments, burocracy is a major factor which enables the capacity of cyber operations in a number of different ways. Burocracy enables teams to work at maximum capacity making it fundamental for any type of cyber operation. 
 
 Based on burocracy we can meassure the efficiency of a team's capacity on a series of characteristics. We can call these characteristics the Factors of Team Capacity.
 
 ### **Factors of Team Capacity**  
-* **Addaptability** - How well a team can adapt to external events.
+* **Addaptability** - How well a team can adapt newer technologies to be utilized and aligned with an ultimate outcome on cyber conflict.
 
-* **Agility** - How rapid a team can change goals.
+* **Agility** - How rapid a team can change an operational approach to achieve a common goal.
 
-* **Speed** - How fast a team can leverage an idea from an execution.
+* **Speed** - How fast a team can leverage an idea from an execution. Usually a measure of burocracy flexibility.
 
 * **Creativity** - How well a team comes up with newer innovative techniques.
 
 * **Cohesion** - How well a team works together individually and collectivelly with other teams and how good they follow the executive order.
 
-The previous factors serve as a good standard to measure a given team's efficiency. Likely important is to know that there are a series of standard strategies to organise teams dedicated to conduct cyber operations. The following shows this strategies as Dave Aitel's (former NSA cyber-operative) Meta operational team structures: 
+The previous factors serve as a good standard to measure a given team's efficiency. Likely important is to know that there are a series of standard strategies to organise teams dedicated to conduct cyber operations. The following table shows these strategies also known as Dave Aitel's (former NSA cyber-operative) Meta - operational team structures: 
 
+<br/>
 <div style="text-align:center"><img src ="https://github.com/ulexec/ulexec.github.io/raw/master/images/dave_aitel_meta.png" /></div>
 <br/>
 
+Knowing this information will help interpreting the capabilities and the reasons behind the team structures and rate of success or failure of the various cyber operations of the 
+following states.
 
 <br/>
 <br/>
