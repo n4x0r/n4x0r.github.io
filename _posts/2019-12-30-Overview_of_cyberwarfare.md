@@ -34,7 +34,7 @@ Is important to understand that based on these environments, burocracy is a majo
 Based on burocracy we can meassure the efficiency of a team's capacity on a series of characteristics. We can call these characteristics the Factors of Team Capacity.
 
 ### **Factors of Team Capacity**  
-* **Addaptability** - How well a team can adapt newer technologies to be utilized and aligned with an ultimate outcome on cyber conflict.
+* **Addaptability** - How well a team can adapt new technologies to be utilized as part of the team's toolset on cyber conflict.
 
 * **Agility** - How rapid a team can change an operational approach to achieve a common goal.
 
