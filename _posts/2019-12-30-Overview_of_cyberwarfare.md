@@ -128,7 +128,7 @@ The following are some population, political and economic statistics about the T
 
 *   [SVR](https://themoscowproject.org/explainers/russias-three-intelligence-agencies-explained/) - The SVR, like the FSB, is considered a successor to the Soviet-era KGB and is perhaps the Russian intelligence agency with the lowest profile. Headed by Sergey Naryshkin, the SVR is the civilian counterpart to the GRU, and the two agencies are similar in their responsibilities. Like the GRU, the SVR handles external intelligence gathering and operates human intelligence officers, both under diplomatic cover and as covert officers. More generally, it focuses on collecting intelligence, conducting espionage, implementing active measures, and performing electronic surveillance in foreign countries.
 
-It's immportant to highlight that these Agencies are in constant state of rivalry. 
+It's important to highlight that these Agencies are in constant state of rivalry. 
 
 *'These agencies have been Historically compeating. Stalin was terrified that there was going to be a political cue run by the KGB while in times of the Soviet Union, so he made a Military Intelligence Agency (GRU) with the idea to make these agencies compete to prevent the formation of a political cue run by the Intelligence Community that would take over.'* - The Grugq (paraphrased).
 
