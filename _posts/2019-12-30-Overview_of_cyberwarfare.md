@@ -12,7 +12,7 @@ This article is meant to be a brief reference of the different states involved i
 <br/>
 
 ## **Foundation**  
-Is important to interpret Cyber Warfare as the fifth War dimension. Is important to recognise this and the ways these dimensions intersects with reality. Cyber intersects with reality in four different ways. These are the following:
+Is important to interpret Cyber Warfare as the fifth War dimension, and to recognise the ways this dimension intersects with reality. Cyber intersects with reality in four different ways. These are the following:
 
 * **Active** - Direct way of manipulatinig target's information - eg: Unit8200 was fighting with the PLO. They broke into the computers were the PL0 processed all the finances and they transfered money around to make it appear as if there was deep corruption. This strategy worked because there was a degree of real corruption. So this operation spiked the corruption awareness of the [PLO](https://www.ft.com/content/1b870488-7940-11d9-89c5-00000e2511c8). This caused a degree of degradation of capability within the PLO. 
 
