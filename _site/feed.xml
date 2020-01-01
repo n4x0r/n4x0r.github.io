@@ -3,10 +3,10 @@
   <channel>
     <title>ulexec's blog</title>
     <description>Reverse and Conquer</description>
-    <link>http://localhost:4000/ulexec.github.io//</link>
-    <atom:link href="http://localhost:4000/ulexec.github.io//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 01 Jan 2020 21:26:30 +0100</pubDate>
-    <lastBuildDate>Wed, 01 Jan 2020 21:26:30 +0100</lastBuildDate>
+    <link>http://localhost:4000/ulexec.github.io/</link>
+    <atom:link href="http://localhost:4000/ulexec.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Wed, 01 Jan 2020 21:35:38 +0100</pubDate>
+    <lastBuildDate>Wed, 01 Jan 2020 21:35:38 +0100</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
     
       <item>
@@ -399,8 +399,8 @@ The following are some population, political and economic statistics about the T
 
 </description>
         <pubDate>Mon, 30 Dec 2019 06:30:00 +0100</pubDate>
-        <link>http://localhost:4000/ulexec.github.io//cyber/2019/12/30/Overview_of_cyberwarfare.html</link>
-        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io//cyber/2019/12/30/Overview_of_cyberwarfare.html</guid>
+        <link>http://localhost:4000/ulexec.github.io/cyber/2019/12/30/Overview_of_cyberwarfare.html</link>
+        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io/cyber/2019/12/30/Overview_of_cyberwarfare.html</guid>
         
         <category>cyber</category>
         
@@ -806,8 +806,8 @@ Thanks for reading and I hope you learned something useful from this post!.&lt;/
 
 </description>
         <pubDate>Fri, 17 Nov 2017 06:30:00 +0100</pubDate>
-        <link>http://localhost:4000/ulexec.github.io//article/2017/11/17/UnPacking_a_Linux_Tsunami_Sample.html</link>
-        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io//article/2017/11/17/UnPacking_a_Linux_Tsunami_Sample.html</guid>
+        <link>http://localhost:4000/ulexec.github.io/article/2017/11/17/UnPacking_a_Linux_Tsunami_Sample.html</link>
+        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io/article/2017/11/17/UnPacking_a_Linux_Tsunami_Sample.html</guid>
         
         <category>reverse</category>
         
@@ -891,8 +891,8 @@ On another terminal execute gdb under the linux kernel directory:
 
 </description>
         <pubDate>Fri, 03 Nov 2017 06:30:00 +0100</pubDate>
-        <link>http://localhost:4000/ulexec.github.io//misc/2017/11/03/Building_Kernels_with_Buildroot.html</link>
-        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io//misc/2017/11/03/Building_Kernels_with_Buildroot.html</guid>
+        <link>http://localhost:4000/ulexec.github.io/misc/2017/11/03/Building_Kernels_with_Buildroot.html</link>
+        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io/misc/2017/11/03/Building_Kernels_with_Buildroot.html</guid>
         
         <category>Kernel</category>
         
@@ -1137,8 +1137,8 @@ The following code replicates the decription routine:&lt;/p&gt;
 
 </description>
         <pubDate>Fri, 03 Nov 2017 06:30:00 +0100</pubDate>
-        <link>http://localhost:4000/ulexec.github.io//writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html</link>
-        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io//writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html</guid>
+        <link>http://localhost:4000/ulexec.github.io/writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html</link>
+        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io/writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html</guid>
         
         <category>reverse</category>
         
@@ -1658,8 +1658,8 @@ I decided to follow my intuition and try some &lt;code class=&quot;highlighter-r
 &lt;p&gt;After running this script we will get the flag, which was: &lt;code class=&quot;highlighter-rouge&quot;&gt;Im_so_cute&amp;amp;pretty_:)&lt;/code&gt;&lt;/p&gt;
 </description>
         <pubDate>Sat, 11 Feb 2017 20:30:00 +0100</pubDate>
-        <link>http://localhost:4000/ulexec.github.io//writeup/2017/02/11/CodeGateCTF2017-Angrybird.html</link>
-        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io//writeup/2017/02/11/CodeGateCTF2017-Angrybird.html</guid>
+        <link>http://localhost:4000/ulexec.github.io/writeup/2017/02/11/CodeGateCTF2017-Angrybird.html</link>
+        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io/writeup/2017/02/11/CodeGateCTF2017-Angrybird.html</guid>
         
         <category>reverse</category>
         
@@ -1874,8 +1874,8 @@ Both of these registers will then be loaded into the &lt;code class=&quot;highli
 &lt;p&gt;By Executing the previous script we will get the flag : &lt;code class=&quot;highlighter-rouge&quot;&gt;ALEXCTF{M0Vfusc4t0r_w0rk5_l1ke_m4g1c}&lt;/code&gt;&lt;/p&gt;
 </description>
         <pubDate>Fri, 10 Feb 2017 20:30:00 +0100</pubDate>
-        <link>http://localhost:4000/ulexec.github.io//writeup/2017/02/10/AlexCTF-PackedMovement.html</link>
-        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io//writeup/2017/02/10/AlexCTF-PackedMovement.html</guid>
+        <link>http://localhost:4000/ulexec.github.io/writeup/2017/02/10/AlexCTF-PackedMovement.html</link>
+        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io/writeup/2017/02/10/AlexCTF-PackedMovement.html</guid>
         
         <category>reverse</category>
         
@@ -1998,8 +1998,8 @@ If we look above the call to &lt;code class=&quot;highlighter-rouge&quot;&gt;sen
 
 </description>
         <pubDate>Mon, 19 Dec 2016 20:30:00 +0100</pubDate>
-        <link>http://localhost:4000/ulexec.github.io//writeup/2016/12/19/SharifCTF2016-Nanomites.html</link>
-        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io//writeup/2016/12/19/SharifCTF2016-Nanomites.html</guid>
+        <link>http://localhost:4000/ulexec.github.io/writeup/2016/12/19/SharifCTF2016-Nanomites.html</link>
+        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io/writeup/2016/12/19/SharifCTF2016-Nanomites.html</guid>
         
         <category>reverse</category>
         

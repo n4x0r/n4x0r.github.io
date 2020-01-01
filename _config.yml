@@ -9,7 +9,7 @@
 title: ulexec's blog
 email: ulexecve@protonmail.com
 description: 'Reverse and Conquer'
-baseurl: "/ulexec.github.io/" # the subpath of your site, e.g. /blog
+baseurl: "/ulexec.github.io" # the subpath of your site, e.g. /blog
 url: "http://ulexec.github.io"
 twitter_username: ulexec
 github_username:  ulexec
