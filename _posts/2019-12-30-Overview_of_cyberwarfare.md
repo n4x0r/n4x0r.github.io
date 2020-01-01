@@ -27,7 +27,7 @@ Based on these intersections we can build a high level theoritical overview of t
 <br/>
 
 ## **Teams**  
-Cyber Warfare is not really about computers, is more about people and information. Cyber operations are operated via private and public sector companies, with managers, salaries, budget etc, etc ...
+Cyber Warfare is not really about computers, is more about people and information. Cyber operations are conducted by private and public sector companies, with managers, salaries, budget etc, etc ...
 
 Is important to understand that based on these environments, burocracy is a major factor which enables the capacity of cyber operations in a number of different ways. Burocracy enables teams to work at maximum capacity making it fundamental for any type of cyber operation. 
 
