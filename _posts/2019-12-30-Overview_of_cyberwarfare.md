@@ -130,7 +130,7 @@ The following are some population, political and economic statistics about the T
 
 It's important to highlight that these Agencies are in constant state of rivalry. 
 
-*'These agencies have been Historically compeating. Stalin was terrified by the potential formation a political cue run by the KGB while in times of the Soviet Union, so he made a Military Intelligence Agency (GRU) with the idea to make these agencies compete to prevent the formation of this cue.'* - The Grugq (paraphrased).
+*'These agencies have been Historically compeating. Stalin was terrified by the potential formation of a political cue run by the Intelligence Community (the KGB back then) while in times of the Soviet Union, so he made a Military Intelligence Agency (GRU) with the idea to make these agencies compete to prevent the formation of this cue.'* - The Grugq (paraphrased).
 
 This rilvalry obviously benefits the state in terms of the outcome of their cyber operations, since the high level of competition has a direct impact on operational performance.
 
