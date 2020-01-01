@@ -5,8 +5,8 @@
     <description>Reverse and Conquer</description>
     <link>http://localhost:4000/ulexec.github.io/</link>
     <atom:link href="http://localhost:4000/ulexec.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 02 Jan 2020 00:49:57 +0100</pubDate>
-    <lastBuildDate>Thu, 02 Jan 2020 00:49:57 +0100</lastBuildDate>
+    <pubDate>Thu, 02 Jan 2020 00:55:05 +0100</pubDate>
+    <lastBuildDate>Thu, 02 Jan 2020 00:55:05 +0100</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
     
       <item>
@@ -53,7 +53,7 @@
     &lt;p&gt;&lt;strong&gt;Agility&lt;/strong&gt; - How rapid a team can change an operational approach to achieve a common goal.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;Speed&lt;/strong&gt; - How fast a team can leverage an idea from an execution. Usually a measure of burocracy flexibility.&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;Speed&lt;/strong&gt; - How fast a team can implement and execute an idea. Usually a measure of burocracy flexibility.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;&lt;strong&gt;Creativity&lt;/strong&gt; - How well a team comes up with newer innovative techniques.&lt;/p&gt;

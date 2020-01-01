@@ -38,7 +38,7 @@ Based on burocracy we can meassure the efficiency of a team's capacity on a seri
 
 * **Agility** - How rapid a team can change an operational approach to achieve a common goal.
 
-* **Speed** - How fast a team can leverage an idea from an execution. Usually a measure of burocracy flexibility.
+* **Speed** - How fast a team can implement and execute an idea. Usually a measure of burocracy flexibility.
 
 * **Creativity** - How well a team comes up with newer innovative techniques.
 
