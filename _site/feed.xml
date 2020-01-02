@@ -5,8 +5,8 @@
     <description>Reverse and Conquer</description>
     <link>http://localhost:4000/ulexec.github.io/</link>
     <atom:link href="http://localhost:4000/ulexec.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 02 Jan 2020 00:57:46 +0100</pubDate>
-    <lastBuildDate>Thu, 02 Jan 2020 00:57:46 +0100</lastBuildDate>
+    <pubDate>Thu, 02 Jan 2020 12:02:37 +0100</pubDate>
+    <lastBuildDate>Thu, 02 Jan 2020 12:02:37 +0100</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
     
       <item>
@@ -40,9 +40,9 @@
 &lt;h2 id=&quot;teams&quot;&gt;&lt;strong&gt;Teams&lt;/strong&gt;&lt;/h2&gt;
 &lt;p&gt;Cyber Warfare is not really about computers, is more about people and information. Cyber operations are conducted by private and public sector companies, with managers, salaries, budget etc, etc …&lt;/p&gt;
 
-&lt;p&gt;Is important to understand that based on these environments, burocracy is a major factor which enables the capacity of cyber operations in a number of different ways. Burocracy enables teams to work at maximum capacity making it fundamental for any type of cyber operation.&lt;/p&gt;
+&lt;p&gt;Is important to understand that based on these environments, bureaucracy is a major factor which enables the capacity of cyber operations in a number of different ways. Bureaucracy enables teams to work at maximum capacity making it fundamental for any type of cyber operation.&lt;/p&gt;
 
-&lt;p&gt;Based on burocracy we can meassure the efficiency of a team’s capacity on a series of characteristics. We can call these characteristics the Factors of Team Capacity.&lt;/p&gt;
+&lt;p&gt;Based on bureaucracy we can meassure the efficiency of a team’s capacity on a series of characteristics. We can call these characteristics the Factors of Team Capacity.&lt;/p&gt;
 
 &lt;h3 id=&quot;factors-of-team-capacity&quot;&gt;&lt;strong&gt;Factors of Team Capacity&lt;/strong&gt;&lt;/h3&gt;
 &lt;ul&gt;
@@ -53,7 +53,7 @@
     &lt;p&gt;&lt;strong&gt;Agility&lt;/strong&gt; - How rapid a team can change an operational approach to achieve a common goal.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;Speed&lt;/strong&gt; - How fast a team can implement and execute an idea. Usually a measure of burocracy flexibility.&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;Speed&lt;/strong&gt; - How fast a team can implement and execute an idea. Usually a measure of bureaucracy flexibility.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;&lt;strong&gt;Creativity&lt;/strong&gt; - How well a team comes up with newer innovative techniques.&lt;/p&gt;
@@ -77,7 +77,10 @@ following states.&lt;/p&gt;
 
 &lt;h2 id=&quot;russia-&quot;&gt;&lt;strong&gt;Russia&lt;/strong&gt; 🇷🇺&lt;/h2&gt;
 &lt;p&gt;The Russian Federation existance started with the dissolution of the Soviet Union. This was the process of internal disintegration within the Union of Soviet Socialist Republics (USSR), also referred to as the Soviet Union, which began in the second half of the 1980s with growing unrest in the national republics and ended on 26 December 1991.
-The following are some population, political and economic statistics about the The Russian Federation based on The CIA’s &lt;a href=&quot;https://www.cia.gov/library/publications/the-world-factbook/geos/rs.html&quot;&gt;World Fact Book&lt;/a&gt;:&lt;/p&gt;
+According to the Constitution of Russia, the country is an asymmetric federation and semi-presidential republic, wherein the President (Vladimir Putin) is the head of state and the Prime Minister (Dmitry Medvedev) is the head of government.
+Russia has the largest stockpile of nuclear weapons in the world, the second largest fleet of ballistic missile submarines, and the only modern strategic bomber force outside the United States. More than 90% of world’s 14,000 nuclear weapons are owned by Russia and the United States.&lt;/p&gt;
+
+&lt;p&gt;The following are some population, political and economic statistics about the The Russian Federation based on The CIA’s &lt;a href=&quot;https://www.cia.gov/library/publications/the-world-factbook/geos/rs.html&quot;&gt;World Fact Book&lt;/a&gt;:&lt;/p&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
@@ -184,46 +187,87 @@ The following are some population, political and economic statistics about the T
 
 &lt;p&gt;It’s important to highlight that these Agencies are in constant state of rivalry.&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;‘These agencies have been Historically compeating. Stalin was terrified by the potential formation of a political cue run by the Intelligence Community (the KGB back then) while in times of the Soviet Union, so he made a Military Intelligence Agency (GRU) with the idea to make these agencies compete to prevent the formation of this cue.’&lt;/em&gt; - The Grugq (paraphrased).&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;‘These agencies have been Historically competing. Stalin was terrified by the potential formation of a political cue run by the Intelligence Community (the KGB back then) while in times of the Soviet Union, so he made a Military Intelligence Agency (GRU) with the idea to make these agencies compete to prevent the formation of this cue.’&lt;/em&gt; - The Grugq (paraphrased).&lt;/p&gt;
 
 &lt;p&gt;This rilvalry obviously benefits the state in terms of the outcome of their cyber operations, since the high level of competition has a direct impact on operational performance.&lt;/p&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h4 id=&quot;remarkable-cyber-operations&quot;&gt;&lt;strong&gt;Remarkable Cyber Operations&lt;/strong&gt;:&lt;/h4&gt;
+&lt;h4 id=&quot;teams-1&quot;&gt;&lt;strong&gt;Teams&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;p&gt;Russia uses several small teams of contractors to conduct their cyber operations. These teams are formed from a mix of private operators, and state and military intelligence operators:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www2.fireeye.com/rs/fireye/images/rpt-apt28.pdf&quot;&gt;APT28&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www2.fireeye.com/rs/848-DID-242/images/rpt-apt29-hammertoss.pdf&quot;&gt;APT29&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.first.org/resources/papers/tbilisi2014/turla-operations_and_development.pdf&quot;&gt;Turla&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.welivesecurity.com/wp-content/uploads/2017/06/Win32_Industroyer.pdf&quot;&gt;Sandworm&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/CyberBerkut&quot;&gt;Cyber Berkut&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.securityweek.com/russian-gamaredon-hackers-back-targeting-ukraine-officials?utm_source=feedburner&amp;amp;utm_medium=feed&amp;amp;utm_campaign=Feed%3A+Securityweek+%28SecurityWeek+RSS+Feed%29&quot;&gt;Gamaredon&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;team-capacity&quot;&gt;&lt;strong&gt;Team Capacity&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Several Teams competing. Diversity induces innovation&lt;/li&gt;
+  &lt;li&gt;Formal and Informal information sharing within these teams&lt;/li&gt;
+  &lt;li&gt;Certain degree of freedom to fail&lt;/li&gt;
+  &lt;li&gt;Multiple funding sources&lt;/li&gt;
+  &lt;li&gt;Great creatiity&lt;/li&gt;
+  &lt;li&gt;Great agility&lt;/li&gt;
+  &lt;li&gt;Great speed&lt;/li&gt;
+  &lt;li&gt;Low cohesion&lt;/li&gt;
+  &lt;li&gt;Excelent adaptability&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;popular-cyber-operations&quot;&gt;&lt;strong&gt;Popular Cyber Operations&lt;/strong&gt;:&lt;/h4&gt;
 &lt;p&gt;Among the different cyber operations conducted by The Russian Federation, we can highlight the following ones:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Cuckoo’s Egg&lt;/li&gt;
-  &lt;li&gt;Moonlight Maze&lt;/li&gt;
-  &lt;li&gt;Attacks Against Ukranian Power Grid&lt;/li&gt;
-  &lt;li&gt;Attack to the Democratic National Convention (DNC)
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/The_Cuckoo%27s_Egg&quot;&gt;Cuckoo’s Egg&lt;/a&gt; - (1986) This was one of the first ⁠— ⁠if not the first ⁠— documented cases of a computer break-in. An intrusion in Lawrence Berkeley National Laboratory (LBNL) in California lead to the discovery of a threat actor penetrating military bases around the United States. Later on it was found that the intrusion was coming from West Germany via satellite, West Germany was known to be a proxy of the Soviet Union, and it was later found out that this operation was being funded by the KGB.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Moonlight_Maze&quot;&gt;Moonlight Maze&lt;/a&gt; - (1996) This was a government investigation into a massive cyber-espionage operation affecting NASA, the Pentagon, military contractors, civilian academics, the DOE, and numerous other American government agencies. By the end of 1999, the Moonlight Maze task force was composed of forty specialists from Law Enforcement, Military, and Government. The Russian government was blamed for the attacks, although there was initially little hard evidence to back up the US’ accusations besides a Russian IP address that was traced to the hack. However in 2016 Kasperky GReAT found connections that linked Turla with the operation.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/2007_cyberattacks_on_Estonia&quot;&gt;Attacks Against Estonia&lt;/a&gt; - (2007) series of cyberattacks which began on 27 April 2007 and targeted websites of Estonian organizations, including Estonian parliament, banks, ministries, newspapers and broadcasters, amid the country’s disagreement with Russia about the relocation of the Bronze Soldier of Tallinn, an elaborate Soviet-era grave marker, as well as war graves in Tallinn. First Cyber Deterrance showcase exhihit by Russia against a target state.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/December_2015_Ukraine_power_grid_cyberattack&quot;&gt;Attacks Against Ukranian Power Grid&lt;/a&gt; - (2015) Took place on 23 December 2015 and is considered to be the first known successful cyberattack on a power grid. Hackers were able to successfully compromise information systems of three energy distribution companies in Ukraine and temporarily disrupt electricity supply to the end consumers. Cyber attacks on the energy distribution companies took place during an ongoing conflict in the Ukraine and is attributed to a Russian advanced persistent threat (APT) group known as Sandworm.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Democratic_National_Committee_cyber_attacks&quot;&gt;Attack to the Democratic National Convention&lt;/a&gt; - (2015) Cyber attacks that successfully penetrated the DNC computing system began in 2015. Attacks by APT29 (FSB) began in the summer of 2015. Attacks by APT28 (GRU) began in April 2016. It was after the APT28 group began their activities that the compromised system became apparent. The groups were presumed to have been spying on communications, stealing personal accounts of Clinton Campaign employees and volunteers including John Podesta, a former White House chief of staff and chair of Hillary Clinton’s 2016 U.S. Both groups of intruders were successfully expelled from the DNC systems within hours after detection. These attacks are considered to be part of a group of recent attacks targeting U.S. government departments and several political organizations, including 2016 campaign organizations.&lt;/p&gt;
+
     &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Guccifer_2.0&quot;&gt;Guccifer 2.0&lt;/a&gt; Disinformation Campaign.&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Guccifer_2.0&quot;&gt;Guccifer 2.0&lt;/a&gt; Disinformation Campaign. “Guccifer 2.0” is a persona which claimed to be the hacker(s) that hacked into the Democratic National Committee (DNC) computer network and then leaked its documents to the media, the website WikiLeaks, and a conference event. Some of the documents “Guccifer 2.0” released to the media appear to be forgeries cobbled together from public information and previous hacks, which had been mixed with disinformation.
+According to indictments in February 2018, the persona is operated by Russian military intelligence agency GRU. This is a classic example of Russia’s team agility and flexible bureaucracy, since they were able to transform an unsucesful espionage operation into a succesfull disinformation operation.&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;Attack to World Doping Agency (WADA)&lt;/li&gt;
-  &lt;li&gt;2016 US Election Disinformation Campaigns&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Russian_interference_in_the_2016_United_States_elections&quot;&gt;2016 US Election Disinformation Campaigns&lt;/a&gt; - (2016) The Russian government interfered in the 2016 U.S. presidential election with the goal of harming the campaign of Hillary Clinton, boosting the candidacy of Donald Trump, and increasing political and social discord in the United States. According to the special counsel investigation’s Mueller Report (officially named “Report on the Investigation into Russian Interference in the 2016 Presidential Election”), the first method of Russian interference used the Internet Research Agency (IRA), a Kremlin-linked troll farm, to wage “a social media campaign that favored presidential candidate Donald J. Trump and disparaged presidential candidate Hillary Clinton”. Russian use of social media to disseminate propaganda content was very broad. Facebook and Twitter were used, but also Reddit, Tumblr, Pinterest, Medium, YouTube, Vine, Instagram and Google+ (among other sites). 
+This is a clasic example of adaptability conducted by Russia’s cyber operators to use different technologies to deploy cognitive based cyber operations.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;For a more detailed overview of most of the engagements by the Russian Federation with offensive cyber capabilities please check this spreadsheet.&lt;/p&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h4 id=&quot;major-related-groups&quot;&gt;Major Related Groups&lt;/h4&gt;
+&lt;h4 id=&quot;overview-of-russias-approach-on-cyber-warfare&quot;&gt;Overview of Russia’s Approach on Cyber Warfare:&lt;/h4&gt;
 &lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www2.fireeye.com/rs/fireye/images/rpt-apt28.pdf&quot;&gt;APT28&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www2.fireeye.com/rs/848-DID-242/images/rpt-apt29-hammertoss.pdf&quot;&gt;APT29&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.first.org/resources/papers/tbilisi2014/turla-operations_and_development.pdf&quot;&gt;Turla&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.welivesecurity.com/wp-content/uploads/2017/06/Win32_Industroyer.pdf&quot;&gt;Sandworm&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;approach-on-cyber-warfare&quot;&gt;Approach on Cyber Warfare:&lt;/h4&gt;
-&lt;ul&gt;
+  &lt;li&gt;Offensive Defensive approach&lt;/li&gt;
   &lt;li&gt;Acquire intelligence on foreign military projects&lt;/li&gt;
   &lt;li&gt;Comprommise critical infrastructure under fake persona to avoid direct attribution&lt;/li&gt;
+  &lt;li&gt;Deploy DDoS attacks to conduct deterrance campaigns&lt;/li&gt;
+  &lt;li&gt;Design deterrance/influence operations around target state’s political election compaigns&lt;/li&gt;
   &lt;li&gt;Application of Hybrid Warfare - combining military and non-military as well as covert and overt means, including disinformation, cyber-attacks, economic pressure, deployment of irregular armed groups and use of regular forces to blur the lines between war and peace, and attempt to sow doubt in the minds of targets.&lt;/li&gt;
   &lt;li&gt;Active measures - Actions of political warfare designed to change the course of world events by influence operations based on disinformation campaigns producing a “politically correct” assessment of it.&lt;/li&gt;
   &lt;li&gt;Apply Reflexive Control Theory to influence rival states on their decision making capabilities so that the outcome reflexion is aligned with the main goals of the state while the adversary often is not aware of it.&lt;/li&gt;
@@ -241,161 +285,136 @@ The following are some population, political and economic statistics about the T
 &lt;br /&gt;
 &lt;br /&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;china-&quot;&gt;China 🇨🇳&lt;/h2&gt;
+&lt;!-- 
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+## China 🇨🇳
 
-&lt;h4 id=&quot;remarkable-ops&quot;&gt;Remarkable Ops:&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;GhostNet&lt;/li&gt;
-  &lt;li&gt;Byzantine Hades&lt;/li&gt;
-  &lt;li&gt;Titan Rain&lt;/li&gt;
-  &lt;li&gt;Operation Aurora&lt;/li&gt;
-  &lt;li&gt;Shadow Network&lt;/li&gt;
-  &lt;li&gt;Cloud Hopper&lt;/li&gt;
-&lt;/ul&gt;
+&lt;br/&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+#### Remarkable Ops: 
+*   GhostNet 
+*   Byzantine Hades
+*   Titan Rain
+*   Operation Aurora
+*   Shadow Network
+*   Cloud Hopper
 
-&lt;h4 id=&quot;major-related-groups-1&quot;&gt;Major Related Groups&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.fireeye.com/content/dam/fireeye-www/services/pdfs/mandiant-apt1-report.pdf&quot;&gt;APT1&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.fireeye.com/current-threats/apt-groups.html#apt3&quot;&gt;APT3&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.fireeye.com/current-threats/apt-groups.html#apt10&quot;&gt;APT10&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.welivesecurity.com/wp-content/uploads/2019/07/ESET_Okrum_and_Ketrican.pdf&quot;&gt;APT15&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.fireeye.com/current-threats/apt-groups.html#apt30&quot;&gt;APT30&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.fireeye.com/current-threats/apt-groups.html#apt41&quot;&gt;APT41&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.fireeye.com/current-threats/apt-groups.html#apt40&quot;&gt;APT40&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;br/&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+#### Major Related Groups
+* [APT1](https://www.fireeye.com/content/dam/fireeye-www/services/pdfs/mandiant-apt1-report.pdf)
+* [APT3](https://www.fireeye.com/current-threats/apt-groups.html#apt3)
+* [APT10](https://www.fireeye.com/current-threats/apt-groups.html#apt10)
+* [APT15](https://www.welivesecurity.com/wp-content/uploads/2019/07/ESET_Okrum_and_Ketrican.pdf)
+* [APT30](https://www.fireeye.com/current-threats/apt-groups.html#apt30)
+* [APT41](https://www.fireeye.com/current-threats/apt-groups.html#apt41)
+* [APT40](https://www.fireeye.com/current-threats/apt-groups.html#apt40)
 
-&lt;h4 id=&quot;intelligence-agencies&quot;&gt;Intelligence Agencies:&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;3rd or 4th department of PLA’s GSD (General Staff Department) - Military intelligence
-    &lt;ul&gt;
-      &lt;li&gt;4th dept - Electronic Cyber Warfare - Offensive Operations&lt;/li&gt;
-      &lt;li&gt;3rd dept - USD’s NSA equivalent - SIGINT capabilities&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;PLA Unit 61398&lt;/li&gt;
-  &lt;li&gt;PLA Unit 61486&lt;/li&gt;
-  &lt;li&gt;PLA Unit 78020&lt;/li&gt;
-  &lt;li&gt;NMS - (USD’s CIA - FBI equivalent) HUMMINT - non military&lt;/li&gt;
-  &lt;li&gt;NPS - CCP. Police Authority. Authors of Great Firewall of China - non military&lt;/li&gt;
-&lt;/ul&gt;
+&lt;br/&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+#### Intelligence Agencies:
+*   3rd or 4th department of PLA’s GSD (General Staff Department) - Military intelligence
+    *   4th dept - Electronic Cyber Warfare - Offensive Operations 
+    *   3rd dept - USD’s NSA equivalent - SIGINT capabilities
+*   PLA Unit 61398
+*   PLA Unit 61486
+*   PLA Unit 78020
+*   NMS - (USD’s CIA - FBI equivalent) HUMMINT - non military
+*   NPS - CCP. Police Authority. Authors of Great Firewall of China - non military
 
-&lt;h4 id=&quot;approach-on-cyber-warfare-1&quot;&gt;Approach on Cyber Warfare:&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;1991 Gulf War loss against Iraq as motivation. Introduction of Netcentric Warfare.&lt;/li&gt;
-  &lt;li&gt;Asymmetrical Warfare - asymmetric threats are designed to weaken the security of the Alliance and individual allies, as well as destabilize allied governments and societies.&lt;/li&gt;
-  &lt;li&gt;ISR and logistic systems as primary target, since USA heavily relies on them.&lt;/li&gt;
-  &lt;li&gt;Informationalization of China to enforce control over their citizens.&lt;/li&gt;
-  &lt;li&gt;Goals on Global Information control superiority&lt;/li&gt;
-  &lt;li&gt;USA - China military parity by 2050&lt;/li&gt;
-  &lt;li&gt;Space based CNC disruption since usd relies on this technology for their logistic operations.&lt;/li&gt;
-  &lt;li&gt;Deep understanding of USA technology achieved by reconnaissance and espionage operations.&lt;/li&gt;
-&lt;/ul&gt;
+&lt;br/&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+#### Approach on Cyber Warfare:
+*   1991 Gulf War loss against Iraq as motivation. Introduction of Netcentric Warfare.
+*   Asymmetrical Warfare - asymmetric threats are designed to weaken the security of the Alliance and individual allies, as well as destabilize allied governments and societies.
+*   ISR and logistic systems as primary target, since USA heavily relies on them.
+*   Informationalization of China to enforce control over their citizens.
+*   Goals on Global Information control superiority
+*   USA - China military parity by 2050
+*   Space based CNC disruption since usd relies on this technology for their logistic operations.
+*   Deep understanding of USA technology achieved by reconnaissance and espionage operations.
 
-&lt;h4 id=&quot;further-reading-1&quot;&gt;Further Reading:&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/files/papers/china_cyber.pdf&quot;&gt;China’s approach to Cyber Warfare&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;br/&gt;
 
-&lt;p&gt;&lt;br /&gt;
-&lt;br /&gt;
-&lt;br /&gt;&lt;/p&gt;
+#### Further Reading:
+* [China's approach to Cyber Warfare](https://github.com/n4x0r/n4x0r.github.io/raw/master/files/papers/china_cyber.pdf)
 
-&lt;h2 id=&quot;iran-&quot;&gt;Iran 🇮🇷&lt;/h2&gt;
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;br/&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+## Iran 🇮🇷
 
-&lt;h4 id=&quot;remarkable-ops-1&quot;&gt;Remarkable Ops:&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;IRGC Cyber Warfare Program&lt;/li&gt;
-  &lt;li&gt;Shammon - attacks on Saudi Arabia&lt;/li&gt;
-  &lt;li&gt;Operation Ababil&lt;/li&gt;
-  &lt;li&gt;Bowman Dam&lt;/li&gt;
-  &lt;li&gt;Rye Brook Dam ICS attack&lt;/li&gt;
-  &lt;li&gt;Stuxnet Retaliation&lt;/li&gt;
-  &lt;li&gt;Nuclear weapon treaty lifted sanctions on importing advance technology - Jan 2016&lt;/li&gt;
-&lt;/ul&gt;
+&lt;br/&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+#### Remarkable Ops:
+*   IRGC Cyber Warfare Program 
+*   Shammon - attacks on Saudi Arabia
+*   Operation Ababil
+*   Bowman Dam
+*   Rye Brook Dam ICS attack
+*   Stuxnet Retaliation
+*   Nuclear weapon treaty lifted sanctions on importing advance technology - Jan 2016
 
-&lt;h4 id=&quot;intelligence-agencies-involved-in-cyber-warfare-1&quot;&gt;Intelligence Agencies involved in Cyber warfare:&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;IRGC&lt;/li&gt;
-  &lt;li&gt;ICA - Iranian Cyber Army&lt;/li&gt;
-  &lt;li&gt;Iran support for Hezbollah -  anti IL/USA propaganda.&lt;/li&gt;
-  &lt;li&gt;Islamic Cyber Resistance - Hezbollah sponsored&lt;/li&gt;
-&lt;/ul&gt;
+&lt;br/&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+#### Intelligence Agencies involved in Cyber warfare:
+*   IRGC
+*   ICA - Iranian Cyber Army
+*   Iran support for Hezbollah -  anti IL/USA propaganda.
+*   Islamic Cyber Resistance - Hezbollah sponsored
 
-&lt;h4 id=&quot;approach-on-cyber-warfare-2&quot;&gt;Approach on Cyber Warfare:&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;Ensure regime survival by surveillance operations&lt;/li&gt;
-  &lt;li&gt;Develop a strong cybersecurity task force&lt;/li&gt;
-  &lt;li&gt;Reconnaissance operations regarding foreign critical infrastructure architecture on enemy states as potential targets for offensive operations.&lt;/li&gt;
-  &lt;li&gt;Scans country to find best students and send them to cyber oriented universities.&lt;/li&gt;
-  &lt;li&gt;Stuxnet retaliation as motivation.&lt;/li&gt;
-&lt;/ul&gt;
+&lt;br/&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+#### Approach on Cyber Warfare:
+*   Ensure regime survival by surveillance operations
+*   Develop a strong cybersecurity task force
+*   Reconnaissance operations regarding foreign critical infrastructure architecture on enemy states as potential targets for offensive operations.
+*   Scans country to find best students and send them to cyber oriented universities.
+*   Stuxnet retaliation as motivation.
 
-&lt;h4 id=&quot;further-reading-2&quot;&gt;Further Reading:&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/files/papers/iran_cyber.pdf&quot;&gt;Iran’s approach to Cyber Warfare&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;br/&gt;
 
-&lt;p&gt;&lt;br /&gt;
-&lt;br /&gt;
-&lt;br /&gt;&lt;/p&gt;
+#### Further Reading:
+* [Iran's approach to Cyber Warfare](https://github.com/n4x0r/n4x0r.github.io/raw/master/files/papers/iran_cyber.pdf)
 
-&lt;h2 id=&quot;north-korea-&quot;&gt;North Korea 🇰🇵&lt;/h2&gt;
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;br/&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+## North Korea 🇰🇵
 
-&lt;h4 id=&quot;remarkable-ops-2&quot;&gt;Remarkable Ops&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;Sony attack on Oct 2014 - The Guardians of Peace&lt;/li&gt;
-  &lt;li&gt;Bangladesh bank breach - 10M dollar theft&lt;/li&gt;
-  &lt;li&gt;WannaCry&lt;/li&gt;
-  &lt;li&gt;Money Laundry via Crypto-currency transactions&lt;/li&gt;
-&lt;/ul&gt;
+&lt;br/&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+#### Remarkable Ops
+*   Sony attack on Oct 2014 - The Guardians of Peace
+*   Bangladesh bank breach - 10M dollar theft
+*   WannaCry 
+*   Money Laundry via Crypto-currency transactions
 
-&lt;h4 id=&quot;intelligence-agencies-involved-in-cyber-warfare-2&quot;&gt;Intelligence Agencies involved in Cyber Warfare:&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;RGB - Illegal and clandestine foreign operations - 2017 Kim Jong Un brother assesination.&lt;/li&gt;
-  &lt;li&gt;Bureau 121 - US/South korean CNC disruption.&lt;/li&gt;
-  &lt;li&gt;GSD - Electronic warfare - Psychological Operations.&lt;/li&gt;
-  &lt;li&gt;Command Automation Bureau - Offensive Operations.&lt;/li&gt;
-  &lt;li&gt;Korean Computer Center - KCC - Hard/Software research - student recruitment&lt;/li&gt;
-&lt;/ul&gt;
+&lt;br/&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+#### Intelligence Agencies involved in Cyber Warfare:
+*   RGB - Illegal and clandestine foreign operations - 2017 Kim Jong Un brother assesination.
+*   Bureau 121 - US/South korean CNC disruption.
+*   GSD - Electronic warfare - Psychological Operations.
+*   Command Automation Bureau - Offensive Operations.
+*   Korean Computer Center - KCC - Hard/Software research - student recruitment
 
-&lt;h4 id=&quot;approach-on-cyber-warfare-3&quot;&gt;Approach on Cyber Warfare:&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;Protect Image of the state and leader of DPRK.&lt;/li&gt;
-  &lt;li&gt;Target Logistic and CNC communications to prevent USA additional support on potential conflict in the Korean Peninsula.&lt;/li&gt;
-  &lt;li&gt;To Scan the Country to find best talented students aligned with state views to send them to cyber focused universities.&lt;/li&gt;
-  &lt;li&gt;Provide a means to engage in illegal and clandestine foreign operations using cybersecurity capabilities to provide economic growth to fund critical state projects for regime survival such as DPRK Nuclear program.&lt;/li&gt;
-&lt;/ul&gt;
+&lt;br/&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+#### Approach on Cyber Warfare:
+*   Protect Image of the state and leader of DPRK.
+*   Target Logistic and CNC communications to prevent USA additional support on potential conflict in the Korean Peninsula.
+*   To Scan the Country to find best talented students aligned with state views to send them to cyber focused universities.
+*   Provide a means to engage in illegal and clandestine foreign operations using cybersecurity capabilities to provide economic growth to fund critical state projects for regime survival such as DPRK Nuclear program.
 
-&lt;h4 id=&quot;further-reading-3&quot;&gt;Further Reading:&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/files/papers/NK_cyber.pdf&quot;&gt;DPRK’s approach to Cyber Warfare&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;br/&gt;
+
+#### Further Reading:
+* [DPRK's approach to Cyber Warfare](https://github.com/n4x0r/n4x0r.github.io/raw/master/files/papers/NK_cyber.pdf)
+
+ --&gt;
 
 </description>
         <pubDate>Mon, 30 Dec 2019 06:30:00 +0100</pubDate>

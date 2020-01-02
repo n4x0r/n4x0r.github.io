@@ -29,16 +29,16 @@ Based on these intersections we can build a high level theoritical overview of t
 ## **Teams**  
 Cyber Warfare is not really about computers, is more about people and information. Cyber operations are conducted by private and public sector companies, with managers, salaries, budget etc, etc ...
 
-Is important to understand that based on these environments, burocracy is a major factor which enables the capacity of cyber operations in a number of different ways. Burocracy enables teams to work at maximum capacity making it fundamental for any type of cyber operation. 
+Is important to understand that based on these environments, bureaucracy is a major factor which enables the capacity of cyber operations in a number of different ways. Bureaucracy enables teams to work at maximum capacity making it fundamental for any type of cyber operation. 
 
-Based on burocracy we can meassure the efficiency of a team's capacity on a series of characteristics. We can call these characteristics the Factors of Team Capacity.
+Based on bureaucracy we can meassure the efficiency of a team's capacity on a series of characteristics. We can call these characteristics the Factors of Team Capacity.
 
 ### **Factors of Team Capacity**  
 * **Addaptability** - How well a team can adapt new technologies to be utilized as part of the team's toolset on cyber conflict.
 
 * **Agility** - How rapid a team can change an operational approach to achieve a common goal.
 
-* **Speed** - How fast a team can implement and execute an idea. Usually a measure of burocracy flexibility.
+* **Speed** - How fast a team can implement and execute an idea. Usually a measure of bureaucracy flexibility.
 
 * **Creativity** - How well a team comes up with newer innovative techniques.
 
@@ -58,6 +58,9 @@ following states.
 
 ## **Russia** 🇷🇺
 The Russian Federation existance started with the dissolution of the Soviet Union. This was the process of internal disintegration within the Union of Soviet Socialist Republics (USSR), also referred to as the Soviet Union, which began in the second half of the 1980s with growing unrest in the national republics and ended on 26 December 1991.
+According to the Constitution of Russia, the country is an asymmetric federation and semi-presidential republic, wherein the President (Vladimir Putin) is the head of state and the Prime Minister (Dmitry Medvedev) is the head of government.
+Russia has the largest stockpile of nuclear weapons in the world, the second largest fleet of ballistic missile submarines, and the only modern strategic bomber force outside the United States. More than 90% of world's 14,000 nuclear weapons are owned by Russia and the United States.
+
 The following are some population, political and economic statistics about the The Russian Federation based on The CIA's [World Fact Book](https://www.cia.gov/library/publications/the-world-factbook/geos/rs.html):
 
 <br/>
@@ -130,40 +133,70 @@ The following are some population, political and economic statistics about the T
 
 It's important to highlight that these Agencies are in constant state of rivalry. 
 
-*'These agencies have been Historically compeating. Stalin was terrified by the potential formation of a political cue run by the Intelligence Community (the KGB back then) while in times of the Soviet Union, so he made a Military Intelligence Agency (GRU) with the idea to make these agencies compete to prevent the formation of this cue.'* - The Grugq (paraphrased).
+*'These agencies have been Historically competing. Stalin was terrified by the potential formation of a political cue run by the Intelligence Community (the KGB back then) while in times of the Soviet Union, so he made a Military Intelligence Agency (GRU) with the idea to make these agencies compete to prevent the formation of this cue.'* - The Grugq (paraphrased).
 
 This rilvalry obviously benefits the state in terms of the outcome of their cyber operations, since the high level of competition has a direct impact on operational performance.
 
 <br/>
 
-#### **Remarkable Cyber Operations**:
+#### **Teams**
+
+Russia uses several small teams of contractors to conduct their cyber operations. These teams are formed from a mix of private operators, and state and military intelligence operators: 
+
+*   [APT28](https://www2.fireeye.com/rs/fireye/images/rpt-apt28.pdf)
+*   [APT29](https://www2.fireeye.com/rs/848-DID-242/images/rpt-apt29-hammertoss.pdf)
+*   [Turla](https://www.first.org/resources/papers/tbilisi2014/turla-operations_and_development.pdf)
+*   [Sandworm](https://www.welivesecurity.com/wp-content/uploads/2017/06/Win32_Industroyer.pdf)
+*   [Cyber Berkut](https://en.wikipedia.org/wiki/CyberBerkut)
+*   [Gamaredon](https://www.securityweek.com/russian-gamaredon-hackers-back-targeting-ukraine-officials?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%3A+Securityweek+%28SecurityWeek+RSS+Feed%29)
+
+<br/>
+
+#### **Team Capacity**
+
+*   Several Teams competing. Diversity induces innovation
+*   Formal and Informal information sharing within these teams
+*   Certain degree of freedom to fail
+*   Multiple funding sources
+*   Great creatiity
+*   Great agility
+*   Great speed
+*   Low cohesion
+*   Excelent adaptability
+
+<br/>
+
+#### **Popular Cyber Operations**:
 Among the different cyber operations conducted by The Russian Federation, we can highlight the following ones:
 
-*   Cuckoo’s Egg 
-*   Moonlight Maze
-*   Attacks Against Ukranian Power Grid
-*   Attack to the Democratic National Convention (DNC) 
-    * [Guccifer 2.0](https://en.wikipedia.org/wiki/Guccifer_2.0) Disinformation Campaign.
-*   Attack to World Doping Agency (WADA)
-*   2016 US Election Disinformation Campaigns
+*   [Cuckoo’s Egg](https://en.wikipedia.org/wiki/The_Cuckoo%27s_Egg) - (1986) This was one of the first ⁠— ⁠if not the first ⁠— documented cases of a computer break-in. An intrusion in Lawrence Berkeley National Laboratory (LBNL) in California lead to the discovery of a threat actor penetrating military bases around the United States. Later on it was found that the intrusion was coming from West Germany via satellite, West Germany was known to be a proxy of the Soviet Union, and it was later found out that this operation was being funded by the KGB. 
+
+*   [Moonlight Maze](https://en.wikipedia.org/wiki/Moonlight_Maze) - (1996) This was a government investigation into a massive cyber-espionage operation affecting NASA, the Pentagon, military contractors, civilian academics, the DOE, and numerous other American government agencies. By the end of 1999, the Moonlight Maze task force was composed of forty specialists from Law Enforcement, Military, and Government. The Russian government was blamed for the attacks, although there was initially little hard evidence to back up the US’ accusations besides a Russian IP address that was traced to the hack. However in 2016 Kasperky GReAT found connections that linked Turla with the operation.
+
+*   [Attacks Against Estonia](https://en.wikipedia.org/wiki/2007_cyberattacks_on_Estonia) - (2007) series of cyberattacks which began on 27 April 2007 and targeted websites of Estonian organizations, including Estonian parliament, banks, ministries, newspapers and broadcasters, amid the country's disagreement with Russia about the relocation of the Bronze Soldier of Tallinn, an elaborate Soviet-era grave marker, as well as war graves in Tallinn. First Cyber Deterrance showcase exhihit by Russia against a target state. 
+
+*   [Attacks Against Ukranian Power Grid](https://en.wikipedia.org/wiki/December_2015_Ukraine_power_grid_cyberattack) - (2015) Took place on 23 December 2015 and is considered to be the first known successful cyberattack on a power grid. Hackers were able to successfully compromise information systems of three energy distribution companies in Ukraine and temporarily disrupt electricity supply to the end consumers. Cyber attacks on the energy distribution companies took place during an ongoing conflict in the Ukraine and is attributed to a Russian advanced persistent threat (APT) group known as Sandworm.
+
+*   [Attack to the Democratic National Convention](https://en.wikipedia.org/wiki/Democratic_National_Committee_cyber_attacks) - (2015) Cyber attacks that successfully penetrated the DNC computing system began in 2015. Attacks by APT29 (FSB) began in the summer of 2015. Attacks by APT28 (GRU) began in April 2016. It was after the APT28 group began their activities that the compromised system became apparent. The groups were presumed to have been spying on communications, stealing personal accounts of Clinton Campaign employees and volunteers including John Podesta, a former White House chief of staff and chair of Hillary Clinton's 2016 U.S. Both groups of intruders were successfully expelled from the DNC systems within hours after detection. These attacks are considered to be part of a group of recent attacks targeting U.S. government departments and several political organizations, including 2016 campaign organizations.
+
+    * [Guccifer 2.0](https://en.wikipedia.org/wiki/Guccifer_2.0) Disinformation Campaign. "Guccifer 2.0" is a persona which claimed to be the hacker(s) that hacked into the Democratic National Committee (DNC) computer network and then leaked its documents to the media, the website WikiLeaks, and a conference event. Some of the documents "Guccifer 2.0" released to the media appear to be forgeries cobbled together from public information and previous hacks, which had been mixed with disinformation.
+    According to indictments in February 2018, the persona is operated by Russian military intelligence agency GRU. This is a classic example of Russia's team agility and flexible bureaucracy, since they were able to transform an unsucesful espionage operation into a succesfull disinformation operation.
+
+<br/>
+
+*   [2016 US Election Disinformation Campaigns](https://en.wikipedia.org/wiki/Russian_interference_in_the_2016_United_States_elections) - (2016) The Russian government interfered in the 2016 U.S. presidential election with the goal of harming the campaign of Hillary Clinton, boosting the candidacy of Donald Trump, and increasing political and social discord in the United States. According to the special counsel investigation's Mueller Report (officially named "Report on the Investigation into Russian Interference in the 2016 Presidential Election"), the first method of Russian interference used the Internet Research Agency (IRA), a Kremlin-linked troll farm, to wage "a social media campaign that favored presidential candidate Donald J. Trump and disparaged presidential candidate Hillary Clinton". Russian use of social media to disseminate propaganda content was very broad. Facebook and Twitter were used, but also Reddit, Tumblr, Pinterest, Medium, YouTube, Vine, Instagram and Google+ (among other sites). 
+This is a clasic example of adaptability conducted by Russia's cyber operators to use different technologies to deploy cognitive based cyber operations.
 
 For a more detailed overview of most of the engagements by the Russian Federation with offensive cyber capabilities please check this spreadsheet.
 
 <br/>
 
-#### Major Related Groups
-*   [APT28](https://www2.fireeye.com/rs/fireye/images/rpt-apt28.pdf)
-*   [APT29](https://www2.fireeye.com/rs/848-DID-242/images/rpt-apt29-hammertoss.pdf)
-*   [Turla](https://www.first.org/resources/papers/tbilisi2014/turla-operations_and_development.pdf)
-*   [Sandworm](https://www.welivesecurity.com/wp-content/uploads/2017/06/Win32_Industroyer.pdf)
-
-<br/>
-
-
-
-#### Approach on Cyber Warfare:
+#### Overview of Russia's Approach on Cyber Warfare:
+*   Offensive Defensive approach
 *   Acquire intelligence on foreign military projects
 *   Comprommise critical infrastructure under fake persona to avoid direct attribution
+*   Deploy DDoS attacks to conduct deterrance campaigns
+*   Design deterrance/influence operations around target state's political election compaigns
 *   Application of Hybrid Warfare - combining military and non-military as well as covert and overt means, including disinformation, cyber-attacks, economic pressure, deployment of irregular armed groups and use of regular forces to blur the lines between war and peace, and attempt to sow doubt in the minds of targets.
 *   Active measures - Actions of political warfare designed to change the course of world events by influence operations based on disinformation campaigns producing a "politically correct" assessment of it.
 *   Apply Reflexive Control Theory to influence rival states on their decision making capabilities so that the outcome reflexion is aligned with the main goals of the state while the adversary often is not aware of it.
@@ -177,6 +210,8 @@ For a more detailed overview of most of the engagements by the Russian Federatio
 <br/>
 <br/>
 <br/>
+
+<!-- 
 
 ## China 🇨🇳
 
@@ -305,4 +340,5 @@ For a more detailed overview of most of the engagements by the Russian Federatio
 #### Further Reading:
 * [DPRK's approach to Cyber Warfare](https://github.com/n4x0r/n4x0r.github.io/raw/master/files/papers/NK_cyber.pdf)
 
+ -->
 
