@@ -12,17 +12,17 @@ This article is meant to be a brief reference of the different states involved i
 <br/>
 
 ## **Foundation**  
-Is important to interpret Cyber Warfare as the fifth War dimension, and to recognise the ways this dimension intersects with reality. Cyber intersects with reality in four different ways. These are the following:
+Is important to interpret Cyber Warfare as the fifth War dimension, and to recognise the capabilities of this dimension. Philosophically speaking, Cyber intersects with reality in four different ways. These are the following:
 
 * **Active** - Direct way of manipulatinig target's information - eg: Unit8200 was fighting with the PLO. They broke into the computers were the PL0 processed all the finances and they transfered money around to make it appear as if there was deep corruption. This strategy worked because there was a degree of real corruption. So this operation spiked the corruption awareness of the [PLO](https://www.ft.com/content/1b870488-7940-11d9-89c5-00000e2511c8). This caused a degree of degradation of capability within the PLO. 
 
-* **Passive** - Ability to monitor target's information - Some states are heavily relying on this intersection. eg: Snowden [Leaks](https://en.wikipedia.org/wiki/Global_surveillance_disclosures_(2013%E2%80%93present)) NSA's secret global surveilance program to the public.
+* **Passive** - Ability to monitor target's information - Some states are heavily relying on this capability. eg: Snowden [Leaks](https://en.wikipedia.org/wiki/Global_surveillance_disclosures_(2013%E2%80%93present)) NSA's secret global surveilance program to the public.
 
 * **Physical** - Direct impact on physical targets - eg: Operation Olympic Games or also known as [Stuxnet](https://en.wikipedia.org/wiki/Stuxnet), was deployed to cause substantial damage to Iran's nuclear program by compromising PLCs in Iranian Uranium enrichment facilities, collecting information on industrial systems and causing the fast-spinning centrifuges to tear themselves apart.
 
 * **Cognitive** - Ability to modify a target's behavior with information - Based on the same foundations as Marketing or Propaganda. Not restricted to distribution of untruthful information or disiniformation, sometimes a target's behavior can be changed by supplying unknown truths. I highly suggest to read about Reflexive Control Theory to know more about the stategies that can be applied in this specific intersection.
 
-Based on these intersections we can build a high level theoritical overview of the capabilities and realistic outcomes of what can be achieved relying on operations in the Cyber domain.
+Based on the information explained above, we can build a high level theoritical overview of the capabilities and realistic outcomes of what can be achieved relying on operations in the Cyber domain.
 
 <br/>
 
@@ -31,20 +31,24 @@ Cyber Warfare is not really about computers, is more about people and informatio
 
 Is important to understand that based on these environments, bureaucracy is a major factor which enables the capacity of cyber operations in a number of different ways. Bureaucracy enables teams to work at maximum capacity making it fundamental for any type of cyber operation. 
 
-Based on bureaucracy we can meassure the efficiency of a team's capacity on a series of characteristics. We can call these characteristics the Factors of Team Capacity.
+*'One may not think that such a thing as Bureaucracy would improve the efficiency of cyber operations, but it is'* - The Grugq. 
+
+Based on bureaucracy we can meassure the efficiency of a team's capacity on a series of characteristics. We can call these characteristics the Factors of Team Capacity by The Grugq.
 
 ### **Factors of Team Capacity**  
-* **Addaptability** - How well a team can adapt new technologies to be utilized as part of the team's toolset on cyber conflict.
+* **Addaptability** - How well a team can adapt new technologies to be utilized as part of the team's toolset on cyber conflict and aid to meet specific strategic goals.
 
-* **Agility** - How rapid a team can change an operational approach to achieve a common goal.
+* **Agility** - How rapid a team can change an operational strategy to achieve a common strategic goal.
 
-* **Speed** - How fast a team can implement and execute an idea. Usually a measure of bureaucracy flexibility.
+* **Speed** - How fast a team can implement and execute an idea. Usually a measure of bureaucracy flexibility in terms of the number of abstraction layers (meetings) needed to approve and implement an idea.
 
-* **Creativity** - How well a team comes up with newer innovative techniques.
+* **Creativity** - How well and fast a team comes up with newer innovative techniques.
 
 * **Cohesion** - How well a team works together individually and collectivelly with other teams and how good they follow the executive order.
 
-The previous factors serve as a good standard to measure a given team's efficiency. Likely important is to know that there are a series of standard strategies to organise teams dedicated to conduct cyber operations. The following table shows these strategies also known as Dave Aitel's (former NSA cyber-operative) Meta - operational team structures: 
+It's important to notice that high cohesion may impact creativity capacity. If there is a very strict set of commands and no room for brainstorming or a high priority on an finite operational ROI and no investment in innovation, creativity capacity will be damaged consequently.
+
+The previous factors serve as a good standard to measure a given team's efficiency. Likely important is to know that there are a series of standard strategies to organise teams dedicated to conduct cyber operations seen to been applied by various states. The following table shows these strategies also known as Dave Aitel's (former NSA cyber-operative) Meta - operational team structures: 
 
 <br/>
 <div style="text-align:center"><img src ="https://github.com/ulexec/ulexec.github.io/raw/master/images/dave_aitel_meta.png" /></div>
@@ -152,47 +156,49 @@ Russia uses several small teams of contractors to conduct their cyber operations
 
 <br/>
 
-#### **Team Capacity**
-
-*   Several Teams competing. Diversity induces innovation
-*   Formal and Informal information sharing within these teams
-*   Certain degree of freedom to fail
-*   Multiple funding sources
-*   Great creativity
-*   Great agility
-*   Great speed
-*   Low cohesion
-*   Excelent adaptability
-
-<br/>
-
 #### **Popular Cyber Operations**:
+
 Among the different cyber operations conducted by The Russian Federation, we can highlight the following ones:
 
-*   [Cuckoo’s Egg](https://en.wikipedia.org/wiki/The_Cuckoo%27s_Egg) - (1986) This was one of the first ⁠— ⁠if not the first ⁠— documented cases of a computer break-in. An intrusion in Lawrence Berkeley National Laboratory (LBNL) in California lead to the discovery of a threat actor penetrating military bases around the United States. Later on it was found that the intrusion was coming from West Germany via satellite, West Germany was known to be a proxy of the Soviet Union, and it was later found out that this operation was being funded by the KGB. 
+*   [Cuckoo’s Egg](https://en.wikipedia.org/wiki/The_Cuckoo%27s_Egg) - (1986) This was one of the first ⁠— ⁠if not the first ⁠— documented cases of a computer break-in. An intrusion in Lawrence Berkeley National Laboratory (LBNL) in California lead to the discovery of a threat actor penetrating military bases around the United States. Later on it was found that the intrusion was coming from West Germany via satellite, West Germany was known to be a proxy of the Soviet Union, and it was later found out that this operation was being funded by the KGB. This operation is important to understand the Russian mindset since it was the first documented case of a nation-sponsored cyber operation. 
 
-*   [Moonlight Maze](https://en.wikipedia.org/wiki/Moonlight_Maze) - (1996) This was a government investigation into a massive cyber-espionage operation affecting NASA, the Pentagon, military contractors, civilian academics, the DOE, and numerous other American government agencies. By the end of 1999, the Moonlight Maze task force was composed of forty specialists from Law Enforcement, Military, and Government. The Russian government was blamed for the attacks, although there was initially little hard evidence to back up the US’ accusations besides a Russian IP address that was traced to the hack. However in 2016 Kasperky GReAT found connections that linked Turla with the operation.
+*   [Moonlight Maze](https://en.wikipedia.org/wiki/Moonlight_Maze) - (1996) This was a government investigation into a massive cyber-espionage operation affecting NASA, the Pentagon, military contractors, civilian academics, the DOE, and numerous other American government agencies. By the end of 1999, the Moonlight Maze task force was composed of forty specialists from Law Enforcement, Military, and Government. The Russian government was blamed for the attacks, although there was initially little hard evidence to back up the US’ accusations besides a Russian IP address that was traced to the hack. However in 2016 Kasperky GReAT found connections that linked Turla with the operation. This operation shows the degree of OPSEC of russian teams, since it took 10 years to achieve concrete attribute conclusions for this specific operation.
 
-*   [Attacks Against Estonia](https://en.wikipedia.org/wiki/2007_cyberattacks_on_Estonia) - (2007) series of cyberattacks which began on 27 April 2007 and targeted websites of Estonian organizations, including Estonian parliament, banks, ministries, newspapers and broadcasters, amid the country's disagreement with Russia about the relocation of the Bronze Soldier of Tallinn, an elaborate Soviet-era grave marker, as well as war graves in Tallinn. First Cyber Deterrance showcase exhihit by Russia against a target state. 
+*   [Attacks Against Estonia](https://en.wikipedia.org/wiki/2007_cyberattacks_on_Estonia) - (2007) series of cyberattacks which began on 27 April 2007 and targeted websites of Estonian organizations, including Estonian parliament, banks, ministries, newspapers and broadcasters, amid the country's disagreement with Russia about the relocation of the Bronze Soldier of Tallinn, an elaborate Soviet-era grave marker, as well as war graves in Tallinn. This operation showcases the first Cyber Deterrance operation exhihited by Russia against a target state. This will become a common operation of the Russian Federation to utilize several more times in coming years. In addition is also a great showcase of cyber adaptability capacity. 
 
-*   [Attacks Against Ukranian Power Grid](https://en.wikipedia.org/wiki/December_2015_Ukraine_power_grid_cyberattack) - (2015) Took place on 23 December 2015 and is considered to be the first known successful cyberattack on a power grid. Hackers were able to successfully compromise information systems of three energy distribution companies in Ukraine and temporarily disrupt electricity supply to the end consumers. Cyber attacks on the energy distribution companies took place during an ongoing conflict in the Ukraine and is attributed to a Russian advanced persistent threat (APT) group known as Sandworm.
+*   [Attacks Against Ukranian Power Grid](https://en.wikipedia.org/wiki/December_2015_Ukraine_power_grid_cyberattack) - (2015) Took place on 23 December 2015 and is considered to be the first known successful cyberattack on a power grid. Hackers were able to successfully compromise information systems of three energy distribution companies in Ukraine and temporarily disrupt electricity supply to the end consumers. Cyber attacks on the energy distribution companies took place during an ongoing conflict in the Ukraine and is attributed to a Russian advanced persistent threat (APT) group known as Sandworm. This operation is great example of creativity capacity implemented by Russian operatives, being the first example of a succesful breach in Power Grids. 
 
 *   [Attack to the Democratic National Convention](https://en.wikipedia.org/wiki/Democratic_National_Committee_cyber_attacks) - (2015) Cyber attacks that successfully penetrated the DNC computing system began in 2015. Attacks by APT29 (FSB) began in the summer of 2015. Attacks by APT28 (GRU) began in April 2016. It was after the APT28 group began their activities that the compromised system became apparent. The groups were presumed to have been spying on communications, stealing personal accounts of Clinton Campaign employees and volunteers including John Podesta, a former White House chief of staff and chair of Hillary Clinton's 2016 U.S. Both groups of intruders were successfully expelled from the DNC systems within hours after detection. These attacks are considered to be part of a group of recent attacks targeting U.S. government departments and several political organizations, including 2016 campaign organizations.
 
     * [Guccifer 2.0](https://en.wikipedia.org/wiki/Guccifer_2.0) Disinformation Campaign. "Guccifer 2.0" is a persona which claimed to be the hacker(s) that hacked into the Democratic National Committee (DNC) computer network and then leaked its documents to the media, the website WikiLeaks, and a conference event. Some of the documents "Guccifer 2.0" released to the media appear to be forgeries cobbled together from public information and previous hacks, which had been mixed with disinformation.
-    According to indictments in February 2018, the persona is operated by Russian military intelligence agency GRU. This is a classic example of Russia's team agility and flexible bureaucracy, since they were able to transform an unsucesful espionage operation into a succesfull disinformation operation.
+    According to indictments in February 2018, the persona is operated by Russian military intelligence agency GRU. This is a classic example of Russia's team agility and flexible bureaucracy, since they *were able to transform an unsucesful espionage operation into a succesfull disinformation operation*.
 
 <br/>
 
 *   [2016 US Election Disinformation Campaigns](https://en.wikipedia.org/wiki/Russian_interference_in_the_2016_United_States_elections) - (2016) The Russian government interfered in the 2016 U.S. presidential election with the goal of harming the campaign of Hillary Clinton, boosting the candidacy of Donald Trump, and increasing political and social discord in the United States. According to the special counsel investigation's Mueller Report (officially named "Report on the Investigation into Russian Interference in the 2016 Presidential Election"), the first method of Russian interference used the Internet Research Agency (IRA), a Kremlin-linked troll farm, to wage "a social media campaign that favored presidential candidate Donald J. Trump and disparaged presidential candidate Hillary Clinton". Russian use of social media to disseminate propaganda content was very broad. Facebook and Twitter were used, but also Reddit, Tumblr, Pinterest, Medium, YouTube, Vine, Instagram and Google+ (among other sites). 
-This is a clasic example of adaptability conducted by Russia's cyber operators to use different technologies to deploy cognitive based cyber operations.
+This is a clasic example of adaptability conducted by Russia's operators to use different technologies to deploy cognitive based cyber operations that following a common strategic goal.
 
-For a more detailed overview of most of the engagements by the Russian Federation with offensive cyber capabilities please check this spreadsheet.
+For a more detailed overview of most of the engagements by the Russian Federation with offensive cyber capabilities please check this spreadsheet. (On Course)
+
+<br/>
+
+#### **Team Capacity Overview**
+
+*   Several Teams competing. Diversity induces innovation
+*   Formal and Informal information sharing within these teams
+*   Certain degree of freedom to Fail
+*   Multiple funding sources
+*   Great creativity
+*   Great agility
+*   Great speed
+*   Low/medium cohesion
+*   Excelent adaptability
 
 <br/>
 
 #### Overview of Russia's Approach on Cyber Warfare:
 *   Offensive Defensive approach
+*   Several small teams strategy
 *   Acquire intelligence on foreign military projects
 *   Comprommise critical infrastructure under fake persona to avoid direct attribution
 *   Deploy DDoS attacks to conduct deterrance campaigns
