@@ -31,7 +31,7 @@ Cyber Warfare is not really about computers, is more about people and informatio
 
 Is important to understand that based on these environments, bureaucracy is a major factor which enables the capacity of cyber operations in a number of different ways. Bureaucracy enables teams to work at maximum capacity making it fundamental for any type of cyber operation. 
 
-*'One may not think that such a thing as Bureaucracy would improve the efficiency of cyber operations, but it is'* - The Grugq. 
+*'One may not think that such a thing as Bureaucracy would improve the efficiency of cyber operations, but it does'* - The Grugq. 
 
 Based on bureaucracy we can meassure the efficiency of a team's capacity on a series of characteristics. We can call these characteristics the Factors of Team Capacity by The Grugq.
 
