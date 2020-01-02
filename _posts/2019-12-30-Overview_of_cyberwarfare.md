@@ -158,7 +158,7 @@ Russia uses several small teams of contractors to conduct their cyber operations
 *   Formal and Informal information sharing within these teams
 *   Certain degree of freedom to fail
 *   Multiple funding sources
-*   Great creatiity
+*   Great creativity
 *   Great agility
 *   Great speed
 *   Low cohesion
