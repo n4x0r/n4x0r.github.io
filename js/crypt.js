@@ -4,7 +4,7 @@ var textToWrite = container.innerHTML;
 var i = 0;
 var progress = 0;
 var codingChars = '0123456789ABCDEF'
-container.innerHTML = getRandomChars(textToWrite.length - i);
+container.innerHTML = getRandomChars(textToWrite.length - i + 3);
 
 function animate() {
   setTimeout(function(){ 
@@ -19,7 +19,7 @@ function animate() {
     if(progress < 1) {
       animate()
     }
-  }, 100);
+  }, 75);
 }
 
 function getRandomChars(howMany) {

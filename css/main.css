@@ -15,7 +15,7 @@
 
 /* Comment */
 .highlight .err {
-  color: #960050;
+  color: #ffffff;
   background-color: #262626; }
 
 /* Error */
@@ -32,7 +32,7 @@
 
 /* Name */
 .highlight .o {
-  color: #f92672; }
+  color: #ffffff; }
 
 /* Operator */
 .highlight .p {
@@ -72,7 +72,7 @@
 
 /* Keyword.Declaration */
 .highlight .kn {
-  color: #f92672; }
+  color: #ffffff; }
 
 /* Keyword.Namespace */
 .highlight .kp {
@@ -148,7 +148,7 @@
 
 /* Name.Property */
 .highlight .nt {
-  color: #f92672; }
+  color: #ffffff; }
 
 /* Name.Tag */
 .highlight .nv {
@@ -156,7 +156,7 @@
 
 /* Name.Variable */
 .highlight .ow {
-  color: #f92672; }
+  color: #ffffff; }
 
 /* Operator.Word */
 .highlight .w {
@@ -249,7 +249,7 @@
 
 /* Generic.Subheading & Diff Unified/Comment? */
 .highlight .gd {
-  color: #f92672; }
+  color: #ffffff; }
 
 /* Generic.Deleted & Diff Deleted */
 .highlight .gi {
@@ -288,13 +288,13 @@ body {
 }
 
 a {
-  color: #cc0052; }
+  color: #87837e; }
 
 a:visited {
-  color: #99003d; }
+  color: #87837e; }
 
 a:hover {
-  color: #ff66a3; }
+  color: #abaaa9; }
 
 p {
   text-align: left; 
