@@ -8,7 +8,7 @@
 # Site settings
 title: ulexec's blog
 email: ulexecve@protonmail.com
-description: 'Reverse and Conquer'
+description: 'Covert Tradecraft'
 baseurl: "/ulexec.github.io" # the subpath of your site, e.g. /blog
 url: "http://ulexec.github.io"
 twitter_username: ulexec

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>ulexec's blog</title>
+    <title>ulexec&#39;s blog</title>
     <description>Reverse and Conquer</description>
-    <link>http://localhost:4000/ulexec.github.io/</link>
-    <atom:link href="http://localhost:4000/ulexec.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 05 Jan 2020 07:03:56 +0100</pubDate>
-    <lastBuildDate>Sun, 05 Jan 2020 07:03:56 +0100</lastBuildDate>
-    <generator>Jekyll v3.6.2</generator>
+    <link>http://ulexec.github.io/ulexec.github.io/</link>
+    <atom:link href="http://ulexec.github.io/ulexec.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Thu, 13 Feb 2020 01:21:29 +0100</pubDate>
+    <lastBuildDate>Thu, 13 Feb 2020 01:21:29 +0100</lastBuildDate>
+    <generator>Jekyll v3.1.6</generator>
     
       <item>
         <title>A Brief Reference on Cyber Warfare</title>
@@ -344,7 +344,7 @@ This is a clasic example of adaptability conducted by Russia’s operators to us
 &lt;br/&gt;
 
 #### Further Reading:
-* [China's approach to Cyber Warfare](https://github.com/n4x0r/n4x0r.github.io/raw/master/files/papers/china_cyber.pdf)
+* [China&#39;s approach to Cyber Warfare](https://github.com/n4x0r/n4x0r.github.io/raw/master/files/papers/china_cyber.pdf)
 
 &lt;br/&gt;
 &lt;br/&gt;
@@ -383,7 +383,7 @@ This is a clasic example of adaptability conducted by Russia’s operators to us
 &lt;br/&gt;
 
 #### Further Reading:
-* [Iran's approach to Cyber Warfare](https://github.com/n4x0r/n4x0r.github.io/raw/master/files/papers/iran_cyber.pdf)
+* [Iran&#39;s approach to Cyber Warfare](https://github.com/n4x0r/n4x0r.github.io/raw/master/files/papers/iran_cyber.pdf)
 
 &lt;br/&gt;
 &lt;br/&gt;
@@ -419,14 +419,14 @@ This is a clasic example of adaptability conducted by Russia’s operators to us
 &lt;br/&gt;
 
 #### Further Reading:
-* [DPRK's approach to Cyber Warfare](https://github.com/n4x0r/n4x0r.github.io/raw/master/files/papers/NK_cyber.pdf)
+* [DPRK&#39;s approach to Cyber Warfare](https://github.com/n4x0r/n4x0r.github.io/raw/master/files/papers/NK_cyber.pdf)
 
  --&gt;
 
 </description>
         <pubDate>Mon, 30 Dec 2019 06:30:00 +0100</pubDate>
-        <link>http://localhost:4000/ulexec.github.io/cyber/2019/12/30/Overview_of_cyberwarfare.html</link>
-        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io/cyber/2019/12/30/Overview_of_cyberwarfare.html</guid>
+        <link>http://ulexec.github.io/ulexec.github.io/cyber/2019/12/30/Overview_of_cyberwarfare.html</link>
+        <guid isPermaLink="true">http://ulexec.github.io/ulexec.github.io/cyber/2019/12/30/Overview_of_cyberwarfare.html</guid>
         
         <category>cyber</category>
         
@@ -454,7 +454,7 @@ If we do some static recon about the file, we can see the following:
 &lt;span class=&quot;n&quot;&gt;ELF&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Header&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;Magic&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;   &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;45&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;46&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;01&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;01&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;01&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;03&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; 
   &lt;span class=&quot;n&quot;&gt;Class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                             &lt;span class=&quot;n&quot;&gt;ELF32&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;Data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                              &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;complement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;little&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endian&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                              &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&#39;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;complement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;little&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endian&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;Version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                           &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;current&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;OS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ABI&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                            &lt;span class=&quot;n&quot;&gt;UNIX&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GNU&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;ABI&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                       &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
@@ -550,7 +550,7 @@ We will statically analyse the sample first, then we will continue our analysis 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;p&gt;Note the stub of data on &lt;code class=&quot;highlighter-rouge&quot;&gt;0x00C8DC31&lt;/code&gt;, we will come back to it later.
-Execution then falls into &lt;code class=&quot;highlighter-rouge&quot;&gt;allocate_rwx_page&lt;/code&gt; function, which as said before just allocates a memory page with &lt;code class=&quot;highlighter-rouge&quot;&gt;RXW&lt;/code&gt; permissions. This buffer will be allocated at &lt;code class=&quot;highlighter-rouge&quot;&gt;0x00C8F000&lt;/code&gt;. If the allocation fails, then execution will branch into the &lt;code class=&quot;highlighter-rouge&quot;&gt;write_message_and_exit&lt;/code&gt; funtion, in which the string &lt;code class=&quot;highlighter-rouge&quot;&gt;'nandemo wa shiranai wa yo,'&lt;/code&gt; gets printed to &lt;code class=&quot;highlighter-rouge&quot;&gt;stderr&lt;/code&gt;. On the other hand, if allocation of RWX chunk is sucessfull, execution will pivot back to &lt;code class=&quot;highlighter-rouge&quot;&gt;start+5&lt;/code&gt;.&lt;/p&gt;
+Execution then falls into &lt;code class=&quot;highlighter-rouge&quot;&gt;allocate_rwx_page&lt;/code&gt; function, which as said before just allocates a memory page with &lt;code class=&quot;highlighter-rouge&quot;&gt;RXW&lt;/code&gt; permissions. This buffer will be allocated at &lt;code class=&quot;highlighter-rouge&quot;&gt;0x00C8F000&lt;/code&gt;. If the allocation fails, then execution will branch into the &lt;code class=&quot;highlighter-rouge&quot;&gt;write_message_and_exit&lt;/code&gt; funtion, in which the string &lt;code class=&quot;highlighter-rouge&quot;&gt;&#39;nandemo wa shiranai wa yo,&#39;&lt;/code&gt; gets printed to &lt;code class=&quot;highlighter-rouge&quot;&gt;stderr&lt;/code&gt;. On the other hand, if allocation of RWX chunk is sucessfull, execution will pivot back to &lt;code class=&quot;highlighter-rouge&quot;&gt;start+5&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;After allocating RWX memory, the malware will then proceed to copy and decode a given stub inside it. After a while analysing the code, I got to the conclusion that function &lt;code class=&quot;highlighter-rouge&quot;&gt;start+5&lt;/code&gt; (entrypoint+5) is the routine the malware uses to decode and copy packer stub. At this point I coudn’t do much progress just by static analysis. Therefore, I fired up the debugger ready to do some dynamic analysis.&lt;/p&gt;
 
@@ -750,7 +750,7 @@ The code also checks if current segment base + size exceeds the end of the &lt;c
          &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e_shstrndx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
 
 &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;dumpElf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;image_base&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;file&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/Users/n4x0r/Desktop/dumped.elf&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'wb'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;file&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/Users/n4x0r/Desktop/dumped.elf&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&#39;wb&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     &lt;span class=&quot;nb&quot;&gt;bytes&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GetManyBytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;image_base&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     
     &lt;span class=&quot;n&quot;&gt;ehdr&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ElfEhdr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;bytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
@@ -783,7 +783,7 @@ The code also checks if current segment base + size exceeds the end of the &lt;c
 &lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;ELF&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Header&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;Magic&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;   &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;45&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;46&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;01&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;01&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;01&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;03&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; 
   &lt;span class=&quot;n&quot;&gt;Class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                             &lt;span class=&quot;n&quot;&gt;ELF32&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;Data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                              &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;complement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;little&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endian&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                              &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&#39;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;complement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;little&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endian&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;Version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                           &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;current&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;OS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ABI&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                            &lt;span class=&quot;n&quot;&gt;UNIX&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GNU&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;ABI&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;                       &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
@@ -832,8 +832,8 @@ Thanks for reading and I hope you learned something useful from this post!.&lt;/
 
 </description>
         <pubDate>Fri, 17 Nov 2017 06:30:00 +0100</pubDate>
-        <link>http://localhost:4000/ulexec.github.io/article/2017/11/17/UnPacking_a_Linux_Tsunami_Sample.html</link>
-        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io/article/2017/11/17/UnPacking_a_Linux_Tsunami_Sample.html</guid>
+        <link>http://ulexec.github.io/ulexec.github.io/article/2017/11/17/UnPacking_a_Linux_Tsunami_Sample.html</link>
+        <guid isPermaLink="true">http://ulexec.github.io/ulexec.github.io/article/2017/11/17/UnPacking_a_Linux_Tsunami_Sample.html</guid>
         
         <category>reverse</category>
         
@@ -917,8 +917,8 @@ On another terminal execute gdb under the linux kernel directory:
 
 </description>
         <pubDate>Fri, 03 Nov 2017 06:30:00 +0100</pubDate>
-        <link>http://localhost:4000/ulexec.github.io/misc/2017/11/03/Building_Kernels_with_Buildroot.html</link>
-        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io/misc/2017/11/03/Building_Kernels_with_Buildroot.html</guid>
+        <link>http://ulexec.github.io/ulexec.github.io/misc/2017/11/03/Building_Kernels_with_Buildroot.html</link>
+        <guid isPermaLink="true">http://ulexec.github.io/ulexec.github.io/misc/2017/11/03/Building_Kernels_with_Buildroot.html</guid>
         
         <category>Kernel</category>
         
@@ -1030,9 +1030,9 @@ As we can see in the previous screenshot, the first thing this routine does is a
 
 &lt;p&gt;This section usually holds a SHA1 specific of the binary’s build. so we can say that both &lt;code class=&quot;highlighter-rouge&quot;&gt;.eh_frame&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;.build-id&lt;/code&gt; sections have been crafted specifically for this challenge, as a form of code cave to embed code.&lt;/p&gt;
 
-&lt;p&gt;Futhermore, we can see a comparison of the byte at &lt;code class=&quot;highlighter-rouge&quot;&gt;rdi + 0x200715&lt;/code&gt; with &lt;code class=&quot;highlighter-rouge&quot;&gt;'!'&lt;/code&gt;. In fact, this is the 16th byte of the input retrived with &lt;code class=&quot;highlighter-rouge&quot;&gt;scanf&lt;/code&gt; function at &lt;code class=&quot;highlighter-rouge&quot;&gt;main&lt;/code&gt;. If this check holds, it jumps back to function &lt;code class=&quot;highlighter-rouge&quot;&gt;0x284 + 5&lt;/code&gt; and resumes execution in the &lt;code class=&quot;highlighter-rouge&quot;&gt;.eh_frame&lt;/code&gt; routine. Otherwise, will pivot to &lt;code class=&quot;highlighter-rouge&quot;&gt;ld.so&lt;/code&gt; and will do further clean up until application termination.&lt;/p&gt;
+&lt;p&gt;Futhermore, we can see a comparison of the byte at &lt;code class=&quot;highlighter-rouge&quot;&gt;rdi + 0x200715&lt;/code&gt; with &lt;code class=&quot;highlighter-rouge&quot;&gt;&#39;!&#39;&lt;/code&gt;. In fact, this is the 16th byte of the input retrived with &lt;code class=&quot;highlighter-rouge&quot;&gt;scanf&lt;/code&gt; function at &lt;code class=&quot;highlighter-rouge&quot;&gt;main&lt;/code&gt;. If this check holds, it jumps back to function &lt;code class=&quot;highlighter-rouge&quot;&gt;0x284 + 5&lt;/code&gt; and resumes execution in the &lt;code class=&quot;highlighter-rouge&quot;&gt;.eh_frame&lt;/code&gt; routine. Otherwise, will pivot to &lt;code class=&quot;highlighter-rouge&quot;&gt;ld.so&lt;/code&gt; and will do further clean up until application termination.&lt;/p&gt;
 
-&lt;p&gt;At this point we can guess that the binaries flag must be &lt;code class=&quot;highlighter-rouge&quot;&gt;16 bytes&lt;/code&gt;, and must end with &lt;code class=&quot;highlighter-rouge&quot;&gt;'!'&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;At this point we can guess that the binaries flag must be &lt;code class=&quot;highlighter-rouge&quot;&gt;16 bytes&lt;/code&gt;, and must end with &lt;code class=&quot;highlighter-rouge&quot;&gt;&#39;!&#39;&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;Further down the rabbit hole, we can see how it executes an mprotect systemcall which essentially does the following:
 &lt;code class=&quot;highlighter-rouge&quot;&gt;mprotect(imageBase, 0x1000, PROT_READ|PROT_WRITE|PROT_EXEC)&lt;/code&gt;&lt;/p&gt;
@@ -1163,8 +1163,8 @@ The following code replicates the decription routine:&lt;/p&gt;
 
 </description>
         <pubDate>Fri, 03 Nov 2017 06:30:00 +0100</pubDate>
-        <link>http://localhost:4000/ulexec.github.io/writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html</link>
-        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io/writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html</guid>
+        <link>http://ulexec.github.io/ulexec.github.io/writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html</link>
+        <guid isPermaLink="true">http://ulexec.github.io/ulexec.github.io/writeup/2017/11/03/HitconCTF2017-Everlasting-Imaginative-Void.html</guid>
         
         <category>reverse</category>
         
@@ -1181,7 +1181,7 @@ The following code replicates the decription routine:&lt;/p&gt;
 
 &lt;p&gt;When we opened the binary with &lt;code class=&quot;highlighter-rouge&quot;&gt;IDA&lt;/code&gt;, we can see the graph overview of the main function:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/CodeGateCTF7/1.jpg&quot; alt=&quot;main's graph&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://github.com/n4x0r/n4x0r.github.io/raw/master/images/CodeGateCTF7/1.jpg&quot; alt=&quot;main&#39;s graph&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;if we have a closer look at the call graph, every basic block is composed of a small check. if that check holds, then the flow of execution continues to the next block. Otherwise, the flow of execution terminates with a call to exit.&lt;/p&gt;
 
@@ -1224,11 +1224,11 @@ I decided to follow my intuition and try some &lt;code class=&quot;highlighter-r
 &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;simuvex&lt;/span&gt;
 &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;claripy&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;angr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'angrybird'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;angr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;angrybird&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;blank_state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x004007c2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
 &lt;span class=&quot;n&quot;&gt;frame_addr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;regs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rbp&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;frame_val&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;se&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BVS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'flag'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;frame_val&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;se&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BVS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;flag&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;memory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;frame_addr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frame_val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
 &lt;span class=&quot;n&quot;&gt;pg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;path_group&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
@@ -1684,8 +1684,8 @@ I decided to follow my intuition and try some &lt;code class=&quot;highlighter-r
 &lt;p&gt;After running this script we will get the flag, which was: &lt;code class=&quot;highlighter-rouge&quot;&gt;Im_so_cute&amp;amp;pretty_:)&lt;/code&gt;&lt;/p&gt;
 </description>
         <pubDate>Sat, 11 Feb 2017 20:30:00 +0100</pubDate>
-        <link>http://localhost:4000/ulexec.github.io/writeup/2017/02/11/CodeGateCTF2017-Angrybird.html</link>
-        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io/writeup/2017/02/11/CodeGateCTF2017-Angrybird.html</guid>
+        <link>http://ulexec.github.io/ulexec.github.io/writeup/2017/02/11/CodeGateCTF2017-Angrybird.html</link>
+        <guid isPermaLink="true">http://ulexec.github.io/ulexec.github.io/writeup/2017/02/11/CodeGateCTF2017-Angrybird.html</guid>
         
         <category>reverse</category>
         
@@ -1738,7 +1738,7 @@ UPX!
 
 &lt;p&gt;Fortunately, &lt;code class=&quot;highlighter-rouge&quot;&gt;UPX&lt;/code&gt; also contains a flag for decompression. If we run the &lt;code class=&quot;highlighter-rouge&quot;&gt;upx -d move -o dem&lt;/code&gt; command it will decompress the &lt;code class=&quot;highlighter-rouge&quot;&gt;move&lt;/code&gt; binary and save a copy of the decompressed binary into disk with the name &lt;code class=&quot;highlighter-rouge&quot;&gt;dem&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;If we run &lt;code class=&quot;highlighter-rouge&quot;&gt;readelf -l dem&lt;/code&gt; command to see &lt;code class=&quot;highlighter-rouge&quot;&gt;dem's&lt;/code&gt; segments we see the following:&lt;/p&gt;
+&lt;p&gt;If we run &lt;code class=&quot;highlighter-rouge&quot;&gt;readelf -l dem&lt;/code&gt; command to see &lt;code class=&quot;highlighter-rouge&quot;&gt;dem&#39;s&lt;/code&gt; segments we see the following:&lt;/p&gt;
 
 &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Elf file &lt;span class=&quot;nb&quot;&gt;type &lt;/span&gt;is EXEC &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;Executable file&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 Entry point 0x804829c
@@ -1827,7 +1827,7 @@ Both of these registers will then be loaded into the &lt;code class=&quot;highli
 &lt;span class=&quot;n&quot;&gt;code&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FuncItems&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
 
 &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;line&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GetOpnd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'R2'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GetOpnd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&#39;R2&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
             &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;hex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GetDisasm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
@@ -1881,7 +1881,7 @@ Both of these registers will then be loaded into the &lt;code class=&quot;highli
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;idc&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
 &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;idaapi&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;flag&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;''&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;flag&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&#39;&#39;&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;
 
 &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Functions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
@@ -1891,7 +1891,7 @@ Both of these registers will then be loaded into the &lt;code class=&quot;highli
 &lt;span class=&quot;n&quot;&gt;code&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FuncItems&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
 
 &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;line&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GetOpnd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'R2'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GetOpnd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&#39;R2&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
             &lt;span class=&quot;n&quot;&gt;flag&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;chr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetOpnd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
             
 &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flag&lt;/span&gt;
@@ -1900,8 +1900,8 @@ Both of these registers will then be loaded into the &lt;code class=&quot;highli
 &lt;p&gt;By Executing the previous script we will get the flag : &lt;code class=&quot;highlighter-rouge&quot;&gt;ALEXCTF{M0Vfusc4t0r_w0rk5_l1ke_m4g1c}&lt;/code&gt;&lt;/p&gt;
 </description>
         <pubDate>Fri, 10 Feb 2017 20:30:00 +0100</pubDate>
-        <link>http://localhost:4000/ulexec.github.io/writeup/2017/02/10/AlexCTF-PackedMovement.html</link>
-        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io/writeup/2017/02/10/AlexCTF-PackedMovement.html</guid>
+        <link>http://ulexec.github.io/ulexec.github.io/writeup/2017/02/10/AlexCTF-PackedMovement.html</link>
+        <guid isPermaLink="true">http://ulexec.github.io/ulexec.github.io/writeup/2017/02/10/AlexCTF-PackedMovement.html</guid>
         
         <category>reverse</category>
         
@@ -2012,7 +2012,7 @@ If we look above the call to &lt;code class=&quot;highlighter-rouge&quot;&gt;sen
             &lt;span class=&quot;mh&quot;&gt;0x12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x2e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x23&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x19&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x23&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x25&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x34&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; \
             &lt;span class=&quot;mh&quot;&gt;0x23&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x19&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x02&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x27&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x27&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x46&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
 
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;chr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;^&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;70&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;payload&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&#39;&#39;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;chr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;^&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;70&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;payload&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
@@ -2024,8 +2024,8 @@ If we look above the call to &lt;code class=&quot;highlighter-rouge&quot;&gt;sen
 
 </description>
         <pubDate>Mon, 19 Dec 2016 20:30:00 +0100</pubDate>
-        <link>http://localhost:4000/ulexec.github.io/writeup/2016/12/19/SharifCTF2016-Nanomites.html</link>
-        <guid isPermaLink="true">http://localhost:4000/ulexec.github.io/writeup/2016/12/19/SharifCTF2016-Nanomites.html</guid>
+        <link>http://ulexec.github.io/ulexec.github.io/writeup/2016/12/19/SharifCTF2016-Nanomites.html</link>
+        <guid isPermaLink="true">http://ulexec.github.io/ulexec.github.io/writeup/2016/12/19/SharifCTF2016-Nanomites.html</guid>
         
         <category>reverse</category>
         
