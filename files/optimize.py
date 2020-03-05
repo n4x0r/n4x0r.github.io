@@ -8,6 +8,7 @@ from miasm.expression.simplifications import expr_simp_high_to_explicit
 from miasm.analysis.cst_propag import propagate_cst_expr
 from miasm.analysis.data_flow import DeadRemoval, merge_blocks, remove_empty_assignblks
 from future.utils import viewitems
+from miasm.ir.ir import IntermediateRepresentation, AssignBlock
 
 parser = ArgumentParser("LLVM export example")
 parser.add_argument("target", help="Target binary")
@@ -25,14 +26,28 @@ dis = machine.dis_engine(cont.bin_stream, loc_db=cont.loc_db)
 # Disassembling and extracting CFG
 asmcfg = dis.dis_multiblock(int(args.addr, 0))
 
+# Include this class to specify target function subfunctions calling convention
+# since for x86 all arguments are in the stack, we can live this deffinition empty
+class IRAX86FuncCalls(machine.ira):
+        def call_effects(self, ad, instr):
+            call_assignblk = AssignBlock(
+            [
+               
+            ],
+            instr
+        )
+            return [call_assignblk], []
+
+
 # Extracting IR Archive and IRCFG
-ir_arch = machine.ira(cont.loc_db)
+ir_arch = IRAX86FuncCalls(cont.loc_db)
 ircfg = ir_arch.new_ircfg_from_asmcfg(asmcfg)
 
 # Printing IR before simplification
 print('Before Simplification:')
 for lbl, irb in viewitems(ircfg.blocks):
     print(irb)
+
 
 # Simplifying 
 deadrm = DeadRemoval(ir_arch)
