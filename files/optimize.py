@@ -1,16 +1,15 @@
-from future.utils import viewitems, viewvalues
-from argparse import ArgumentParser
 from miasm.analysis.binary import Container
 from miasm.analysis.machine import Machine
 from miasm.jitter.llvmconvert import *
-from llvmlite import ir as llvm_ir
 from miasm.expression.simplifications import expr_simp_high_to_explicit
 from miasm.analysis.cst_propag import propagate_cst_expr
 from miasm.analysis.data_flow import DeadRemoval, merge_blocks, remove_empty_assignblks
-from future.utils import viewitems
 from miasm.ir.ir import IntermediateRepresentation, AssignBlock
+from future.utils import viewitems, viewvalues
+from argparse import ArgumentParser
+from llvmlite import ir as llvm_ir
 
-parser = ArgumentParser("LLVM export example")
+parser = ArgumentParser("MIASM IR to LLVM to X86 Optimizer")
 parser.add_argument("target", help="Target binary")
 parser.add_argument("addr", help="Target address")
 parser.add_argument("--architecture", "-a", help="Force architecture")
@@ -124,4 +123,4 @@ target = target.from_triple('i386-pc-linux-gnu')
 target_machine = target.create_target_machine()
 obj_bin = target_machine.emit_object(M)
 obj = llvm.ObjectFileRef.from_data(obj_bin)
-open("./dump_full", "w").write(obj_bin)
+open("./%s-%s.o" % (args.target, hex(int(args.addr, 0))), "wb").write(obj_bin)
