@@ -755,7 +755,7 @@ def semantic_compare(blk0, blk1, ir_arch0, ir_arch1, asmcfg, flag_cmp=False):
     return True
 ```
 
-We lift both of the ASMBlock into IR ones (or AssignBlocks) and then we symbolically execute them.
+We lift both of the ASMBlock into IR ones (IRBlock of AssignBlocks) and then we symbolically execute them.
 In order to sucessfully symbolically execute both of them, some default setup for each IR block has to be done:
 
 ```python
