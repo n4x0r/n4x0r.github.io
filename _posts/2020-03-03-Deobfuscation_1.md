@@ -551,7 +551,7 @@ There are known attacks against Symbolic Execution Analysis:
 - Input Dependant loops.
 - Range Dividers.
 
-Another approach to detect opaque predicates: Abstract Interpretation (TODO)
+Another approach to detect opaque predicates: Abstract Interpretation (TODO. Some nice [reference](https://www.msreverseengineering.com/blog/2018/2/26/concrete-and-abstract-interpretation-explained-through-chess) by Rolf Rolles)
 
 In the following section we will cover an approach to detect Range Dividers and how we can circumvent them.
 
