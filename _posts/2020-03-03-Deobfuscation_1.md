@@ -11,7 +11,7 @@ This article is going to serve as my personal reference on this topic. Since I'v
 
 ## Introduction 
 
-There are close to 31 known [code transformations]("https://mediatum.ub.tum.de/doc/1367533/1367533.pdf). However, In this article we will focus on grouping these transformation in categories based on their behavior, and we will cover some of the most relevant techniques today on a conceptual point of view.
+There are close to 31 known [code transformations](https://mediatum.ub.tum.de/doc/1367533/1367533.pdf). However, In this article we will focus on grouping these transformation in categories based on their behavior, and we will cover some of the most relevant techniques today on a conceptual point of view.
 We will be also covering practical approaches to the aforementioned techniques using the reverse engineering framework MIASM (0.1.3.dev39).
 
 Despite the large number of transformations, obfuscation techniques can be group up into 3 different categories:
