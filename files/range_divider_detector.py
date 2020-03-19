@@ -239,7 +239,7 @@ def main(args):
             dst_ldl = dst_blk._loc_key
 
             # Skip a basic block containing only single instruction
-            if len(dst_blk.lines) < ==  and dst_blk.lines[0].dstflow():
+            if len(dst_blk.lines) == 1 and dst_blk.lines[0].dstflow():
                 continue
 
             # Skip if src and dst block are the same block
