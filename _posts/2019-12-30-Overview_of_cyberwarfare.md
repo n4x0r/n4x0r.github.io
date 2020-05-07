@@ -17,7 +17,7 @@ I also tried to introduce a foundation to this subject in case readers would be 
 <br/>
 
 ## **Foundation**  
-Is important to interpret Information Warfare as the fifth war domain. In contrast with more conventional war domains such as Land, Sea or Air, the Cyber domain provides a wide range of capabilities that the previous domains can't provide, also subject to different rules which do not align with previously known strategic basis of the warfare realm. Philosophically speaking, this fifth domain provides the following capabilities in regards to what kind of operations can be leveraged in this domain:
+Is important to interpret Information Warfare as the fifth war domain. In contrast with more conventional war domains such as Land, Sea or Air, the Cyber domain provides a wide range of capabilities that the previous domains can't provide, also subject to different rules which do not align with previously known strategic basis of the warfare realm. Philosophically speaking, this fifth domain provides the following capabilities in regards to what kind of activities can be leveraged:
 
 * **Active** - Direct way of manipulatinig target's information - eg: Unit8200 was fighting with the PLO. They broke into the computers were the PL0 processed all the finances and they transfered money around to make it appear as if there was deep corruption. This strategy worked because there was a degree of real corruption. So this operation spiked the corruption awareness of the [PLO](https://www.ft.com/content/1b870488-7940-11d9-89c5-00000e2511c8). This caused a degree of degradation of capability within the PLO. 
 
@@ -27,8 +27,8 @@ Is important to interpret Information Warfare as the fifth war domain. In contra
 
 * **Cognitive** - Ability to modify a target's behavior with information - Based on the same foundations as Marketing or Propaganda. Not restricted to distribution of untruthful information or disiniformation, sometimes a target's behavior can be changed by supplying unknown truths. I highly suggest to read about Reflexive Control Theory to know more about the stategies that can be applied in this specific domain. Some examples of this type of information operations are such as Guccifer 2.0 or the Shadow Brokers.
 
-These types of operations are not mutual exclusive, meaning overlaps of these types of operations is likely to happen. 
-Based on these information, we can build a high level theoritical overview of the capabilities and realistic outcomes of what can be achieved relying on operations in the Information Warfare domain.
+These types of actions are not mutual exclusive, meaning overlaps of these types of activities is likely to happen. 
+Based on this information, we can build a high level theoritical overview of the capabilities and realistic outcomes of what can be achieved relying on operations in the fifth domain.
 
 <br/>
 
