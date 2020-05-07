@@ -160,7 +160,7 @@ A brief overview of these agencies are the following:
 
 It's important to highlight that these Agencies are in constant state of rivalry. 
 
-*'These agencies have been Historically competing. Stalin was terrified by the potential formation of a political coup run by the Intelligence Community (the KGB back then) while in times of the Soviet Union, so he made a Military Intelligence Agency (GRU) with the idea to make these agencies compete to prevent the formation of this coup.'* - The Grugq (paraphrased).
+*'These agencies have been historically competing. Stalin was terrified by the potential formation of a political coup run by the Intelligence Community (the KGB back then) while in times of the Soviet Union, so he created a Military Intelligence Agency (GRU) with the idea to make these agencies compete to prevent the formation of this coup.'* - The Grugq (paraphrased).
 
 This rilvalry obviously benefits the state in terms of the outcome of their cyber operations, since the high level of competition has a direct impact on innovation and therefore on operational performance.
 
