@@ -199,7 +199,7 @@ Among the different cyber operations conducted by The Russian Federation, we can
 <br/>
 
 *   [2016 US Election Disinformation Campaigns](https://en.wikipedia.org/wiki/Russian_interference_in_the_2016_United_States_elections) - (2016) The Russian government interfered in the 2016 U.S. presidential election with the goal of harming the campaign of Hillary Clinton, boosting the candidacy of Donald Trump, and increasing political and social discord in the United States. According to the special counsel investigation's Mueller Report (officially named "Report on the Investigation into Russian Interference in the 2016 Presidential Election"), the first method of Russian interference used the Internet Research Agency (IRA), a Kremlin-linked troll farm, to wage "a social media campaign that favored presidential candidate Donald J. Trump and disparaged presidential candidate Hillary Clinton". Russian use of social media to disseminate propaganda content was very broad. Facebook and Twitter were used, but also Reddit, Tumblr, Pinterest, Medium, YouTube, Vine, Instagram and Google+ (among other sites). 
-This is yet another example of adaptability capacity by Russia's operatives to use different technologies to deploy cognitive based cyber operations that following a common strategic goal.
+This is yet another example of adaptability capacity by Russia's operatives to use different technologies to deploy cognitive based cyber operations following a common strategic goal.
 
 For a more detailed overview of most of the engagements by the Russian Federation with offensive cyber capabilities please check this spreadsheet. (On Course)
 
