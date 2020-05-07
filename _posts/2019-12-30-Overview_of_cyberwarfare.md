@@ -130,7 +130,7 @@ Russia uses several small teams of contractors to conduct their cyber operations
 *   [APT29](https://www2.fireeye.com/rs/848-DID-242/images/rpt-apt29-hammertoss.pdf)
 *   [Turla](https://www.first.org/resources/papers/tbilisi2014/turla-operations_and_development.pdf)
 *   [Sandworm](https://www.welivesecurity.com/wp-content/uploads/2017/06/Win32_Industroyer.pdf)
-*   [Energetic Bear](https://securelist.com/energetic-bear-crouching-yeti/85345/)
+*   [DragonFly](https://securelist.com/energetic-bear-crouching-yeti/85345/)
 *   [Cyber Berkut](https://en.wikipedia.org/wiki/CyberBerkut)
 *   [Gamaredon](https://www.securityweek.com/russian-gamaredon-hackers-back-targeting-ukraine-officials?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%3A+Securityweek+%28SecurityWeek+RSS+Feed%29)
  
