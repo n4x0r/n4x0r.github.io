@@ -225,8 +225,8 @@ For a more detailed overview of most of the engagements by the Russian Federatio
 *   Several small teams style
 *   Conduct information operations by releasing stolen information or leaks introducing falsehoods.
 *   Deploy DDoS attacks to conduct deterrance campaigns
-*   Design deterrance/influence operations around target state's political election compaigns
-*   Application of Hybrid Warfare - combining military and non-military as well as covert and overt means, including disinformation, cyber-attacks, economic pressure, deployment of irregular armed groups and use of regular forces to blur the lines between war and peace, and attempt to sow doubt in the minds of targets.
+*   Design deterrance/influence operations around target state's political election campaigns
+*   Hybrid Warfare - combining military and non-military as well as covert and overt means, including disinformation, cyber-attacks, economic pressure, deployment of irregular armed groups and use of regular forces to blur the lines between war and peace, and attempt to sow doubt in the minds of targets.
 *   Active Measures - Actions of political warfare designed to change the course of world events by influence operations based on disinformation campaigns.
 *   Reflexive Control - to influence rival states on their decision making capabilities so that the strategic outcome is aligned with the state's interest while the adversary often is not aware of it levergad via information operations.
 
