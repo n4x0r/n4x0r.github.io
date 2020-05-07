@@ -7,8 +7,7 @@ tags: [cyber]
 author: ulexec
 ---
 
-Information Warfare has evolved in the last years introducing challenges to reflect a theoritical model of this new domain in order to understand its nuances which impact a wide range of different sectors, in particular (and the one I am most interested of) the Threat Intelligence sector.
-
+Information Warfare has evolved in the last years introducing challenges to reflect a theoritical model of this new domain in order to understand its nuances which impact a wide range of different sectors, including the Threat Intelligence community.
 This article is meant to be a brief reference of some of the various enagements allegedly conducted by The Russian Federation in the Information Warfare realm.
 Not that this matters whatsover for Threat Intelligence, but as this sector grows and gets mature over time, its neccessary to have some historic context of different noticable events, in particular the ones leveraged by Russian sponsored state actors, which in my opinion seem to be particularly interesting since they have showed to be some of the most creative and innovative in the way they have conducted their operations, based on publicly available reports.
 
@@ -75,7 +74,7 @@ According to the Constitution of Russia, the country is an asymmetric federation
 
 Russia has the largest stockpile of nuclear weapons in the world, the second largest fleet of ballistic missile submarines, and the only modern strategic bomber force outside the United States. More than 90% of world's 14,000 nuclear weapons are owned by Russia and the United States.
 
-There is so much that could be said about Russia in regards to cultural, political, social and economic aspects which really are far out of the scope of this article.
+There is so much that could be said about Russia in regards to its cultural, political, social and economic aspects which really are far out of the scope of this article.
 However, in order to have a naive understanding of Russia's political and economic status the following statistics are supplied based on The CIA's [World Fact Book](https://www.cia.gov/library/publications/the-world-factbook/geos/rs.html):
 
 <br/>
@@ -213,16 +212,15 @@ For a more detailed overview of most of the engagements by the Russian Federatio
 
 <br/>
 
-#### Overview of Russia's Approach on Cyber Warfare:
+#### Remarks of Russia's apporach to Cyber Warfare:
 *   Offensive Defensive approach
 *   Several small teams style
-*   Acquire intelligence on foreign military projects
-*   Conduct Information Operations by releasing leaks introducing falsehoods.
+*   Conduct information operations by releasing stolen information or leaks introducing falsehoods.
 *   Deploy DDoS attacks to conduct deterrance campaigns
 *   Design deterrance/influence operations around target state's political election compaigns
 *   Application of Hybrid Warfare - combining military and non-military as well as covert and overt means, including disinformation, cyber-attacks, economic pressure, deployment of irregular armed groups and use of regular forces to blur the lines between war and peace, and attempt to sow doubt in the minds of targets.
-*   Active measures - Actions of political warfare designed to change the course of world events by influence operations based on disinformation campaigns.
-*   Apply Reflexive Control Theory - to influence rival states on their decision making capabilities so that the strategic outcome is aligned with the state's interest while the adversary often is not aware of it.
+*   Active Measures - Actions of political warfare designed to change the course of world events by influence operations based on disinformation campaigns.
+*   Reflexive Control - to influence rival states on their decision making capabilities so that the strategic outcome is aligned with the state's interest while the adversary often is not aware of it.
 
 <br/>
 
