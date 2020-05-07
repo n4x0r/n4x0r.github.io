@@ -7,9 +7,10 @@ tags: [cyber]
 author: ulexec
 ---
 
-Information Warfare has evolved in the last years introducing challenges to reflect a theoritical model of this new domain in order to understand its nuances which impact a wide range of different sectors, including the Threat Intelligence community.
+Information Warfare has evolved in the last years introducing challenges to reflect a theoritical model of this new domain in order to understand its nuances which impact a wide range of different sectors operating within this domain.
+
 This article is meant to be a brief reference of some of the various enagements allegedly conducted by The Russian Federation in the Information Warfare realm.
-Not that this matters whatsover for Threat Intelligence, but as this sector grows and gets mature over time, its neccessary to have some historic context of different noticable events, in particular the ones leveraged by Russian state sponsored actors, which in my opinion seem to be particularly interesting since they have showed to be some of the most creative and innovative in the way they have conducted their operations based on publicly available reports.
+Not that this matters whatsover for Threat Intelligence, but as this sector grows and gets mature over time, I think is important to have some historic context of different noticable events, in particular the ones leveraged by Russian state sponsored actors which in my opinion have showed to be some of the most creative and innovative in the way they have conducted their operations based on publicly available reports.
 
 I also tried to introduce a foundation to this subject in case readers would be interested since it is in my opinion a broad and complex subject. A great reference is [this](https://www.youtube.com/watch?v=gvS4efEakpY&list=PLxA6YRnSzNvINyHpEL5tkDzpu_fKBAXGR&index=1https://www.youtube.com/watch?v=gvS4efEakpY&list=PLxA6YRnSzNvINyHpEL5tkDzpu_fKBAXGR&index=1) presentation by The Grugq, which is the main reference in regards to the foundational information this article is based on.
 
