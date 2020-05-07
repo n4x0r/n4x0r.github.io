@@ -98,66 +98,7 @@ According to the Constitution of Russia, the country is an asymmetric federation
 Russia has the largest stockpile of nuclear weapons in the world, the second largest fleet of ballistic missile submarines, and the only modern strategic bomber force outside the United States. More than 90% of the world's 14,000 nuclear weapons are owned by Russia and the United States.
  
 There is so much that could be said about Russia in regards to its cultural, political, social and economic aspects which really are far out of the scope of this article.
-However, in order to have a naive understanding of Russia's social and economic status the following statistics are supplied based on The CIA's [World Factbook](https://www.cia.gov/library/publications/the-world-factbook/geos/rs.html):
- 
-<br/>
- 
-#### **Overview on Modern Russia:**
-* Population (July 2018 est.): 142,122,776 
-* Gross Domestic Product: $1.578 trillion (2017 est.)
-* Gross Domestic Product per Capita: $27,900 (2017 est.)
-* Government type: semi-presidential federation
-* Ethnic groups (2010 est.):
-    * Russian 77.7%
-    * Tatar 3.7%
-    * Ukrainian 1.4%
-    * Bashkir 1.1%
-    * Chuvash 1%
-    * Chechen 1%
-    * other 10.2%
-    * unspecified 3.9%
-* Languages (2010 est.):
-    * Russian (official) 85.7%
-    * Tatar 3.2%
-    * Chechen 1%
-    * other 10.1% 
-* Religions (2006 est.):
-    * Russian Orthodox 15-20%, 
-    * Muslim 10-15%, 
-    * other Christian 2% 
-* Exports: $353 billion (2017 est.)
-    * Commodities: 
-        * Petroleum and Petroleum products
-        * Natural gas
-        * Metals,
-        * Wood and wood products
-        * Chemicals, 
-        * Variety of civilian and military manufactures
-    * Partners (2017):
-        * China 10.9%
-        * Netherlands 10%
-        * Germany 7.1%
-        * Belarus 5.1%
-        * Turkey 4.9% 
-* Imports: $238 billion (2017 est.)
-    * Commodities: 
-        * Machinery
-        * Vehicles
-        * Pharmaceutical products
-        * Plastic
-        * Semi-finished metal products
-        * Meat
-        * Fruits and Nuts
-        * Optical and Medical Instruments
-        * Iron
-        * Steel
-    * Partners (2017):
-        * China 21.2%
-        * Germany 10.7%
-        * US 5.6%
-        * Belarus 5%
-        * Italy 4.5%
-        * France 4.2%
+However, in order to have a better understanding of Russia's social and economic status The CIA's [World Factbook](https://www.cia.gov/library/publications/the-world-factbook/geos/rs.html) shows very useful statistics.
  
 <br/>
  
