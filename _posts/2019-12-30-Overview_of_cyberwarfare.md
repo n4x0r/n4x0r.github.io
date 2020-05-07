@@ -71,7 +71,7 @@ The previous factors serve as a good theoritical standard to measure a given tea
 There is a palet of grays within these different structure styles, however is important to understand that for each of these different styles a different degree of bureaucracy, resources and budget is required.
 In addition, not all organizations in charge of managing their teams have the same level of bureaucracy. As an example, a private company would not have the same politics as a public sector agency, and even public sector agencies will have different politics based on various factors, such as state geopolitical status, resources, dedicated budget, ... etc.
 
-Bureaucracy is a key enabler to help to interpret different team structures and the reasons why they are grouped the way they are. A good understanding of specific teams will lead to a good interpretation of their conducted operations and viceversa.
+Bureaucracy is a key enabler to help to interpret different team structures and the reasons why they are grouped the way they are. A good understanding of teams will lead to a good interpretation of their operations and viceversa.
 
 <br/>
 <br/>
