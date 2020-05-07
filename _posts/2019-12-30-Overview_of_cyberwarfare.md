@@ -1,71 +1,82 @@
 ---
 layout: article
-title:  "A Brief Reference on Russian Cyber Warfare"
+title:  "A Brief Reference on Russian Information Warfare"
 date:   2019-12-30 06:30
 categories: cyber
 tags: [cyber]
 author: ulexec
 ---
 
-This article is meant to be a brief reference of the different states involved in Cyber Warfare and their capabilities. However, in order to understand the information provided the right way, is essential that we cover some base knowledge around Cyber Warfare first. A great reference is [this](https://www.youtube.com/watch?v=gvS4efEakpY&list=PLxA6YRnSzNvINyHpEL5tkDzpu_fKBAXGR&index=1https://www.youtube.com/watch?v=gvS4efEakpY&list=PLxA6YRnSzNvINyHpEL5tkDzpu_fKBAXGR&index=1) presentation by The Grugq, which is the main reference among other sources where some of the more theoritical information that will be presented is based on. 
+Information Warfare has evolved in the last years and there are challenges to reflect a theoritical model of this new domain in order to understand its nuances which impact a wide range of different sectors, in particular, (and the one I am most interested of) the Threat Intelligence sector.
+
+This article is meant to be a brief reference of some of the various enagements allegedly conducted by The Russian Federation in the Information Warfare realm.
+Not that this matters whatsover for Threat Intelligence, but as this sector grows and gets mature over time, its neccessary to have some historic context of different noticable events, in particular the ones leveraged by Russian sponsored state actors, which to my opinion seem to be particularly interesting since they have showed to be some of the most creative and proficient in the way they have conducted their operations, based on publicly available reports.
+
+I also tried to introduce a foundation to this subject in case readers would be interested since it is in my opinion a broad and complex subject. A great reference is [this](https://www.youtube.com/watch?v=gvS4efEakpY&list=PLxA6YRnSzNvINyHpEL5tkDzpu_fKBAXGR&index=1https://www.youtube.com/watch?v=gvS4efEakpY&list=PLxA6YRnSzNvINyHpEL5tkDzpu_fKBAXGR&index=1) presentation by The Grugq, which is the main reference the foundational information this article is based on.
 
 <br/>
 
 ## **Foundation**  
-Is important to interpret Cyber Warfare as the fifth War dimension, and to recognise the capabilities of this dimension. Philosophically speaking, Cyber intersects with reality in four different ways. These are the following:
+Is important to interpret Information Warfare as the fifth war domain. In contrast with more conventional war domains such as Land, Sea or Air, the Cyber domain provides a wide range of capabilities that the previous domains can't provide, also subject to different rules which do not align with previously known strategic basis of the warfare realm. Philosophically speaking, this fifth domain provides the following capabilities in regards to what kind of operations can be leveraged in this domain:
 
 * **Active** - Direct way of manipulatinig target's information - eg: Unit8200 was fighting with the PLO. They broke into the computers were the PL0 processed all the finances and they transfered money around to make it appear as if there was deep corruption. This strategy worked because there was a degree of real corruption. So this operation spiked the corruption awareness of the [PLO](https://www.ft.com/content/1b870488-7940-11d9-89c5-00000e2511c8). This caused a degree of degradation of capability within the PLO. 
 
-* **Passive** - Ability to monitor target's information - Some states are heavily relying on this capability. eg: Snowden [Leaks](https://en.wikipedia.org/wiki/Global_surveillance_disclosures_(2013%E2%80%93present)) NSA's secret global surveilance program to the public.
+* **Passive** - Ability to monitor target's information - Some states are heavily relying on this capability. eg: Snowden [Leaks](https://en.wikipedia.org/wiki/Global_surveillance_disclosures_(2013%E2%80%93present)) NSA's secret global surveilance program to the public. FEYES, PRISM ... etc.
 
-* **Physical** - Direct impact on physical targets - eg: Operation Olympic Games or also known as [Stuxnet](https://en.wikipedia.org/wiki/Stuxnet), was deployed to cause substantial damage to Iran's nuclear program by compromising PLCs in Iranian Uranium enrichment facilities, collecting information on industrial systems and causing the fast-spinning centrifuges to tear themselves apart.
+* **Physical** - Direct impact on physical targets - eg: Operation Olympic Games or also known as [Stuxnet](https://en.wikipedia.org/wiki/Stuxnet), was deployed to cause substantial damage to Iran's nuclear program by compromising PLCs in Iranian Uranium enrichment facilities, collecting information on industrial systems and causing the fast-spinning centrifuges to tear themselves apart. Another example is the case of Industroyer, involved in the 2016 Ukranian Power Grid blackout.
 
-* **Cognitive** - Ability to modify a target's behavior with information - Based on the same foundations as Marketing or Propaganda. Not restricted to distribution of untruthful information or disiniformation, sometimes a target's behavior can be changed by supplying unknown truths. I highly suggest to read about Reflexive Control Theory to know more about the stategies that can be applied in this specific intersection.
+* **Cognitive** - Ability to modify a target's behavior with information - Based on the same foundations as Marketing or Propaganda. Not restricted to distribution of untruthful information or disiniformation, sometimes a target's behavior can be changed by supplying unknown truths. I highly suggest to read about Reflexive Control Theory to know more about the stategies that can be applied in this specific domain. Some examples of this type of information operations are such as Guccifer 2.0 or the Shadow Brokers.
 
-Based on the information explained above, we can build a high level theoritical overview of the capabilities and realistic outcomes of what can be achieved relying on operations in the Cyber domain.
+These types of operations are not mutual exclusive, meaning overlaps of these types of operations is likely to happen. 
+Based on these information, we can build a high level theoritical overview of the capabilities and realistic outcomes of what can be achieved relying on operations in the Information Warfare domain.
 
 <br/>
 
 ## **Teams**  
-Cyber Warfare is not really about computers, is more about people and information. Cyber operations are conducted by private and public sector companies, with managers, salaries, budget etc, etc ...
+Is important to understand that Information Warfare is not just about how computers can be leveraged to achieve a specific strategic outcome, but is also about people and information. These type of operations are conducted by private and public sector companies, with managers, salaries, budgets, ... etc. 
+This is an important factor to understand in order to make sense of the dynamics of this domain in terms of toolsets, team capacity and efficacy of operations.
 
-Is important to understand that based on these environments, bureaucracy is a major factor which enables the capacity of cyber operations in a number of different ways. Bureaucracy enables teams to work at maximum capacity making it fundamental for any type of cyber operation. 
+A common denominator within all the various types of actors conducting cyber operations is bureaucracy. Bureaucracy enables teams to work at maximum capacity making it fundamental to undersand operations, teams and their hierachy. 
 
 *'One may not think that such a thing as Bureaucracy would improve the efficiency of cyber operations, but it does'* - The Grugq. 
 
-Based on bureaucracy we can meassure the efficiency of a team's capacity on a series of characteristics. We can call these characteristics the Factors of Team Capacity by The Grugq.
+Based on bureaucracy we can meassure the efficiency of a team's capacity on a series of factors. We can call these characteristics the Factors of Team Capacity (based on The Grugq).
 
 ### **Factors of Team Capacity**  
-* **Addaptability** - How well a team can adapt new technologies to be utilized as part of the team's toolset on cyber conflict and aid to meet specific strategic goals.
+* **Addaptability** - How well a team can adapt new technologies to be leveraged as part of the team's toolset on cyber conflict and aid to meet specific strategic goals.
 
 * **Agility** - How rapid a team can change an operational strategy to achieve a common strategic goal.
 
-* **Speed** - How fast a team can implement and execute an idea. Usually a measure of bureaucracy flexibility in terms of the number of abstraction layers (meetings) needed to approve and implement an idea.
+* **Speed** - How fast a team can implement and execute an idea. Usually a measure of bureaucracy flexibility in terms of the number of abstraction layers (usually denoted in meetings) needed to approve and implement an idea.
 
-* **Creativity** - How well and fast a team comes up with newer innovative techniques.
+* **Creativity** - How well and fast a team comes up with newer innovative techniques to achieve operational and tactical outcomes.
 
 * **Cohesion** - How well a team works together individually and collectivelly with other teams and how good they follow the executive order.
 
-It's important to notice that high cohesion may impact creativity capacity. If there is a very strict set of commands and no room for brainstorming or a high priority on an finite operational ROI and no investment in innovation, creativity capacity will be damaged consequently.
+High cohesion may impact creativity capacity. If there is a very strict set of commands to execute a specific action or a high priority on an finite operational ROI and no investment in innovation, creativity capacity will be damaged consequently.
 
-The previous factors serve as a good standard to measure a given team's efficiency. Likely important is to know that there are a series of standard strategies to organise teams dedicated to conduct cyber operations seen to been applied by various states. The following table shows these strategies also known as Dave Aitel's (former NSA cyber-operative) Meta - operational team structures: 
+The previous factors serve as a good theoritical standard to measure a given team's efficiency on conducted operations. Likely important is to know that there are various styles in which to organise operational teams. The following table shows Dave Aitel's (former NSA cyber-operative) Meta - operational team structures: 
 
 <br/>
 <div style="text-align:center"><img src ="https://github.com/ulexec/ulexec.github.io/raw/master/images/dave_aitel_meta.png" /></div>
 <br/>
 
-Knowing this information will help interpreting the capabilities and the reasons behind the team structures and rate of success or failure of the various cyber operations of the 
-following states.
+There is a palet of grays within these different structure styles, however is important to understand that for each of these different styles a different degree of bureaucracy, resources and budget is required.
+In addition, not all organizations in charge of managing their teams have the same level of bureaucracy. As an example, a private company would not have the same politics as a public sector agency, and even public sector agencies will have different politics based on various factors, such as state geopolitical status, resources, dedicated budget, ... etc.
+
+Bureaucracy is a key enabler to help to interpret different team structures and the reasons why they are grouped the way they are. A good understanding of specific teams will lead to a good interpretation of their conducted operations and viceversa.
 
 <br/>
 <br/>
 
 ## **Russia** 🇷🇺
-The Russian Federation existance started with the dissolution of the Soviet Union. This was the process of internal disintegration within the Union of Soviet Socialist Republics (USSR), also referred to as the Soviet Union, which began in the second half of the 1980s with growing unrest in the national republics and ended on 26 December 1991.
+The Russian Federation existance started with the dissolution of the Soviet Union, which began in the second half of the 1980s with growing unrest in the national republics and ended on 26 December 1991.
 According to the Constitution of Russia, the country is an asymmetric federation and semi-presidential republic, wherein the President (Vladimir Putin) is the head of state and the Prime Minister (Dmitry Medvedev) is the head of government.
+
 Russia has the largest stockpile of nuclear weapons in the world, the second largest fleet of ballistic missile submarines, and the only modern strategic bomber force outside the United States. More than 90% of world's 14,000 nuclear weapons are owned by Russia and the United States.
 
-The following are some population, political and economic statistics about the The Russian Federation based on The CIA's [World Fact Book](https://www.cia.gov/library/publications/the-world-factbook/geos/rs.html):
+There is so much that could be said about Russia in regards to cultural, political, social and economic aspects which really are far out of the scope of this article.
+However, in order to have a naive understanding of Russia's political and economic status the following statistics are supplied based on The CIA's [World Fact Book](https://www.cia.gov/library/publications/the-world-factbook/geos/rs.html):
 
 <br/>
 
@@ -128,7 +139,12 @@ The following are some population, political and economic statistics about the T
 
 <br/>
 
+
 #### **Intelligence Agencies involved in Cyber Warfare:**
+
+Not much is known of private contractors sponsored by the state in order to conduct Information Warfare operations. However is known that Russian intelligence agencies have engaged in Information Warfare.
+A brief overview of these agencies are the following:
+
 *   [FSB](https://en.wikipedia.org/wiki/Federal_Security_Service) - The FSB, which Putin briefly ran prior to becoming president, is often described as the main successor agency to the Soviet KGB. Established in 1995, the FSB handles domestic security, cyber security, information operations, and counterterrorism efforts, and, according to a report by the U.S. Senate Committee on Foreign Relations, is the most powerful Russian intelligence agency. The FSB has three main objectives, namely countering foreign intelligence services, combatting organized crime, and ensuring economic and financial security.
 
 *   [GRU](https://en.wikipedia.org/wiki/GRU_(G.U.)) - The Main Directorate of the General Staff of the Armed Forces of the Russian Federation. The GRU was established by Joseph Stalin′s order of 16 February 1942. The GRU, which dates back to the Soviet era, is the Russian military intelligence agency. In concert with its civilian counterpart, the SVR, the GRU handles external intelligence gathering and operates human intelligence officers. Additionally, it provides military intelligence for the Russian government and oversees Russian special forces (Spetsnaz).
@@ -137,15 +153,15 @@ The following are some population, political and economic statistics about the T
 
 It's important to highlight that these Agencies are in constant state of rivalry. 
 
-*'These agencies have been Historically competing. Stalin was terrified by the potential formation of a political cue run by the Intelligence Community (the KGB back then) while in times of the Soviet Union, so he made a Military Intelligence Agency (GRU) with the idea to make these agencies compete to prevent the formation of this cue.'* - The Grugq (paraphrased).
+*'These agencies have been Historically competing. Stalin was terrified by the potential formation of a political coup run by the Intelligence Community (the KGB back then) while in times of the Soviet Union, so he made a Military Intelligence Agency (GRU) with the idea to make these agencies compete to prevent the formation of this coup.'* - The Grugq (paraphrased).
 
-This rilvalry obviously benefits the state in terms of the outcome of their cyber operations, since the high level of competition has a direct impact on operational performance.
+This rilvalry obviously benefits the state in terms of the outcome of their cyber operations, since the high level of competition has a direct impact on innovation and therefore on operational performance.
 
 <br/>
 
 #### **Teams**
 
-Russia uses several small teams of contractors to conduct their cyber operations. These teams are formed from a mix of private operators, and state and military intelligence operators: 
+Russia uses several small teams of contractors to conduct their cyber operations. These teams are formed from a mix of private, and state and military intelligence actors: 
 
 *   [APT28](https://www2.fireeye.com/rs/fireye/images/rpt-apt28.pdf)
 *   [APT29](https://www2.fireeye.com/rs/848-DID-242/images/rpt-apt29-hammertoss.pdf)
@@ -156,7 +172,7 @@ Russia uses several small teams of contractors to conduct their cyber operations
 
 <br/>
 
-#### **Popular Cyber Operations**:
+#### **Popular Operations**:
 
 Among the different cyber operations conducted by The Russian Federation, we can highlight the following ones:
 
@@ -166,21 +182,22 @@ Among the different cyber operations conducted by The Russian Federation, we can
 
 *   [Attacks Against Estonia](https://en.wikipedia.org/wiki/2007_cyberattacks_on_Estonia) - (2007) series of cyberattacks which began on 27 April 2007 and targeted websites of Estonian organizations, including Estonian parliament, banks, ministries, newspapers and broadcasters, amid the country's disagreement with Russia about the relocation of the Bronze Soldier of Tallinn, an elaborate Soviet-era grave marker, as well as war graves in Tallinn. This operation showcases the first Cyber Deterrance operation exhihited by Russia against a target state. This will become a common operation of the Russian Federation to utilize several more times in coming years. In addition is also a great showcase of cyber adaptability capacity. 
 
-*   [Attacks Against Ukranian Power Grid](https://en.wikipedia.org/wiki/December_2015_Ukraine_power_grid_cyberattack) - (2015) Took place on 23 December 2015 and is considered to be the first known successful cyberattack on a power grid. Hackers were able to successfully compromise information systems of three energy distribution companies in Ukraine and temporarily disrupt electricity supply to the end consumers. Cyber attacks on the energy distribution companies took place during an ongoing conflict in the Ukraine and is attributed to a Russian advanced persistent threat (APT) group known as Sandworm. This operation is great example of creativity capacity implemented by Russian operatives, being the first example of a succesful breach in Power Grids. 
+*   [Attacks Against Ukranian Power Grid](https://en.wikipedia.org/wiki/December_2015_Ukraine_power_grid_cyberattack) - (2015-2016) Took place on 23 December 2015 and is considered to be the first known successful cyberattack on a power grid. Hackers were able to successfully compromise information systems of three energy distribution companies in Ukraine and temporarily disrupt electricity supply to the end consumers. Cyber attacks on the energy distribution companies took place during an ongoing conflict in the Ukraine and is attributed to a Russian advanced persistent threat (APT) group known as Sandworm. This operation is great example of adaptability capacity implemented by Russian operatives, being the first example of a succesful breach in Power Grids. 
 
 *   [Attack to the Democratic National Convention](https://en.wikipedia.org/wiki/Democratic_National_Committee_cyber_attacks) - (2015) Cyber attacks that successfully penetrated the DNC computing system began in 2015. Attacks by APT29 (FSB) began in the summer of 2015. Attacks by APT28 (GRU) began in April 2016. It was after the APT28 group began their activities that the compromised system became apparent. The groups were presumed to have been spying on communications, stealing personal accounts of Clinton Campaign employees and volunteers including John Podesta, a former White House chief of staff and chair of Hillary Clinton's 2016 U.S. Both groups of intruders were successfully expelled from the DNC systems within hours after detection. These attacks are considered to be part of a group of recent attacks targeting U.S. government departments and several political organizations, including 2016 campaign organizations.
 
     * [Guccifer 2.0](https://en.wikipedia.org/wiki/Guccifer_2.0) Disinformation Campaign. "Guccifer 2.0" is a persona which claimed to be the hacker(s) that hacked into the Democratic National Committee (DNC) computer network and then leaked its documents to the media, the website WikiLeaks, and a conference event. Some of the documents "Guccifer 2.0" released to the media appear to be forgeries cobbled together from public information and previous hacks, which had been mixed with disinformation.
-    According to indictments in February 2018, the persona is operated by Russian military intelligence agency GRU. This is a classic example of Russia's team agility and flexible bureaucracy, since they **were able to transform an unsucesful espionage operation into a succesfull disinformation operation**.
+    According to indictments in February 2018, the persona is operated by Russian military intelligence agency GRU. This is an example of Russia's team agility and creativity capacity leveraging their flexible bureaucracy in order to **transform an unsucesful espionage operation into a succesfull disinformation operation**.
 
 <br/>
 
 *   [2016 US Election Disinformation Campaigns](https://en.wikipedia.org/wiki/Russian_interference_in_the_2016_United_States_elections) - (2016) The Russian government interfered in the 2016 U.S. presidential election with the goal of harming the campaign of Hillary Clinton, boosting the candidacy of Donald Trump, and increasing political and social discord in the United States. According to the special counsel investigation's Mueller Report (officially named "Report on the Investigation into Russian Interference in the 2016 Presidential Election"), the first method of Russian interference used the Internet Research Agency (IRA), a Kremlin-linked troll farm, to wage "a social media campaign that favored presidential candidate Donald J. Trump and disparaged presidential candidate Hillary Clinton". Russian use of social media to disseminate propaganda content was very broad. Facebook and Twitter were used, but also Reddit, Tumblr, Pinterest, Medium, YouTube, Vine, Instagram and Google+ (among other sites). 
-This is a clasic example of adaptability conducted by Russia's operators to use different technologies to deploy cognitive based cyber operations that following a common strategic goal.
+This is yet another example of adaptability capacity by Russia's operatives to use different technologies to deploy cognitive based cyber operations that following a common strategic goal.
 
 For a more detailed overview of most of the engagements by the Russian Federation with offensive cyber capabilities please check this spreadsheet. (On Course)
 
 <br/>
+
 
 #### **Team Capacity Overview**
 
@@ -198,14 +215,14 @@ For a more detailed overview of most of the engagements by the Russian Federatio
 
 #### Overview of Russia's Approach on Cyber Warfare:
 *   Offensive Defensive approach
-*   Several small teams strategy
+*   Several small teams style
 *   Acquire intelligence on foreign military projects
-*   Comprommise critical infrastructure under fake persona to avoid direct attribution
+*   Conduct Information Operations by releasing leaks introducing falsehoods.
 *   Deploy DDoS attacks to conduct deterrance campaigns
 *   Design deterrance/influence operations around target state's political election compaigns
 *   Application of Hybrid Warfare - combining military and non-military as well as covert and overt means, including disinformation, cyber-attacks, economic pressure, deployment of irregular armed groups and use of regular forces to blur the lines between war and peace, and attempt to sow doubt in the minds of targets.
-*   Active measures - Actions of political warfare designed to change the course of world events by influence operations based on disinformation campaigns producing a "politically correct" assessment of it.
-*   Apply Reflexive Control Theory to influence rival states on their decision making capabilities so that the outcome reflexion is aligned with the main goals of the state while the adversary often is not aware of it.
+*   Active measures - Actions of political warfare designed to change the course of world events by influence operations based on disinformation campaigns.
+*   Apply Reflexive Control Theory - to influence rival states on their decision making capabilities so that the strategic outcome is aligned with the state's interest while the adversary often is not aware of it.
 
 <br/>
 
@@ -213,6 +230,7 @@ For a more detailed overview of most of the engagements by the Russian Federatio
 *   [Russia's approach to Cyber Warfare](https://github.com/n4x0r/n4x0r.github.io/raw/master/files/papers/russia_cyber.pdf)
 +   [Cyber and Information warfare in the Ukrainian conflict](https://github.com/n4x0r/n4x0r.github.io/raw/master/files/papers/cyber-and-info-warfare-ukraine.pdf)
 *   [Unmasking Maskirovka](https://www.amazon.co.uk/Unmasking-Maskirovka-Russias-Influence-Operations/dp/0578451425/ref=pd_sbs_14_5/262-0245731-1271608?_encoding=UTF8&pd_rd_i=0578451425&pd_rd_r=394b6d92-785e-4921-bb23-da7d79c7bf26&pd_rd_w=zTEx8&pd_rd_wg=faeNa&pf_rd_p=f4a31d1d-8f61-48f5-b6f4-a22ba06df575&pf_rd_r=RFVT85K78X8QZWQ6WG8W&psc=1&refRID=RFVT85K78X8QZWQ6WG8W)
+*   [Sandworm: A New Era of Cyberwar and the Hunt for the Kremlin's Most Dangerous Hackers](https://www.amazon.com/Sandworm-Cyberwar-Kremlins-Dangerous-Hackers/dp/0385544405)
 
 <br/>
 <br/>
