@@ -15,7 +15,7 @@ Information Warfare has evolved in the last years introducing challenges to refl
 
 ## **Introduction**
 
-From the beginning of malware existence, it's been usually designed towards accomplishing monetary driven goals. This is still the case with most malware within the cyber-crime ecosystem.
+From the beginning of malware existence, it's been usually designed towards accomplishing monetary driven objectives. This is still the case with most malware within the cyber-crime ecosystem.
 However, a high ratio of cyber-espionage operations were starting to emerge observed by different private and public sector entities starting to be taken seriously from 2010 with the appearance of [Stuxnet](https://en.wikipedia.org/wiki/Stuxnet). 
  
 This specific change in ecosystem does not only implies that better understanding of specific tactics and techniques leveraged by this new malware genre is necessary, but also implies that in order to interpret and analyse cyber-espionage operations, development of a different mindset is required since threat actors conducting these operations are of higher profile having more resources and bigger budgets than cyber-crime actors, and their campaigns can also be ambiguous to interpret along with their attribution.
