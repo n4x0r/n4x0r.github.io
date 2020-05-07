@@ -21,7 +21,7 @@ Is important to interpret Information Warfare as the fifth domain of warfare. In
 - Actionable on light speed
 - Adversary may not have a chance to react
 - Relatively cheap
-- High innovation involved: To accomplish strategic goals leveraging different operational objectives can be a challenge since is highly unlikely that leveraged tactics and techniques will succeed twice.
+- High innovation involved: Accomplishing strategic goals leveraging different operational objectives can be a challenge since is highly unlikely that leveraged tactics and techniques will succeed twice.
 
  Philosophically speaking, this fifth domain provides the following capabilities in regards to what kind of activities can be leveraged:
 
