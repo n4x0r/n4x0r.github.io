@@ -1,6 +1,6 @@
 ---
 layout: article
-title:  "A Brief Reference on Russian Information Warfare"
+title:  "A Brief Reference on Russia's Information Warfare"
 date:   2019-12-30 06:30
 categories: cyber
 tags: [cyber]
