@@ -60,7 +60,7 @@ Based on bureaucracy we can meassure the efficiency of a team's capacity on a se
 
 * **Cohesion** - How well a team works together individually and collectivelly with other teams and how good they follow the executive order.
 
-High cohesion may impact creativity capacity. If there is a very strict set of commands to execute a specific action or a high priority on an finite operational ROI and no investment in innovation, creativity capacity will be damaged consequently.
+High cohesion may impact negatively creativity capacity. If there is a very strict set of commands to execute a specific action or a high priority on an finite operational ROI and no investment in innovation, creativity capacity will be damaged consequently.
 
 The previous factors serve as a good theoritical standard to measure a given team's efficiency on conducted operations. Likely important is to know that there are various styles in which to organise operational teams. The following table shows Dave Aitel's (former NSA cyber-operative) Meta - operational team structures: 
 
@@ -83,7 +83,7 @@ According to the Constitution of Russia, the country is an asymmetric federation
 Russia has the largest stockpile of nuclear weapons in the world, the second largest fleet of ballistic missile submarines, and the only modern strategic bomber force outside the United States. More than 90% of world's 14,000 nuclear weapons are owned by Russia and the United States.
 
 There is so much that could be said about Russia in regards to its cultural, political, social and economic aspects which really are far out of the scope of this article.
-However, in order to have a naive understanding of Russia's political and economic status the following statistics are supplied based on The CIA's [World Fact Book](https://www.cia.gov/library/publications/the-world-factbook/geos/rs.html):
+However, in order to have a naive understanding of Russia's social and economic status the following statistics are supplied based on The CIA's [World Fact Book](https://www.cia.gov/library/publications/the-world-factbook/geos/rs.html):
 
 <br/>
 
