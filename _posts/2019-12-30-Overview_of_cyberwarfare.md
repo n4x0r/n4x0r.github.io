@@ -9,14 +9,21 @@ author: ulexec
 
 Information Warfare has evolved in the last years introducing challenges to reflect a theoritical model of this new domain in order to understand its nuances which impact a wide range of different sectors, including the Threat Intelligence community.
 This article is meant to be a brief reference of some of the various enagements allegedly conducted by The Russian Federation in the Information Warfare realm.
-Not that this matters whatsover for Threat Intelligence, but as this sector grows and gets mature over time, its neccessary to have some historic context of different noticable events, in particular the ones leveraged by Russian sponsored state actors, which in my opinion seem to be particularly interesting since they have showed to be some of the most creative and innovative in the way they have conducted their operations, based on publicly available reports.
+Not that this matters whatsover for Threat Intelligence, but as this sector grows and gets mature over time, its neccessary to have some historic context of different noticable events, in particular the ones leveraged by Russian state sponsored actors, which in my opinion seem to be particularly interesting since they have showed to be some of the most creative and innovative in the way they have conducted their operations based on publicly available reports.
 
 I also tried to introduce a foundation to this subject in case readers would be interested since it is in my opinion a broad and complex subject. A great reference is [this](https://www.youtube.com/watch?v=gvS4efEakpY&list=PLxA6YRnSzNvINyHpEL5tkDzpu_fKBAXGR&index=1https://www.youtube.com/watch?v=gvS4efEakpY&list=PLxA6YRnSzNvINyHpEL5tkDzpu_fKBAXGR&index=1) presentation by The Grugq, which is the main reference in regards to the foundational information this article is based on.
 
 <br/>
 
 ## **Foundation**  
-Is important to interpret Information Warfare as the fifth war domain. In contrast with more conventional war domains such as Land, Sea or Air, the Cyber domain provides a wide range of capabilities that the previous domains can't provide, also subject to different rules which do not align with previously known strategic basis of the warfare realm. Philosophically speaking, this fifth domain provides the following capabilities in regards to what kind of activities can be leveraged:
+Is important to interpret Information Warfare as the fifth domain of warfare. In contrast with more conventional warfare domains such as Land, Sea or Air, the Cyber domain provides a wide range of capabilities that the previous domains can't provide, also subject to different rules which do not align with previously known strategic basis of the warfare realm.
+
+- Actionable on light speed
+- Adversary may not have a chance to react
+- Relatively cheap
+- High innovation involved: To accomplish strategic goals leveraging different operational objectives can be a challenge since is highly unlikely that leveraged tactics and techniques will succeed twice.
+
+ Philosophically speaking, this fifth domain provides the following capabilities in regards to what kind of activities can be leveraged:
 
 * **Active** - Direct way of manipulatinig target's information - eg: Unit8200 was fighting with the PLO. They broke into the computers were the PL0 processed all the finances and they transfered money around to make it appear as if there was deep corruption. This strategy worked because there was a degree of real corruption. So this operation spiked the corruption awareness of the [PLO](https://www.ft.com/content/1b870488-7940-11d9-89c5-00000e2511c8). This caused a degree of degradation of capability within the PLO. 
 
