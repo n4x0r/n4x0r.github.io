@@ -1,14 +1,20 @@
 ---
 layout: article
 title:  "A Brief Reference on Russia's Information Warfare"
-date:   2019-12-30 06:30
+date:   2020-05-07 06:30
 categories: cyber
-tags: [cyber]
+tags: [reverse,malware, ELF, packers]
 author: ulexec
 ---
 
+
 Information Warfare has evolved in the last years introducing challenges to reflect a theoretical model of this new domain in order to understand its nuances which impact a wide range of different sectors operating within the computer and information technology domain.
  
+<br/>
+
+
+## **Introduction**
+
 From the beginning of malware existence, it's been usually designed towards accomplishing financial driven goals. This is still the case with most malware within the domain of cyber-crime.
 However, a high ratio of cyber-espionage operations were starting to emerge observed by different private and public sector entities starting to be taken seriously from 2010 with the appearance of [Stuxnet](https://en.wikipedia.org/wiki/Stuxnet). 
  
