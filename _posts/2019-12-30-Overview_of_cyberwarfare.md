@@ -7,7 +7,7 @@ tags: [cyber]
 author: ulexec
 ---
 
-Information Warfare has evolved in the last years introducing challenges to reflect a theoritical model of this new domain in order to understand its nuances which impact a wide range of different sectors operating within this domain.
+Information Warfare has evolved in the last years introducing challenges to reflect a theoritical model of this new domain in order to understand its nuances which impact a wide range of different sectors operating within the computer and information technology domain.
 
 This article is meant to be a brief reference of some of the various enagements allegedly conducted by The Russian Federation in the Information Warfare realm.
 Not that this matters whatsover for Threat Intelligence, but as this sector grows and gets mature over time, I think is important to have some historic context of different noticable events, in particular the ones leveraged by Russian state sponsored actors which in my opinion have showed to be some of the most creative and innovative in the way they have conducted their operations based on publicly available reports.
