@@ -237,7 +237,7 @@ For a more detailed overview of most of the engagements by the Russian Federatio
 +   [Cyber and Information warfare in the Ukrainian conflict](https://github.com/n4x0r/n4x0r.github.io/raw/master/files/papers/cyber-and-info-warfare-ukraine.pdf)
 *   [Unmasking Maskirovka](https://www.amazon.co.uk/Unmasking-Maskirovka-Russias-Influence-Operations/dp/0578451425/ref=pd_sbs_14_5/262-0245731-1271608?_encoding=UTF8&pd_rd_i=0578451425&pd_rd_r=394b6d92-785e-4921-bb23-da7d79c7bf26&pd_rd_w=zTEx8&pd_rd_wg=faeNa&pf_rd_p=f4a31d1d-8f61-48f5-b6f4-a22ba06df575&pf_rd_r=RFVT85K78X8QZWQ6WG8W&psc=1&refRID=RFVT85K78X8QZWQ6WG8W)
 *   [Sandworm: A New Era of Cyberwar and the Hunt for the Kremlin's Most Dangerous Hackers](https://www.amazon.com/Sandworm-Cyberwar-Kremlins-Dangerous-Hackers/dp/0385544405)
-
+*   [Active Measures: The Secret History of Disinformation and Political Warfare](https://www.amazon.com/Active-Measures-History-Disinformation-Political/dp/0374287260)
 <br/>
 <br/>
 <br/>
