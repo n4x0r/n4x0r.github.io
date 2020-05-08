@@ -25,7 +25,7 @@ This specific change in ecosystem does not only implies that better understandin
 Understanding cyber-espionage campaigns is sort of intelligence work. However, professionals in this ecosystem conducting these investigations do not necessarily have an intelligence or military background (like myself), therefore it is necessary to catch up not only technically but also acquiring a more contextual rich background in regards to these kinds of operations.
  
 This article is meant to be a brief reference of some of the various engagements allegedly conducted by The Russian Federation in the Information Warfare realm.
-This is not strictly necessarily for Threat Intelligence work since there is no additional incentive to consumers to know from which country each campaign was conducted from or even the reasons behind it, at least in the private sector. 
+This is not strictly necessarily for Threat Intelligence work since there is no additional incentive for consumers to know from which country each campaign was conducted from or even the reasons behind it, at least in the private sector. 
 
 However, for analyst sometimes is of interest to know what country or entity is behind a campaign, only to understand the motive or narrative that explains how a specific toolsets come into play. As this domain grows and matures over time, I also think is important to have some historic context of various noticeable events in the Information Warfare domain.
 
