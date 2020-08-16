@@ -12,7 +12,7 @@ A number of steps must be followed:
 
 <h3>1 - Download latest Buildroot</h3>
 ```c
-wget http://buildroot.uclibc.org/downloads/buildroot-20XX.YY.tar.gz
+git clone https://github.com/buildroot/buildroot.git buildroot
 ```
 <h3>2 - Generate Buildroot preset config</h3>
 ```c	
