@@ -58,7 +58,7 @@ img {
   font-family: courier;
   width: auto;
   height: auto;
-  font-size: 400%;
+  font-size: 500%;
   font-weight: normal;
   color: #ffffff;
 }
@@ -79,7 +79,7 @@ img {
   <br /> 
   <br /> 
   <br /> 
-  <div id="t">Covert Tradecraft</div>
+  <div id="t">  Bona Fides </div>
   <div id="h">A blog by @ulexec</div>
   <br /> 
   <br /> 
@@ -114,7 +114,7 @@ img {
 		
 		
 		<li role="presentation" class="">
-			<a href="/ulexec.github.io/videos/">Talks</a>
+			<a href="/ulexec.github.io/cti/">CTI</a>
 		</li>
 		
 		
@@ -126,7 +126,13 @@ img {
 		
 		
 		<li role="presentation" class="">
-			<a href="/ulexec.github.io/cti/">CTI</a>
+			<a href="/ulexec.github.io/videos/">Talks</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io/projects/">Projects</a>
 		</li>
 		
 		
@@ -153,67 +159,60 @@ img {
 A number of steps must be followed:</p>
 
 <h3>1 - Download latest Buildroot</h3>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget http://buildroot.uclibc.org/downloads/buildroot-20XX.YY.tar.gz
-</code></pre></div></div>
-
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="o">:</span><span class="c1">//github.com/buildroot/buildroot.git buildroot
+</span></code></pre></div></div>
 <h3>2 - Generate Buildroot preset config</h3>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">make</span> <span class="n">qemu_x86_defconfig</span> 	<span class="err">#</span> <span class="n">EXAMPLE</span> <span class="n">ARCH</span>
+<span class="n">make</span> <span class="n">menuconfig</span>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make qemu_x86_defconfig 	# EXAMPLE ARCH
-make menuconfig
-
-* Change the following for Kernel Debugging support:
-      * In Build options, toggle build packages with debugging symbols.
-      * In Toolchain, change linux version to desired one
-      * In Toolchain, change Custom kernel version headers to desired ones
-      * In Kernel, change Kernel version to desired one
+<span class="o">*</span> <span class="n">Change</span> <span class="n">the</span> <span class="n">following</span> <span class="n">to</span> <span class="n">enable</span> <span class="n">Kernel</span> <span class="n">Debugging</span> <span class="n">support</span><span class="o">:</span>
+		<span class="o">*</span> <span class="n">In</span> <span class="n">Build</span> <span class="n">options</span><span class="p">,</span> <span class="n">toggle</span> <span class="n">build</span> <span class="n">packages</span> <span class="n">with</span> <span class="n">debugging</span> <span class="n">symbols</span><span class="p">.</span>
+		<span class="o">*</span> <span class="n">In</span> <span class="n">Toolchain</span><span class="p">,</span> <span class="n">change</span> <span class="n">linux</span> <span class="n">version</span> <span class="n">to</span> <span class="n">desired</span> <span class="n">one</span>
+		<span class="o">*</span> <span class="n">In</span> <span class="n">Toolchain</span><span class="p">,</span> <span class="n">change</span> <span class="n">Custom</span> <span class="n">kernel</span> <span class="n">version</span> <span class="n">headers</span> <span class="n">to</span> <span class="n">desired</span> <span class="n">ones</span>
+		<span class="o">*</span> <span class="n">In</span> <span class="n">Kernel</span><span class="p">,</span> <span class="n">change</span> <span class="n">Kernel</span> <span class="n">version</span> <span class="n">to</span> <span class="n">desired</span> <span class="n">one</span>
 </code></pre></div></div>
 
 <h3>3 - Download Kernel source and configure it</h3>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">make</span> <span class="n">linux</span><span class="o">-</span><span class="n">menuconfig</span>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make linux-menuconfig
+<span class="o">*</span> <span class="n">Change</span> <span class="n">the</span> <span class="n">following</span> <span class="n">to</span> <span class="n">enable</span> <span class="n">Kernel</span> <span class="n">Debugging</span> <span class="n">support</span><span class="o">:</span>
 
-* Change the following for Kernel Debugging support:
-
-      *	In Kernel hacking, toggle Kernel Debugging
-      * Under Kernel hacking in Compile-time checks and compiler options toggle
-		- Compile kernel with debug infopp
-		- Provide GDB sripts for kernel debugging`
-		- Compile kernel with frame pointers
+	<span class="o">*</span> <span class="n">In</span> <span class="n">Kernel</span> <span class="n">hacking</span><span class="p">,</span> <span class="n">toggle</span> <span class="n">Kernel</span> <span class="n">Debugging</span>
+	<span class="o">*</span> <span class="n">Under</span> <span class="n">Kernel</span> <span class="n">hacking</span> <span class="n">in</span> <span class="n">Compile</span><span class="o">-</span><span class="n">time</span> <span class="n">checks</span> <span class="n">and</span> <span class="n">compiler</span> <span class="n">options</span> <span class="n">toggle</span>
+	<span class="o">-</span> <span class="n">Compile</span> <span class="n">kernel</span> <span class="n">with</span> <span class="n">debug</span> <span class="n">infopp</span>
+	<span class="o">-</span> <span class="n">Provide</span> <span class="n">GDB</span> <span class="n">sripts</span> <span class="k">for</span> <span class="n">kernel</span> <span class="n">debugging</span><span class="err">`</span>
+	<span class="o">-</span> <span class="n">Compile</span> <span class="n">kernel</span> <span class="n">with</span> <span class="n">frame</span> <span class="n">pointers</span>
 </code></pre></div></div>
 
 <h3>4 - Build your kernel</h3>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">make</span>
 </code></pre></div></div>
-
 <h3>5 - Run Kernel</h3>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Once you have covered all steps, The following files should have been created:
+<p>Once you have covered all steps, The following files should have been created:</p>
 
-* Kernel source code at output/build/linux-XXX
-* Compressed kernel image at output/images/bzImage
-* Root filesystem (rootfs) at output/images/rootfs.ext2
-* Raw kernel image at output/build/linux-XXX/vmlinux
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">*</span> <span class="n">Kernel</span> <span class="n">source</span> <span class="n">code</span> <span class="n">at</span> <span class="n">output</span><span class="o">/</span><span class="n">build</span><span class="o">/</span><span class="n">linux</span><span class="o">-</span><span class="n">XXX</span>
+<span class="o">*</span> <span class="n">Compressed</span> <span class="n">kernel</span> <span class="n">image</span> <span class="n">at</span> <span class="n">output</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">bzImage</span>
+<span class="o">*</span> <span class="n">Root</span> <span class="n">filesystem</span> <span class="p">(</span><span class="n">rootfs</span><span class="p">)</span> <span class="n">at</span> <span class="n">output</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">rootfs</span><span class="p">.</span><span class="n">ext2</span>
+<span class="o">*</span> <span class="n">Raw</span> <span class="n">kernel</span> <span class="n">image</span> <span class="n">at</span> <span class="n">output</span><span class="o">/</span><span class="n">build</span><span class="o">/</span><span class="n">linux</span><span class="o">-</span><span class="n">XXX</span><span class="o">/</span><span class="n">vmlinux</span>
 
-Done! all we got left is to execute the kernel image with qemu:
+<span class="n">Done</span><span class="o">!</span> <span class="n">all</span> <span class="n">we</span> <span class="n">got</span> <span class="n">left</span> <span class="n">is</span> <span class="n">to</span> <span class="n">execute</span> <span class="n">the</span> <span class="n">kernel</span> <span class="n">image</span> <span class="n">with</span> <span class="n">qemu</span><span class="o">:</span>
 
-qemu-system-xx  -kernel images/bzImage  	\
-		-hda images/rootfs.ext2 	\
-		-append "nokaslr root=/dev/sda rw" 	\
-		-s 				\
-		-S
+<span class="n">qemu</span><span class="o">-</span><span class="n">system</span><span class="o">-</span><span class="n">xx</span>  <span class="o">-</span><span class="n">kernel</span> <span class="n">images</span><span class="o">/</span><span class="n">bzImage</span>  	\
+	<span class="o">-</span><span class="n">hda</span> <span class="n">images</span><span class="o">/</span><span class="n">rootfs</span><span class="p">.</span><span class="n">ext2</span> 	\
+	<span class="o">-</span><span class="n">append</span> <span class="s">"nokaslr root=/dev/sda rw"</span> 	\
+	<span class="o">-</span><span class="n">s</span> 				\
+	<span class="o">-</span><span class="n">S</span>
 
 
-On another terminal execute gdb under the linux kernel directory:
+<span class="n">On</span> <span class="n">another</span> <span class="n">terminal</span> <span class="n">execute</span> <span class="n">gdb</span> <span class="n">under</span> <span class="n">the</span> <span class="n">linux</span> <span class="n">kernel</span> <span class="n">directory</span><span class="o">:</span>
 
-(gdb) add-auto-load-safe-path output/build/linux-4.9.6/scripts/gdb/vmlinux-gdb.py
-(gdb) file output/build/linux-XXX/vmlinux
-(gdb) target remote :1234
-(gdb) break init
-(gdb) c
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">add</span><span class="o">-</span><span class="k">auto</span><span class="o">-</span><span class="n">load</span><span class="o">-</span><span class="n">safe</span><span class="o">-</span><span class="n">path</span> <span class="n">output</span><span class="o">/</span><span class="n">build</span><span class="o">/</span><span class="n">linux</span><span class="o">-</span><span class="mi">4</span><span class="p">.</span><span class="mi">9</span><span class="p">.</span><span class="mi">6</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">gdb</span><span class="o">/</span><span class="n">vmlinux</span><span class="o">-</span><span class="n">gdb</span><span class="p">.</span><span class="n">py</span>
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">file</span> <span class="n">output</span><span class="o">/</span><span class="n">build</span><span class="o">/</span><span class="n">linux</span><span class="o">-</span><span class="n">XXX</span><span class="o">/</span><span class="n">vmlinux</span>
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">target</span> <span class="n">remote</span> <span class="o">:</span><span class="mi">1234</span>
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="k">break</span> <span class="n">init</span>
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">c</span>
 </code></pre></div></div>
-
 
             </div>
 
@@ -301,7 +300,7 @@ On another terminal execute gdb under the linux kernel directory:
         <div class="col-xs-6">
             <blockquote>
                 <p>
-                    Covert Tradecraft
+                    Bona Fides
                 </p>
                 <p>
                     <small>ulexec's blog</small>

@@ -7,8 +7,7 @@
 
 # Site settings
 title: ulexec's blog
-email: ulexecve@protonmail.com
-description: 'Covert Tradecraft'
+description: 'Bona Fides'
 baseurl: "/ulexec.github.io" # the subpath of your site, e.g. /blog
 url: "http://ulexec.github.io"
 twitter_username: ulexec
@@ -31,13 +30,14 @@ navigation:
 - text: CTF
   url: /writeups/
   layout: writeup
-- text: Talks
-  url: /videos/
-- text: Misc
-  url: /misc/
 - text: CTI
   url: /cti/
-
+- text: Misc
+  url: /misc/
+- text: Talks
+  url: /videos/
+- text: Projects
+  url: /projects/
 
 
 

@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="description" content="This article is a copy of the original report we published at Intezer Labs we we reported this threat. The original report can be found here">
+
+	<title>HiddenWasp: Another piece of Winnti's Toolkit</title>
+	
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="/ulexec.github.io/css/bootstrap.min.css" >
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	
+	<link rel="stylesheet" href="/ulexec.github.io/css/main.css">
+	<link rel="canonical" href="http://ulexec.github.io/ulexec.github.io/article/2019/05/29/HiddenWasp.html">
+	<link rel="alternate" type="application/rss+xml" title="ulexec's blog" href="http://ulexec.github.io/ulexec.github.io/feed.xml">
+</head>
+	<body>
+
+
+	<div id="particles-js"></div>
+	<div id="top">
+			<div class="container">
+				
+<style>
+.ascii-art {
+    font-family: courier;
+    white-space: pre;
+    color: #f7006f;
+     font-size: 0%;
+}
+.hex {
+    font-family: courier;
+    white-space: pre;
+    color: #f7006f;
+     font-size: 120%;
+}
+.name {
+    font-family: courier;
+    white-space: pre;
+    color: #00f7ef;
+     font-size: 120%;
+}
+img {
+  width: auto ;
+  max-width: 100% ;
+  height: auto ;
+  
+}
+#t {
+  font-family: courier;
+  width: auto;
+  height: auto;
+  font-size: 500%;
+  font-weight: normal;
+  color: #ffffff;
+}
+
+#h {
+  font-family: courier;
+  width: auto;
+  height: auto;
+  font-size: 100%;
+  font-weight: cursive;
+  text-align: center;
+
+}
+</style>
+<script  src="/ulexec.github.io/js/jquery.min.js"></script>
+
+<header class="container-fluid amnesia_site-header">
+  <br /> 
+  <br /> 
+  <br /> 
+  <div id="t">  Bona Fides </div>
+  <div id="h">A blog by @ulexec</div>
+  <br /> 
+  <br /> 
+  <br />
+  <script src="/ulexec.github.io/js/crypt.js"></script>
+  
+</header>
+
+				
+				<nav class="container-fluid amnesia_site-navbar">
+	<ul class="nav nav-tabs">
+		
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io/">Home</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io/malware/">Malware</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io/writeups/">CTF</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io/cti/">CTI</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io/misc/">Misc</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io/videos/">Talks</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io/projects/">Projects</a>
+		</li>
+		
+		
+	</ul>
+</nav>
+
+				<div class="row">
+    <div class="col-sm-8">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+            <header class="post-header">
+                <h1 class="post-title" itemprop="name headline">HiddenWasp: Another piece of Winnti's Toolkit</h1>
+                <p class="post-meta">
+                    <time datetime="2019-05-29T06:30:00+02:00" itemprop="datePublished">May 29,
+                        2019
+                    </time>
+                     • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span
+                        itemprop="name">ulexec</span></span>
+                </p>
+            </header>
+
+            <div class="post-content" itemprop="articleBody">
+                <p>This article is a copy of the original report we published at Intezer Labs we we reported this threat. The original report can be found <a href="https://intezer.com/blog/linux/hiddenwasp-malware-targeting-linux-systems/">here</a></p>
+
+<p><br /></p>
+
+<p>Although the Linux threat ecosystem is crowded with IoT DDoS botnets and crypto-mining malware, it is not unusual to spot trojans or backdoors in the wild. Unlike Windows malware, Linux malware authors do not seem to invest too much effort writing their implants. In an open-source ecosystem there is a high ratio of publicly available code that can be copied and adapted by attackers.</p>
+
+<p>In addition, Anti-Virus solutions for Linux tend to not be as resilient as in other platforms. Therefore, threat actors targeting Linux systems are less concerned about implementing excessive evasion techniques since even when reusing extensive amounts of code, threats can relatively manage to stay under the radar.</p>
+
+<p>Nevertheless, malware with unconventional evasion techniques do exist for the Linux platform. There is also a high ratio of publicly available open-source malware that utilize strong evasion techniques and can be easily adapted by attackers. We believe this fact is alarming for the security community since many implants today have very low detection rates, making these threats difficult to detect and respond to.</p>
+
+<p>While working at Intezer, we discovered an undetected Linux malware that appear to be enforcing advanced evasion techniques with the use of rootkits to leverage trojan-based implants, which later seems that it was <a href="https://www.scmagazine.com/home/security-news/malware/a-sophisticated-malware-campaign-dubbed-hiddenwasp-is-targeting-linux-systems-with-the-goal-of-targeted-remote-control/">linked</a> to the Winnti Umbrella (cluster of adversaries). In this blog we will present a <strong>technical analysis</strong> of each of the different components that this new malware, HiddenWasp, is composed of. We will also highlight interesting code-reuse connections that we have observed to several open-source malware. The following images are screenshots from VirusTotal of the newer undetected malware samples discovered:</p>
+
+<p><br /></p>
+
+<p><img src="http://intezer.com/wp-content/uploads/2019/05/pasted-image-0-1.png" alt="technical analysis" /></p>
+
+<p><br />
+<br /></p>
+
+<h3 id="1-technical-analysis"><strong>1. Technical Analysis</strong></h3>
+
+<p>When we came across these samples we noticed that similar to the recent Winnti Linux variants reported by <a href="https://medium.com/chronicle-blog/winnti-more-than-just-windows-and-gates-e4f03436031a">Chronicle</a>, the infrastructure of this malware is composed of a user-mode rootkit, a trojan and an initial deployment script. We will cover each of the three components in this post, analyzing them and their interactions with one another.</p>
+
+<p><br /></p>
+
+<h4 id="21-initial-deployment-script"><strong>2.1 Initial Deployment Script:</strong></h4>
+<p>When we spotted these undetected files in VirusTotal it seemed that among the uploaded artifacts there was a bash script along with a trojan implant binary.</p>
+
+<p><br /></p>
+
+<p><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-084551_1082x412_scrot.png" alt="Initial Deployment Script" /></p>
+
+<p><br /></p>
+
+<p>We observed that these files were uploaded to VirusTotal using a path containing the name of a Chinese-based forensics company known as <a href="http://www.china-forensic.com/ccfc/en/">Shen Zhou Wang Yun Information Technology Co., Ltd</a>. Furthermore, the malware implants seem to be hosted in servers from a physical server hosting company known as ThinkDream located in Hong Kong.</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/pasted-image-0-10.png" /></div>
+<p><br /></p>
+
+<p>Among the uploaded files, we observed that one of the files was a bash script meant to deploy the malware itself into a given compromised system, although it appears to be for testing purposes:</p>
+
+<p><br /></p>
+
+<p><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-085049_997x237_scrot.png" alt="ThinkDream" /></p>
+
+<p><br /></p>
+
+<p>Thanks to this file we were able to download further artifacts not present in VirusTotal related to this campaign. This script will start by defining a set of variables that would be used throughout the script.</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-085725_713x536_scrot.png" /></div>
+<p><br /></p>
+
+<p>Among these variables we can spot the credentials of a user named ‘sftp’, including its hardcoded password. This user seems to be created as a means to provide initial persistence to the compromised system:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-085815_1044x268_scrot.png" /></div>
+<p><br /></p>
+
+<p>Furthermore, after the system’s user account has been created, the script proceeds to clean the system as a means to update older variants if the system was already compromised:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-090036_563x378_scrot.png" /></div>
+<p><br /></p>
+
+<p>The script will then proceed to download a tar compressed archive from a download server according to the architecture of the compromised system. This tarball will contain all of the components from the malware, containing the rootkit, the trojan and an initial deployment script:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-090228_818x570_scrot.png" /></div>
+<p><br /></p>
+
+<p>After malware components have been installed, the script will then proceed to execute the trojan:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-090327_793x511_scrot.png" /></div>
+<p><br /></p>
+
+<p>We can see that the main trojan binary is executed, the rootkit is added to LD_PRELOAD path and another series of environment variables are set such as the ‘I_AM_HIDDEN’. We will cover throughout this post what the role of this environment variable is. To finalize, the script attempts to install reboot persistence for the trojan binary by adding it to /etc/rc.local. Within this script we were able to observe that the main implants were downloaded in the form of tarballs. As previously mentioned, each tarball contains the main trojan, the rootkit and a deployment script for x86 and x86_64 builds accordingly.</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-24-195845_1152x222_scrot.png" /></div>
+<p><br /></p>
+
+<p>The deployment script has interesting insights of further features that the malware implements, such as the introduction of a new environment variable ‘HIDE_THIS_SHELL’:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-144740_819x467_scrot.png" /></div>
+<p><br /></p>
+
+<p>We found some of the environment variables used in a open-source rootkit known as <a href="https://github.com/chokepoint/azazel/search?q=HIDE_THIS_SHELL&amp;unscoped_q=HIDE_THIS_SHELL">Azazel</a>:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-24-053134_528x38_scrot.png" /></div>
+<p><br /></p>
+
+<p>It seems that this actor changed the default environment variable from Azazel, that one being HIDE_THIS_SHELL for I_AM_HIDDEN. We have based this conclusion on the fact that the environment variable HIDE_THIS_SHELL was not used throughout the rest of the components of the malware and it seems to be residual remains from Azazel original code. The majority of the code from the rootkit implants involved in this malware infrastructure are noticeably different from the original Azazel project. Winnti Linux variants are also known to have reused code from this open-source project.</p>
+
+<p><br /></p>
+
+<h4 id="22-the-rootkit"><strong>2.2 The Rootkit:</strong></h4>
+
+<p>The rootkit is a user-space based rootkit enforced via LD_PRELOAD linux mechanism. It is delivered in the form of an ET_DYN stripped ELF binary. This shared object has an DT_INIT dynamic entry. The value held by this entry is an address that will be executed once the shared object gets loaded by a given process:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="https://intezer.com/wp-content/uploads/2019/05/2019-05-29-164708_842x473_scrot.png" /></div>
+<p><br /></p>
+
+<p>Within this function we can see that eventually control flow falls into a function in charge to resolve a set of dynamic imports, which are the functions it will later hook, alongside with decoding a series of strings needed for the rootkit operations.</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/pasted-image-0-4.png" /></div>
+<p><br /></p>
+
+<p>We can see that for each string it allocates a new dynamic buffer, it copies the string to it to then decode it. It seems that the implementation for dynamic import resolution slightly varies in comparison to the one used in <a href="https://github.com/chokepoint/azazel/blob/master/config.py">Azazel</a> rootkit.</p>
+
+<p>When we wrote the script to simulate the cipher that implements the string decoding function we observed the following algorithm:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-072903_318x253_scrot.png" /></div>
+<p><br /></p>
+
+<p>We recognized that a similar algorithm to the one above was used in the past by <a href="https://github.com/jgamblin/Mirai-Source-Code/blob/master/mirai/bot/scanner.c#L963">Mirai</a>, implying that authors behind this rootkit may have ported and modified some code from Mirai.</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-073253_483x407_scrot.png" /></div>
+<p><br /></p>
+
+<p>After the rootkit main object has been loaded into the address space of a given process and has decrypted its strings, it will export the functions that are intended to be hooked. We can see these exports to be the following:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/pasted-image-0-8.png" /></div>
+<p><br /></p>
+
+<p>For every given export, the rootkit will hook and implement a specific operation accordingly, although they all have a similar layout. Before the original hooked function is called, it is checked whether the environment variable ‘I_AM_HIDDEN’ is set:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-27-074838_796x779_scrot.png" /></div>
+<p><br /></p>
+
+<p>We can see an example of how the rootkit hooks the function fopen in the following screenshot:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-081200_847x623_scrot.png" /></div>
+<p><br /></p>
+
+<p>We have observed that after checking whether the ‘I_AM_HIDDEN’ environment variable is set, it then runs a function to hide all the rootkits’ and trojans’ artifacts. In addition, specifically to the fopen function it will also check whether the file to open is ‘/proc/net/tcp’ and if it is it will attempt to hide the malware’s connection to the cnc by scanning every entry for the destination or source ports used to communicate with the cnc, in this case 61061. This is also the default port in <a href="https://github.com/chokepoint/azazel/blob/master/config.py">Azazel</a> rootkit.</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-081703_569x553_scrot.png" /></div>
+<p><br /></p>
+
+<p>The rootkit primarily implements artifact hiding mechanisms as well as tcp connection hiding as previously mentioned. Overall functionality of the rootkit can be illustrated in the following diagram:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/pasted-image-0-6.png" /></div>
+<p><br />
+<br /></p>
+
+<h4 id="23-the-trojan"><strong>2.3 The Trojan:</strong></h4>
+
+<p>The trojan comes in the form of a statically linked ELF binary linked with stdlibc++. We noticed that the trojan has code connections with ChinaZ’s Elknot implant in regards to some common MD5 implementation in one of the statically linked libraries it was linked with:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/pasted-image-0-2.png" /></div>
+<p><br /></p>
+
+<p>In addition, we also see a high rate of shared strings with other known ChinaZ malware, reinforcing the possibility that actors behind HiddenWasp may have integrated and modified some MD5 implementation from Elknot that could have been shared in Chinese hacking forums:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-22-182452_629x580_scrot.png" /></div>
+<p><br /></p>
+
+<p>When we analyze the main we noticed that the first action the trojan takes is to retrieve its configuration:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-162703_694x669_scrot.png" /></div>
+<p><br /></p>
+
+<p>The malware configuration is appended at the end of the file and has the following structure:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-28-195155_776x314_scrot.png" /></div>
+<p><br /></p>
+
+<p>The malware will try to load itself from the disk and parse this blob to then retrieve the static encrypted configuration.</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-162730_602x688_scrot.png" /></div>
+<p><br /></p>
+
+<p>Once encryption configuration has been successfully retrieved the configuration will be decoded and then parsed as json. The cipher used to encode and decode the configuration is the following:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-162515_1073x533_scrot.png" /></div>
+<p><br /></p>
+
+<p>This cipher seems to be an RC4 alike algorithm with an already computed PRGA generated key-stream. It is important to note that this same cipher is used later on in the network communication protocol between trojan clients and their CNCs. After the configuration is decoded the following json will be retrieved:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-165252_547x332_scrot.png" /></div>
+<p><br /></p>
+
+<p>Moreover, if the file is running as root, the malware will attempt to change the default location of the dynamic linker’s LD_PRELOAD path. This location is usually at /etc/ld.so.preload, however there is always a possibility to patch the dynamic linker binary to change this path:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-165828_589x343_scrot.png" /></div>
+<p><br /></p>
+
+<p>Patch_ld function will scan for any existent /lib paths. The scanned paths are the following:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-171459_539x146_scrot.png" /></div>
+<p><br /></p>
+
+<p>The malware will attempt to find the dynamic linker binary within these paths. The dynamic linker filename is usually prefixed with ld-[version number=””].</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-171605_538x442_scrot.png" /></div>
+<p><br /></p>
+
+<p>Once the dynamic linker is located, the malware will find the offset where the /etc/ld.so.preload string is located within the binary and will overwrite it with the path of the new target preload path, that one being /sbin/.ifup-local.</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-171714_614x151_scrot.png" /></div>
+<p><br /></p>
+
+<p>To achieve this patching it will execute the following formatted string by using the xxd hex editor utility by previously having encoded the path of the rootkit in hex:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-172157_752x79_scrot.png" /></div>
+<p><br /></p>
+
+<p>Once it has changed the default LD_PRELOAD path from the dynamic linker it will deploy a thread to enforce that the rootkit is successfully installed using the new LD_PRELOAD path. In addition, the trojan will communicate with the rootkit via the environment variable ‘I_AM_HIDDEN’ to serialize the trojan’s session for the rootkit to apply evasion mechanisms on any other sessions.</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-172825_1080x583_scrot.png" /></div>
+<p><br /></p>
+
+<p>After seeing the rootkit’s functionality, we can understand that the rootkit and trojan work together in order to help each other to remain persistent in the system, having the rootkit attempting to hide the trojan and the trojan enforcing the rootkit to remain operational. The following diagram illustrates this relationship:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/pasted-image-0-3.png" /></div>
+<p><br /></p>
+
+<p>Continuing with the execution flow of the trojan, a series of functions are executed to enforce evasion of some artifacts:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-173455_514x329_scrot.png" /></div>
+<p><br /></p>
+
+<p>These artifacts are the following:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-173529_619x157_scrot.png" /></div>
+<p><br /></p>
+
+<p>By performing some OSINT regarding these artifact names, we found that they belong to a Chinese open-source rootkit for Linux known as <a href="https://github.com/yaoyumeng/adore-ng">Adore-ng</a> hosted in GitHub:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/pasted-image-0-9.png" /></div>
+<p><br /></p>
+
+<p>The fact that these artifacts are being searched for suggests that potentially targeted Linux systems by these implants may have already been compromised with some variant of this open-source rootkit as an additional artifact in this malware’s infrastructure. Although those paths are being searched for in order to hide their presence in the system, it is important to note that none of the analyzed artifacts related to this malware are installed in such paths.</p>
+
+<p>This finding may imply that the target systems this malware is aiming to intrude may be already known compromised targets by the same group or a third party that may be collaborating with the same end goal of this particular campaign.</p>
+
+<p>Moreover, the trojan communicated with a simple network protocol over TCP. We can see that when connection is established to the Master or Stand-By servers there is a handshake mechanism involved in order to identify the client.</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-24-005754_610x411_scrot.png" /></div>
+<p><br /></p>
+
+<p>With the help of this function we where able to understand the structure of the communication protocol employed. We can illustrate the structure of this communication protocol by looking at a pcap of the initial handshake between the server and client:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/pasted-image-0-7.png" /></div>
+<p><br /></p>
+
+<p>We noticed while analyzing this protocol that the Reserved and Method fields are always constant, those being 0 and 1 accordingly. The cipher table offset represents the offset in the hardcoded key-stream that the encrypted payload was encoded with. The following is the fixed keystream this field makes reference to:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-29-164756_1179x415_scrot.png" /></div>
+<p><br /></p>
+
+<p>After decrypting the traffic and analyzing some of the network related functions of the trojan, we noticed that the communication protocol is also implemented in json format. To show this, the following image is the decrypted handshake packets between the CNC and the trojan:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-24-022934_892x114_scrot.png" /></div>
+<p><br /></p>
+
+<p>After the handshake is completed, the trojan will proceed to handle CNC requests:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/2019-05-24-023211_974x507_scrot.png" /></div>
+<p><br /></p>
+
+<p>Depending on the given requests the malware will perform different operations accordingly. An overview of the trojan’s functionalities performed by request handling are shown below:</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://intezer.com/wp-content/uploads/2019/05/pasted-image-0-5.png" /></div>
+<p><br /></p>
+
+<h4 id="iocs"><strong>IOCs</strong></h4>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">103</span><span class="p">.</span><span class="mi">206</span><span class="p">.</span><span class="mi">123</span><span class="p">[.]</span><span class="mi">13</span>
+<span class="mi">103</span><span class="p">.</span><span class="mi">206</span><span class="p">.</span><span class="mi">122</span><span class="p">[.]</span><span class="mi">245</span> 
+<span class="n">http</span><span class="o">:</span><span class="c1">//103.206.123[.]13:8080/system.tar.gz 
+</span><span class="nl">http:</span><span class="c1">//103.206.123[.]13:8080/configUpdate.tar.gz 
+</span><span class="nl">http:</span><span class="c1">//103.206.123[.]13:8080/configUpdate-32.tar.gz 
+</span>
+<span class="n">e9e2e84ed423bfc8e82eb434cede5c9568ab44e7af410a85e5d5eb24b1e622e3</span>
+<span class="n">f321685342fa373c33eb9479176a086a1c56c90a1826a0aef3450809ffc01e5d</span>
+<span class="n">d66bbbccd19587e67632585d0ac944e34e4d5fa2b9f3bb3f900f517c7bbf518b</span>
+<span class="mi">0</span><span class="n">fe1248ecab199bee383cef69f2de77d33b269ad1664127b366a4e745b1199c8</span>
+<span class="mi">2</span><span class="n">ea291aeb0905c31716fe5e39ff111724a3c461e3029830d2bfa77c1b3656fc0</span>
+<span class="n">d596acc70426a16760a2b2cc78ca2cc65c5a23bb79316627c0b2e16489bf86c0</span>
+<span class="mi">609</span><span class="n">bbf4ccc2cb0fcbe0d5891eea7d97a05a0b29431c468bf3badd83fc4414578</span>
+<span class="mf">8e3</span><span class="n">b92e49447a67ed32b3afadbc24c51975ff22acbd0cf8090b078c0a4a7b53d</span>
+<span class="n">f38ab11c28e944536e00ca14954df5f4d08c1222811fef49baded5009bbbc9a2</span>
+<span class="mi">8914</span><span class="n">fd1cfade5059e626be90f18972ec963bbed75101c7fbf4a88a6da2bc671b</span>
+
+</code></pre></div></div>
+
+            </div>
+
+        </article>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>Malware Posts</strong>
+    </div>
+
+    <div class="panel-body">
+        
+        
+        
+        <div>
+            <h4 class="archive-title">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <a href="#">2020</a>
+            </h4>
+            <ul class="list-group archive-list" style="display: none;">
+                
+                
+                
+                <li class="list-group-item">
+                    <a href="/ulexec.github.io/article/2020/05/16/Deobfuscation_2.html">Tales Of Binary Deobfuscation...</a>
+                        <span class="badge">
+                            <time>16 May</time>
+                        </span>
+                </li>
+                
+                
+                
+                <li class="list-group-item">
+                    <a href="/ulexec.github.io/article/2020/03/03/Deobfuscation_1.html">Tales Of Binary Deobfuscation...</a>
+                        <span class="badge">
+                            <time>03 Mar</time>
+                        </span>
+                </li>
+                
+                
+                
+                
+            </ul>
+        </div>
+        <div>
+            <h4 class="archive-title">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <a href="#">2019</a>
+            </h4>
+            <ul class="list-group archive-list" style="display: none;">
+                
+                <li class="list-group-item">
+                    <a href="/ulexec.github.io/article/2019/05/29/HiddenWasp.html">HiddenWasp: Another piece of ...</a>
+                        <span class="badge">
+                            <time>29 May</time>
+                        </span>
+                </li>
+                
+                
+                
+                
+            </ul>
+        </div>
+        <div>
+            <h4 class="archive-title">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <a href="#">2017</a>
+            </h4>
+            <ul class="list-group archive-list" style="display: none;">
+                
+                <li class="list-group-item">
+                    <a href="/ulexec.github.io/article/2017/11/17/UnPacking_a_Linux_Tsunami_Sample.html">Manually Unpacking Modified U...</a>
+                        <span class="badge">
+                            <time>17 Nov</time>
+                        </span>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+				<hr />
+				
+				<footer class="container-fluid amnesia_site-footer">
+    <div class="row">
+        <div class="col-xs-6">
+            <blockquote>
+                <p>
+                    Bona Fides
+                </p>
+                <p>
+                    <small>ulexec's blog</small>
+                </p>
+            </blockquote>
+        </div>
+    </div>
+</footer>
+
+			</div>
+	</div>
+	</body>	
+		
+		<script src="/ulexec.github.io/js/particles.js"></script>
+		<script src="/ulexec.github.io/js/app.js"></script>
+		<script src="/ulexec.github.io/js/jquery.min.js"></script>
+		<script src="/ulexec.github.io/js/bootstrap.min.js"></script>
+		<script src="/ulexec.github.io/js/scripts.js"></script>
+
+
+</html>

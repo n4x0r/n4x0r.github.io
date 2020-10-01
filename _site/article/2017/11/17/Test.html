@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="description" content="This article is going to serve as my personal reference on this topic. Since I’ve always wanted to write about this and just finished the course on Advance B...">
+
+	<title>Manually Unpacking Linux/Tsunami</title>
+	
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="/ulexec.github.io/css/bootstrap.min.css" >
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	
+	<link rel="stylesheet" href="/ulexec.github.io/css/main.css">
+	<link rel="canonical" href="http://ulexec.github.io/ulexec.github.io/article/2017/11/17/Test.html">
+	<link rel="alternate" type="application/rss+xml" title="ulexec's blog" href="http://ulexec.github.io/ulexec.github.io/feed.xml">
+</head>
+	<body>
+
+
+	<div id="particles-js"></div>
+	<div id="top">
+			<div class="container">
+				
+<style>
+.ascii-art {
+    font-family: courier;
+    white-space: pre;
+    color: #f7006f;
+     font-size: 0%;
+}
+.hex {
+    font-family: courier;
+    white-space: pre;
+    color: #f7006f;
+     font-size: 120%;
+}
+.name {
+    font-family: courier;
+    white-space: pre;
+    color: #00f7ef;
+     font-size: 120%;
+}
+img {
+  width: auto ;
+  max-width: 100% ;
+  height: auto ;
+  
+}
+#t {
+  font-family: courier;
+  width: auto;
+  height: auto;
+  font-size: 400%;
+  font-weight: normal;
+  color: #ffffff;
+}
+
+#h {
+  font-family: courier;
+  width: auto;
+  height: auto;
+  font-size: 100%;
+  font-weight: cursive;
+  text-align: center;
+
+}
+</style>
+<script  src="/ulexec.github.io/js/jquery.min.js"></script>
+
+<header class="container-fluid amnesia_site-header">
+  <br /> 
+  <br /> 
+  <br /> 
+  <div id="t">Covert Tradecraft</div>
+  <div id="h">A blog by @ulexec</div>
+  <br /> 
+  <br /> 
+  <br />
+  <script src="/ulexec.github.io/js/crypt.js"></script>
+  
+</header>
+
+				
+				<nav class="container-fluid amnesia_site-navbar">
+	<ul class="nav nav-tabs">
+		
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io/">Home</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io/malware/">Malware</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io/writeups/">CTF</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io/videos/">Talks</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io/misc/">Misc</a>
+		</li>
+		
+		
+		
+		<li role="presentation" class="">
+			<a href="/ulexec.github.io/cti/">CTI</a>
+		</li>
+		
+		
+	</ul>
+</nav>
+
+				<div class="row">
+    <div class="col-sm-8">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+            <header class="post-header">
+                <h1 class="post-title" itemprop="name headline">Manually Unpacking Linux/Tsunami</h1>
+                <p class="post-meta">
+                    <time datetime="2017-11-17T06:30:00+01:00" itemprop="datePublished">Nov 17,
+                        2017
+                    </time>
+                     • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span
+                        itemprop="name">n4x0r</span></span>
+                </p>
+            </header>
+
+            <div class="post-content" itemprop="articleBody">
+                <p>This article is going to serve as my personal reference on this topic. Since I’ve always wanted to write about this and just finished the course on Advance Binary Deobfuscation by Yuma Kurogome, I thought it would be a good time to write this article with a fresh mind on the subject matter.</p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>There are close to 31 known <a href="&quot;https://mediatum.ub.tum.de/doc/1367533/1367533.pdf">code transformations</a>. However, In this article we will focus on grouping these transformation in categories based on their behavior, and we will cover some of the most relevant techniques today on a conceptual point of view.
+We will also be covering practical approaches to the aforementioned techniques using the reverse engineering framework MIASM.</p>
+
+<p>Despite the large number of transformations, obfuscation techniques can be group up into 3 different categories:</p>
+
+<ul>
+  <li>Confusion oriented:
+    <ul>
+      <li>Unreachable Code Insertion</li>
+      <li>Dead Code Insertion</li>
+    </ul>
+  </li>
+  <li>Syntax Modification
+    <ul>
+      <li>Intruction Substitution</li>
+      <li>Constant Folding/Unfolding</li>
+    </ul>
+  </li>
+  <li>Semantic Modification
+    <ul>
+      <li>Opaque Predicates</li>
+      <li>Range Dividers</li>
+      <li>Virtualization</li>
+      <li>Control Flow Flattening</li>
+    </ul>
+  </li>
+</ul>
+
+<p>We will be discussing each of these techniques on a conceptual level, although we will be also covering practical examples.
+The purpose of this article is to cristalize concepts instead of being a technical reference, although further technical reading will be linked all troughout the article.</p>
+
+<p><br /></p>
+<h2 id="unreachabledead-code-constant-unfolding-and-instruction-substitution">Unreachable/Dead Code, Constant Unfolding and Instruction Substitution</h2>
+
+<p>In this section we will be covering 3 different transformations which have a close correlation between one another, and consequently a similar apporach for circumvention.</p>
+<ul>
+  <li><strong>Unreachable Code</strong>: is defined as inserted code into a target application which is never going to be executed, serving the purpose of an unexpensive way of distracting the analyst for a few minutes.
+an example of Junk code is the following:
+    <div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">jz</span> <span class="n">loc_key1</span>      <span class="c">; lets imagine this conditional branch is not really conditional</span>
+<span class="k">xor</span> <span class="n">eax</span><span class="p">,</span> <span class="n">eax</span>     <span class="c">; * this will never execute</span>
+<span class="k">pushf</span> 	         <span class="c">; *</span>
+<span class="k">pop</span> <span class="n">ebx</span>          <span class="c">; *</span>
+<span class="k">and</span> <span class="n">ebx</span><span class="p">,</span> <span class="mh">0x100</span>   <span class="c">; *</span>
+<span class="k">cmp</span> <span class="n">ebx</span><span class="p">,</span> <span class="mh">0x100</span>   <span class="c">; *</span>
+<span class="k">je</span> <span class="n">loc_key2</span>      <span class="c">; *</span>
+<span class="n">loc_key1</span><span class="o">:</span> 
+</code></pre></div>    </div>
+    <p><br /></p>
+  </li>
+  <li><strong>Dead Code</strong>: is defined as inserted code into a target application which, although they may be executed, they do not change the original control flow of the program.
+Again this technique pupose is just to confuse the analyst to make him/her spend a bit more time understanding the purpose of the aforementioned instructions.
+The following is an example:
+    <div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">mov</span> <span class="n">edx</span><span class="p">,</span> <span class="mh">0xdeadc00d</span>  <span class="c">; * this specific instruction is deadcode</span>
+<span class="k">mov</span> <span class="n">eax</span><span class="p">,</span> <span class="err">[</span><span class="n">ebp</span><span class="o">+</span><span class="n">arg_4</span><span class="err">]</span>
+<span class="k">mov</span> <span class="n">ecx</span><span class="p">,</span> <span class="err">[</span><span class="n">ebp</span><span class="o">+</span><span class="n">arg_0</span><span class="err">]</span>
+<span class="k">mov</span> <span class="n">edx</span><span class="p">,</span> <span class="mi">5</span>           <span class="c">; * edx gets overriden here, also deadcode</span>
+<span class="k">mov</span> <span class="err">[</span><span class="n">ebp</span><span class="o">+</span><span class="n">var_4</span><span class="err">]</span><span class="p">,</span> <span class="n">ecx</span>
+<span class="k">mov</span> <span class="err">[</span><span class="n">ebp</span><span class="o">+</span><span class="n">var_8</span><span class="err">]</span><span class="p">,</span> <span class="n">eax</span>
+</code></pre></div>    </div>
+    <p><br /></p>
+  </li>
+  <li><strong>Instruction Substitution</strong>: defined as to replace a given set of instructions with another more complex set of instructions with identical semantic meaning. This kind of techniques have been heavely employed by metamorphic code engines. 
+Lets imagine that originally we have the following set of instructions:
+    <div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">mov</span> <span class="n">eax</span><span class="p">,</span> <span class="err">[</span><span class="n">ebp</span><span class="o">+</span><span class="n">var_8</span><span class="err">]</span>
+<span class="k">add</span> <span class="n">eax</span><span class="p">,</span> <span class="err">[</span><span class="n">ebp</span><span class="o">+</span><span class="n">var_C</span><span class="err">]</span>
+<span class="k">add</span> <span class="n">eax</span><span class="p">,</span> <span class="err">[</span><span class="n">ebp</span><span class="o">+</span><span class="n">var_10</span><span class="err">]</span>
+<span class="k">add</span> <span class="n">eax</span><span class="p">,</span> <span class="err">[</span><span class="n">ebp</span><span class="o">+</span><span class="n">var_4</span><span class="err">]</span>
+</code></pre></div>    </div>
+    <p>This set of instruction can be transform to the following one, being much harder to interpret and understand:</p>
+    <div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">mov</span> <span class="n">eax</span><span class="p">,</span> <span class="err">[</span><span class="n">ebp</span><span class="o">+</span><span class="n">var_C</span><span class="err">]</span>
+<span class="k">mov</span> <span class="n">edx</span><span class="p">,</span> <span class="err">[</span><span class="n">ebp</span><span class="o">+</span><span class="n">var_10</span><span class="err">]</span>
+<span class="k">sub</span> <span class="n">eax</span><span class="p">,</span> <span class="mi">2598</span><span class="n">A32Bh</span>
+<span class="k">add</span> <span class="n">eax</span><span class="p">,</span> <span class="n">edx</span>
+<span class="k">add</span> <span class="n">eax</span><span class="p">,</span> <span class="mi">2598</span><span class="n">A32Bh</span>
+<span class="k">mov</span> <span class="n">edx</span><span class="p">,</span> <span class="err">[</span><span class="n">ebp</span><span class="o">+</span><span class="n">var_4</span><span class="err">]</span>
+<span class="k">mov</span> <span class="n">esi</span><span class="p">,</span> <span class="n">ecx</span>
+<span class="k">sub</span> <span class="n">esi</span><span class="p">,</span> <span class="n">eax</span>
+<span class="k">mov</span> <span class="n">eax</span><span class="p">,</span> <span class="n">ecx</span>
+<span class="k">sub</span> <span class="n">eax</span><span class="p">,</span> <span class="n">edx</span>
+<span class="k">add</span> <span class="n">esi</span><span class="p">,</span> <span class="n">eax</span>
+<span class="k">mov</span> <span class="n">eax</span><span class="p">,</span> <span class="n">ecx</span>
+<span class="k">sub</span> <span class="n">eax</span><span class="p">,</span> <span class="n">esi</span>
+<span class="k">mov</span> <span class="n">edx</span><span class="p">,</span><span class="err">[</span><span class="n">ebp</span><span class="o">+</span><span class="n">var_8</span><span class="err">]</span>
+<span class="k">sub</span> <span class="n">ecx</span><span class="p">,</span> <span class="n">edx</span>
+<span class="k">sub</span> <span class="n">eax</span><span class="p">,</span> <span class="n">ecx</span>
+</code></pre></div>    </div>
+    <p><br /></p>
+  </li>
+</ul>
+
+<h3 id="circumvention">Circumvention</h3>
+<p>In order to mitigate these transformations we can do a variety of techniques based on Data Flow Analysis. Before we introduce these techniques, is important to understand that in order to succesfully implement Data Flow Analysis strategies we have to rely on a Intermediate Representation of the subject code. Compilers also rely on IRs to apply their program synthesis and code optimitations capabilities. In other words, We can deobfuscate these transformations by using the same techniques used by compilers for
+their own optimization purposes.
+These techniques are the following:</p>
+
+<ul>
+  <li><strong>Reachable Definition Analysis</strong>
+    <ul>
+      <li>Forward dataflow analysis</li>
+      <li>Analyze where the value of each variable x was defined when a certain point in the program was reached</li>
+      <li>Application:
+        <ul>
+          <li>Constant propagation/folding</li>
+          <li>Transform expressions</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Liveless Analysis</strong>
+    <ul>
+      <li>Backward dataflow analysis</li>
+      <li>Analyze whether the value x in the program point p may be used when following the edge starting from p in the flow graph with respect to x</li>
+      <li>Application:
+        <ul>
+          <li>Dead code elimination</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>Both reachable definition analysis and liveness analysis are IR optimization techniques used by a compiler backend, and are also useful for binary analysis.</p>
+
+            </div>
+
+        </article>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>Malware Posts</strong>
+    </div>
+
+    <div class="panel-body">
+        
+        
+        
+        <div>
+            <h4 class="archive-title">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <a href="#">2017</a>
+            </h4>
+            <ul class="list-group archive-list" style="display: none;">
+                
+                
+                
+                <li class="list-group-item">
+                    <a href="/ulexec.github.io/article/2017/11/17/UnPacking_a_Linux_Tsunami_Sample-copy.html">Manually Unpacking Linux/Tsunami</a>
+                        <span class="badge">
+                            <time>17 Nov</time>
+                        </span>
+                </li>
+                
+                
+                
+                <li class="list-group-item">
+                    <a href="/ulexec.github.io/article/2017/11/17/Test.html">Manually Unpacking Linux/Tsunami</a>
+                        <span class="badge">
+                            <time>17 Nov</time>
+                        </span>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+				<hr />
+				
+				<footer class="container-fluid amnesia_site-footer">
+    <div class="row">
+        <div class="col-xs-6">
+            <blockquote>
+                <p>
+                    Covert Tradecraft
+                </p>
+                <p>
+                    <small>ulexec's blog</small>
+                </p>
+            </blockquote>
+        </div>
+    </div>
+</footer>
+
+			</div>
+	</div>
+	</body>	
+		
+		<script src="/ulexec.github.io/js/particles.js"></script>
+		<script src="/ulexec.github.io/js/app.js"></script>
+		<script src="/ulexec.github.io/js/jquery.min.js"></script>
+		<script src="/ulexec.github.io/js/bootstrap.min.js"></script>
+		<script src="/ulexec.github.io/js/scripts.js"></script>
+
+
+</html>
