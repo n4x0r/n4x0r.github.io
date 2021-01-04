@@ -8,7 +8,7 @@ author: ulexec
 ---
 
 
-Cyber Warfare has evolved in the last years introducing challenges to reflect a theoretical model of this new domain in order to understand its nuances which impact a wide range of different sectors operating within the computer and information technology domain.
+Cyber Warfare has evolved in the last years introducing challenges to reflect a theoretical model of this new domain in order to understand its nuances, which completely contradict conventional warfare strategic thinking, and has become the prime medium for conducting modern espionage operations.
  
 <br/>
 
@@ -36,7 +36,7 @@ I also tried to introduce a foundation to this subject in case readers would be 
 <br/>
  
 ## **Foundation**  
-Is important to interpret Information Warfare as the fifth domain of warfare. In contrast with more conventional warfare domains such as Land, Sea, Air or Space, the Cyber domain provides a wide range of capabilities that the previous domains can't provide, also subject to different rules which do not align with previously known strategic basis of the warfare realm.
+Is important to interpret Cyber Warfare as the fifth domain of warfare. In contrast with more conventional warfare domains such as Land, Sea, Air or Space, the Cyber domain provides a wide range of capabilities that the previous domains can't provide, also subject to different rules which do not align with previously known strategic basis of the warfare realm.
  
 - Actionable on light speed
 - Adversary may not have a chance to react
