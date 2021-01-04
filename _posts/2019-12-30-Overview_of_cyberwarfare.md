@@ -1,6 +1,6 @@
 ---
 layout: article
-title:  "A Brief Reference on Russia's Information Warfare"
+title:  "A Brief Reference on Russia's approach to Cyber Warfare"
 date:   2020-05-07 06:30
 categories: cyber
 tags: [reverse,malware, ELF, packers]
@@ -8,7 +8,7 @@ author: ulexec
 ---
 
 
-Information Warfare has evolved in the last years introducing challenges to reflect a theoretical model of this new domain in order to understand its nuances which impact a wide range of different sectors operating within the computer and information technology domain.
+Cyber Warfare has evolved in the last years introducing challenges to reflect a theoretical model of this new domain in order to understand its nuances which impact a wide range of different sectors operating within the computer and information technology domain.
  
 <br/>
 
@@ -128,7 +128,7 @@ This rivalry obviously benefits the state in terms of the outcome of their cyber
  
 #### **Teams**
  
-Russia uses several small teams of contractors to conduct their cyber operations. These teams are formed from a mix of private, and state and military intelligence actors: 
+Russia leverages several small teams to conduct their cyber operations. These teams are formed from a mix of private, state and military intelligence actors: 
  
 *   [APT28](https://www2.fireeye.com/rs/fireye/images/rpt-apt28.pdf)
 *   [APT29](https://www2.fireeye.com/rs/848-DID-242/images/rpt-apt29-hammertoss.pdf)
@@ -151,10 +151,10 @@ This operation is important to understand the Russian mindset since it was the `
 This operation shows the degree of OPSEC of russian teams, since took `10 years to achieve concrete attribute conclusions` for this specific operation. Or simply maybe the latency of achieving these correlation to Russian teams was merely based on the fact that most evidence from this campaing was destroyed.
  
 *   [Attacks Against Estonia](https://en.wikipedia.org/wiki/2007_cyberattacks_on_Estonia) - (2007) series of cyberattacks which began on 27 April 2007 and targeted websites of Estonian organizations, including Estonian parliament, banks, ministries, newspapers and broadcasters, amid the country's disagreement with Russia about the relocation of the Bronze Soldier of Tallinn, an elaborate Soviet-era grave marker, as well as war graves in Tallinn.
-This operation showcases the `first Cyber Deterrence operation exhibited by Russia against a target state`. This will become a common operation of the Russian Federation to utilize several more times in coming years. In addition is also a great showcase of cyber adaptability capacity. 
+This operation showcases the `first cyber-enabled deterrence operation exhibited by Russia`. This will become a common operation of the Russian Federation to utilize several more times in coming years. In addition is also a great showcase of cyber adaptability capacity. 
  
 *   [Attacks Against Ukranian Power Grid](https://en.wikipedia.org/wiki/December_2015_Ukraine_power_grid_cyberattack) - (2015-2016) Took place on 23 December 2015 and is considered to be the first known successful cyberattack on a power grid. Threat actors were able to successfully compromise information systems of three energy distribution companies in Ukraine and temporarily disrupt electricity supply to the end consumers. Cyber attacks on the energy distribution companies took place during an ongoing conflict in the Ukraine and is attributed to a Russian advanced persistent threat (APT) group known as Sandworm. 
-This operation is a great example of adaptability capacity implemented by Russian operatives, being the `first example of a successful breach in Power Grids`. Evidence regarding Industroyer, the piece of malware in charge of the latest blackout [reported](https://www.youtube.com/watch?v=TH17hSH1PGQ) by ESET and Dragos show that more features were implemented in the malware despite the capabilities leveraged in this intrusion, constructing a hypothesis that maybe threat actors behind Industroyer were using The Ukranian's Power Grid as a testing ground to evaluate their capabilities.
+This operation is a great example of adaptability capacity implemented by Russian operatives, being the `first example of a successful breach in power grids`. Evidence regarding Industroyer, the piece of malware in charge of the latest blackout [reported](https://www.youtube.com/watch?v=TH17hSH1PGQ) by ESET and Dragos show that more features were implemented in the malware despite the capabilities leveraged in this intrusion, constructing a hypothesis that maybe threat actors behind Industroyer were using The Ukranian's Power Grid as a testing ground to evaluate their capabilities.
  
 *   [Attack to the Democratic National Convention](https://en.wikipedia.org/wiki/Democratic_National_Committee_cyber_attacks) - (2015-2016) Cyber attacks that successfully penetrated the DNC computing system began in 2015. Attacks by APT29 (allegedly FSB/SVR) began in the summer of 2015. Attacks by APT28 (allegedly GRU) began in April 2016. It was after the APT28 group began their activities that the compromised system became apparent. The groups were presumed to have been spying on communications, stealing personal accounts of Clinton Campaign employees and volunteers including John Podesta, a former White House chief of staff and chair of Hillary Clinton's 2016 U.S. Both groups of intruders were successfully expelled from the DNC systems within hours after detection. These attacks are considered to be part of a group of recent attacks targeting U.S. government departments and several political organizations, including 2016 campaign organizations. This denotes that `different Russian sponsored teams are not necessarily aware of each other's operations.`
 
@@ -190,7 +190,7 @@ This shows great creativity capacity, being Russian threat actors some of the `f
 
 <br/>
 
-An overview of Russian Team's toolkits can be show below thanks to Intezer and Check Point research on Russian APT connections. This graph denotes the `low volume of overlaps` between different teams in terms of technical intelligence, again reinforcing that there is a low ratio of information sharing within these teams:
+An overview of Russian team's toolkits can be show below thanks to Intezer and Check Point research on Russian APT connections. This graph denotes the `low volume of overlaps` between different teams in terms of technical intelligence, again reinforcing that there is a low ratio of information sharing within these teams:
 
 <br/>
 <br/>
@@ -203,11 +203,11 @@ An overview of Russian Team's toolkits can be show below thanks to Intezer and C
 <br/>
 
 #### Remarks of Russia's approach to Cyber Warfare:
-*   Offensive Defensive approach (attacking to showcase capability).
+*   Offensive Defensive approach (attack to showcase capability).
 *   Several small teams style.
 *   Conduct disinformation operations by releasing stolen information or leaks introducing falsehoods.
 *   Disrupt direct attribution by introducing false flags on their toolsets/operations.
-*   Deploy DDoS attacks to conduct deterrence campaigns.
+*   Deploy DDoS attacks to conduct cyber-enabled deterrence operations.
 *   Design deterrence/influence operations around target state's political election campaigns or national holidays.
 *   Hybrid Warfare - combining military and non-military as well as covert and overt means including disinformation, kinetic actions and cyber-attacks to accomplish a subject strategic outcome.
 *   Active Measures - actions of political warfare designed to change the course of world events via influence operations based on disinformation campaigns.
