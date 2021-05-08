@@ -7,33 +7,33 @@ tags: [reverse,malware, ELF, packers]
 author: ulexec
 ---
 
-This article is a copy of the original report we published at Intezer Labs we we reported this threat. The original report can be found [here](https://intezer.com/blog/linux/hiddenwasp-malware-targeting-linux-systems/)
+This article is a copy of the original report we published at Intezer Labs when we publicly reported this threat. The original report can be found [here](https://intezer.com/blog/linux/hiddenwasp-malware-targeting-linux-systems/)
 
 <br/>
 
-Although the Linux threat ecosystem is crowded with IoT DDoS botnets and crypto-mining malware, it is not unusual to spot trojans or backdoors in the wild. Unlike Windows malware, Linux malware authors do not seem to invest too much effort writing their implants. In an open-source ecosystem there is a high ratio of publicly available code that can be copied and adapted by attackers. 
+Although the Linux threat ecosystem is crowded with IoT DDoS botnets and crypto-mining malware, it is not unusual to spot trojans or backdoors in the wild. Unlike Windows malware, Linux malware authors do not seem to invest too much effort writing their implants. In an open-source ecosystem there is a high ratio of publicly available code that can be copied and adapted by attackers.
 
-In addition, Anti-Virus solutions for Linux tend to not be as resilient as in other platforms. Therefore, threat actors targeting Linux systems are less concerned about implementing excessive evasion techniques since even when reusing extensive amounts of code, threats can relatively manage to stay under the radar. 
+In addition, Anti-Virus solutions for Linux tend to not be as resilient as in other platforms. Therefore, threat actors targeting Linux systems are less concerned about implementing excessive evasion techniques since even when reusing extensive amounts of code, threats can relatively manage to stay under the radar.
 
 Nevertheless, malware with unconventional evasion techniques do exist for the Linux platform. There is also a high ratio of publicly available open-source malware that utilize strong evasion techniques and can be easily adapted by attackers. We believe this fact is alarming for the security community since many implants today have very low detection rates, making these threats difficult to detect and respond to.
 
-While working at Intezer, we discovered an undetected Linux malware that appear to be enforcing advanced evasion techniques with the use of rootkits to leverage trojan-based implants, which later seems that it was [linked](https://www.scmagazine.com/home/security-news/malware/a-sophisticated-malware-campaign-dubbed-hiddenwasp-is-targeting-linux-systems-with-the-goal-of-targeted-remote-control/) to the Winnti Umbrella (cluster of adversaries). In this blog we will present a **technical analysis** of each of the different components that this new malware, HiddenWasp, is composed of. We will also highlight interesting code-reuse connections that we have observed to several open-source malware. The following images are screenshots from VirusTotal of the newer undetected malware samples discovered: 
+While working at Intezer, we discovered an undetected Linux malware that appear to be enforcing advanced evasion techniques with the use of rootkits to leverage trojan-based implants, which later seems that it was [linked](https://www.scmagazine.com/home/security-news/malware/a-sophisticated-malware-campaign-dubbed-hiddenwasp-is-targeting-linux-systems-with-the-goal-of-targeted-remote-control/) to the Winnti Umbrella (cluster of adversaries). In this blog we will present a **technical analysis** of each of the different components that this new malware, HiddenWasp, is composed of. We will also highlight interesting code-reuse connections that we have observed to several open-source malware. The following images are screenshots from VirusTotal of the newer undetected malware samples discovered:
 
 <br/>
 
-![technical analysis](http://intezer.com/wp-content/uploads/2019/05/pasted-image-0-1.png) 
+![technical analysis](http://intezer.com/wp-content/uploads/2019/05/pasted-image-0-1.png)
 
 <br/>
 <br/>
 
 ### **1\. Technical Analysis**
 
-When we came across these samples we noticed that similar to the recent Winnti Linux variants reported by [Chronicle](https://medium.com/chronicle-blog/winnti-more-than-just-windows-and-gates-e4f03436031a), the infrastructure of this malware is composed of a user-mode rootkit, a trojan and an initial deployment script. We will cover each of the three components in this post, analyzing them and their interactions with one another. 
+When we came across these samples we noticed that similar to the recent Winnti Linux variants reported by [Chronicle](https://medium.com/chronicle-blog/winnti-more-than-just-windows-and-gates-e4f03436031a), the infrastructure of this malware is composed of a user-mode rootkit, a trojan and an initial deployment script. We will cover each of the three components in this post, analyzing them and their interactions with one another.
 
 <br/>
 
-#### **2.1 Initial Deployment Script:** 
-When we spotted these undetected files in VirusTotal it seemed that among the uploaded artifacts there was a bash script along with a trojan implant binary. 
+#### **2.1 Initial Deployment Script:**
+When we spotted these undetected files in VirusTotal it seemed that among the uploaded artifacts there was a bash script along with a trojan implant binary.
 
 <br/>
 
@@ -42,7 +42,7 @@ When we spotted these undetected files in VirusTotal it seemed that among the up
 <br/>
 
 We observed that these files were uploaded to VirusTotal using a path containing the name of a Chinese-based forensics company known as [Shen Zhou Wang Yun Information Technology Co., Ltd](http://www.china-forensic.com/ccfc/en/). Furthermore, the malware implants seem to be hosted in servers from a physical server hosting company known as ThinkDream located in Hong Kong.
- 
+
 <br/>
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/pasted-image-0-10.png" /></div>
 <br/>
@@ -51,11 +51,11 @@ Among the uploaded files, we observed that one of the files was a bash script me
 
 <br/>
 
-![ThinkDream](http://intezer.com/wp-content/uploads/2019/05/2019-05-23-085049_997x237_scrot.png) 
+![ThinkDream](http://intezer.com/wp-content/uploads/2019/05/2019-05-23-085049_997x237_scrot.png)
 
 <br/>
 
-Thanks to this file we were able to download further artifacts not present in VirusTotal related to this campaign. This script will start by defining a set of variables that would be used throughout the script. 
+Thanks to this file we were able to download further artifacts not present in VirusTotal related to this campaign. This script will start by defining a set of variables that would be used throughout the script.
 
 <br/>
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-085725_713x536_scrot.png" /></div>
@@ -77,34 +77,34 @@ The script will then proceed to download a tar compressed archive from a downloa
 
 <br/>
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-090228_818x570_scrot.png" /></div>
-<br/> 
+<br/>
 
-After malware components have been installed, the script will then proceed to execute the trojan: 
+After malware components have been installed, the script will then proceed to execute the trojan:
 
 <br/>
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-090327_793x511_scrot.png" /></div>
-<br/> 
+<br/>
 
-We can see that the main trojan binary is executed, the rootkit is added to LD_PRELOAD path and another series of environment variables are set such as the ‘I_AM_HIDDEN’. We will cover throughout this post what the role of this environment variable is. To finalize, the script attempts to install reboot persistence for the trojan binary by adding it to /etc/rc.local. Within this script we were able to observe that the main implants were downloaded in the form of tarballs. As previously mentioned, each tarball contains the main trojan, the rootkit and a deployment script for x86 and x86_64 builds accordingly. 
+We can see that the main trojan binary is executed, the rootkit is added to LD_PRELOAD path and another series of environment variables are set such as the ‘I_AM_HIDDEN’. We will cover throughout this post what the role of this environment variable is. To finalize, the script attempts to install reboot persistence for the trojan binary by adding it to /etc/rc.local. Within this script we were able to observe that the main implants were downloaded in the form of tarballs. As previously mentioned, each tarball contains the main trojan, the rootkit and a deployment script for x86 and x86_64 builds accordingly.
 
 <br/>
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/2019-05-24-195845_1152x222_scrot.png" /></div>
-<br/> 
+<br/>
 
-The deployment script has interesting insights of further features that the malware implements, such as the introduction of a new environment variable ‘HIDE_THIS_SHELL’: 
+The deployment script has interesting insights of further features that the malware implements, such as the introduction of a new environment variable ‘HIDE_THIS_SHELL’:
 
 <br/>
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-144740_819x467_scrot.png" /></div>
-<br/> 
+<br/>
 
 We found some of the environment variables used in a open-source rootkit known as [Azazel](https://github.com/chokepoint/azazel/search?q=HIDE_THIS_SHELL&unscoped_q=HIDE_THIS_SHELL):
 
 
 <br/>
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/2019-05-24-053134_528x38_scrot.png" /></div>
-<br/> 
+<br/>
 
-It seems that this actor changed the default environment variable from Azazel, that one being HIDE_THIS_SHELL for I_AM_HIDDEN. We have based this conclusion on the fact that the environment variable HIDE_THIS_SHELL was not used throughout the rest of the components of the malware and it seems to be residual remains from Azazel original code. The majority of the code from the rootkit implants involved in this malware infrastructure are noticeably different from the original Azazel project. Winnti Linux variants are also known to have reused code from this open-source project. 
+It seems that this actor changed the default environment variable from Azazel, that one being HIDE_THIS_SHELL for I_AM_HIDDEN. We have based this conclusion on the fact that the environment variable HIDE_THIS_SHELL was not used throughout the rest of the components of the malware and it seems to be residual remains from Azazel original code. The majority of the code from the rootkit implants involved in this malware infrastructure are noticeably different from the original Azazel project. Winnti Linux variants are also known to have reused code from this open-source project.
 
 <br/>
 
@@ -114,74 +114,74 @@ The rootkit is a user-space based rootkit enforced via LD_PRELOAD linux mechanis
 
 <br/>
 <div style="text-align:center"><img src ="https://intezer.com/wp-content/uploads/2019/05/2019-05-29-164708_842x473_scrot.png" /></div>
-<br/> 
+<br/>
 
-Within this function we can see that eventually control flow falls into a function in charge to resolve a set of dynamic imports, which are the functions it will later hook, alongside with decoding a series of strings needed for the rootkit operations. 
+Within this function we can see that eventually control flow falls into a function in charge to resolve a set of dynamic imports, which are the functions it will later hook, alongside with decoding a series of strings needed for the rootkit operations.
 
 <br/>
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/pasted-image-0-4.png" /></div>
-<br/> 
+<br/>
 
-We can see that for each string it allocates a new dynamic buffer, it copies the string to it to then decode it. It seems that the implementation for dynamic import resolution slightly varies in comparison to the one used in [Azazel](https://github.com/chokepoint/azazel/blob/master/config.py) rootkit. 
+We can see that for each string it allocates a new dynamic buffer, it copies the string to it to then decode it. It seems that the implementation for dynamic import resolution slightly varies in comparison to the one used in [Azazel](https://github.com/chokepoint/azazel/blob/master/config.py) rootkit.
 
 When we wrote the script to simulate the cipher that implements the string decoding function we observed the following algorithm:
 
 <br/>
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-072903_318x253_scrot.png" /></div>
-<br/> 
+<br/>
 
 We recognized that a similar algorithm to the one above was used in the past by [Mirai](https://github.com/jgamblin/Mirai-Source-Code/blob/master/mirai/bot/scanner.c#L963), implying that authors behind this rootkit may have ported and modified some code from Mirai.
 
 <br/>
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-073253_483x407_scrot.png" /></div>
-<br/> 
+<br/>
 
 After the rootkit main object has been loaded into the address space of a given process and has decrypted its strings, it will export the functions that are intended to be hooked. We can see these exports to be the following:
 
 <br/>
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/pasted-image-0-8.png" /></div>
-<br/> 
+<br/>
 
 For every given export, the rootkit will hook and implement a specific operation accordingly, although they all have a similar layout. Before the original hooked function is called, it is checked whether the environment variable ‘I_AM_HIDDEN’ is set:
 
 <br/>
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/2019-05-27-074838_796x779_scrot.png" /></div>
-<br/> 
+<br/>
 
-We can see an example of how the rootkit hooks the function fopen in the following screenshot: 
+We can see an example of how the rootkit hooks the function fopen in the following screenshot:
 
 <br/>
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-081200_847x623_scrot.png" /></div>
-<br/> 
+<br/>
 
-We have observed that after checking whether the ‘I_AM_HIDDEN’ environment variable is set, it then runs a function to hide all the rootkits’ and trojans’ artifacts. In addition, specifically to the fopen function it will also check whether the file to open is ‘/proc/net/tcp’ and if it is it will attempt to hide the malware’s connection to the cnc by scanning every entry for the destination or source ports used to communicate with the cnc, in this case 61061\. This is also the default port in [Azazel](https://github.com/chokepoint/azazel/blob/master/config.py) rootkit. 
+We have observed that after checking whether the ‘I_AM_HIDDEN’ environment variable is set, it then runs a function to hide all the rootkits’ and trojans’ artifacts. In addition, specifically to the fopen function it will also check whether the file to open is ‘/proc/net/tcp’ and if it is it will attempt to hide the malware’s connection to the cnc by scanning every entry for the destination or source ports used to communicate with the cnc, in this case 61061\. This is also the default port in [Azazel](https://github.com/chokepoint/azazel/blob/master/config.py) rootkit.
 
 <br/>
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-081703_569x553_scrot.png" /></div>
 <br/>
 
-The rootkit primarily implements artifact hiding mechanisms as well as tcp connection hiding as previously mentioned. Overall functionality of the rootkit can be illustrated in the following diagram: 
+The rootkit primarily implements artifact hiding mechanisms as well as tcp connection hiding as previously mentioned. Overall functionality of the rootkit can be illustrated in the following diagram:
 
 <br/>
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/pasted-image-0-6.png" /></div>
 <br/>
 <br/>
 
-#### **2.3 The Trojan:** 
+#### **2.3 The Trojan:**
 
-The trojan comes in the form of a statically linked ELF binary linked with stdlibc++. We noticed that the trojan has code connections with ChinaZ’s Elknot implant in regards to some common MD5 implementation in one of the statically linked libraries it was linked with: 
+The trojan comes in the form of a statically linked ELF binary linked with stdlibc++. We noticed that the trojan has code connections with ChinaZ’s Elknot implant in regards to some common MD5 implementation in one of the statically linked libraries it was linked with:
 
 <br/>
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/pasted-image-0-2.png" /></div>
 <br/>
 
-In addition, we also see a high rate of shared strings with other known ChinaZ malware, reinforcing the possibility that actors behind HiddenWasp may have integrated and modified some MD5 implementation from Elknot that could have been shared in Chinese hacking forums: 
+In addition, we also see a high rate of shared strings with other known ChinaZ malware, reinforcing the possibility that actors behind HiddenWasp may have integrated and modified some MD5 implementation from Elknot that could have been shared in Chinese hacking forums:
 
 <br/>
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/2019-05-22-182452_629x580_scrot.png" /></div>
 <br/>
 
-When we analyze the main we noticed that the first action the trojan takes is to retrieve its configuration: 
+When we analyze the main we noticed that the first action the trojan takes is to retrieve its configuration:
 
 <br/>
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-162703_694x669_scrot.png" /></div>
@@ -193,7 +193,7 @@ The malware configuration is appended at the end of the file and has the followi
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/2019-05-28-195155_776x314_scrot.png" /></div>
 <br/>
 
-The malware will try to load itself from the disk and parse this blob to then retrieve the static encrypted configuration. 
+The malware will try to load itself from the disk and parse this blob to then retrieve the static encrypted configuration.
 
 <br/>
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-162730_602x688_scrot.png" /></div>
@@ -253,7 +253,7 @@ After seeing the rootkit’s functionality, we can understand that the rootkit a
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/pasted-image-0-3.png" /></div>
 <br/>
 
-Continuing with the execution flow of the trojan, a series of functions are executed to enforce evasion of some artifacts: 
+Continuing with the execution flow of the trojan, a series of functions are executed to enforce evasion of some artifacts:
 
 <br/>
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-173455_514x329_scrot.png" /></div>
@@ -265,7 +265,7 @@ These artifacts are the following:
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/2019-05-23-173529_619x157_scrot.png" /></div>
 <br/>
 
-By performing some OSINT regarding these artifact names, we found that they belong to a Chinese open-source rootkit for Linux known as [Adore-ng](https://github.com/yaoyumeng/adore-ng) hosted in GitHub: 
+By performing some OSINT regarding these artifact names, we found that they belong to a Chinese open-source rootkit for Linux known as [Adore-ng](https://github.com/yaoyumeng/adore-ng) hosted in GitHub:
 
 <br/>
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/pasted-image-0-9.png" /></div>
@@ -281,7 +281,7 @@ Moreover, the trojan communicated with a simple network protocol over TCP. We ca
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/2019-05-24-005754_610x411_scrot.png" /></div>
 <br/>
 
-With the help of this function we where able to understand the structure of the communication protocol employed. We can illustrate the structure of this communication protocol by looking at a pcap of the initial handshake between the server and client: 
+With the help of this function we where able to understand the structure of the communication protocol employed. We can illustrate the structure of this communication protocol by looking at a pcap of the initial handshake between the server and client:
 
 <br/>
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/pasted-image-0-7.png" /></div>
@@ -312,14 +312,14 @@ Depending on the given requests the malware will perform different operations ac
 <div style="text-align:center"><img src ="http://intezer.com/wp-content/uploads/2019/05/pasted-image-0-5.png" /></div>
 <br/>
 
-#### **IOCs** 
+#### **IOCs**
 
 ```c
 103.206.123[.]13
-103.206.122[.]245 
-http://103.206.123[.]13:8080/system.tar.gz 
-http://103.206.123[.]13:8080/configUpdate.tar.gz 
-http://103.206.123[.]13:8080/configUpdate-32.tar.gz 
+103.206.122[.]245
+http://103.206.123[.]13:8080/system.tar.gz
+http://103.206.123[.]13:8080/configUpdate.tar.gz
+http://103.206.123[.]13:8080/configUpdate-32.tar.gz
 
 e9e2e84ed423bfc8e82eb434cede5c9568ab44e7af410a85e5d5eb24b1e622e3
 f321685342fa373c33eb9479176a086a1c56c90a1826a0aef3450809ffc01e5d
