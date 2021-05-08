@@ -8,7 +8,7 @@
 # Site settings
 title: Bona Fides
 description: ulexec's blog
-baseurl: "/blog" # the subpath of your site, e.g. /blog
+baseurl: "/ulexec.github.io" # the subpath of your site, e.g. /blog
 url: "http://ulexec.github.io"
 twitter_username: ulexec
 github_username:  ulexec
