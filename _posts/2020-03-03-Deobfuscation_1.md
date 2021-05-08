@@ -2,14 +2,14 @@
 layout: article
 title:  "Tales Of Binary Deobfuscation - Part 1"
 date:   2020-03-03 06:30
-categories: article
+categories: misc 
 tags: [reverse,malware, ELF, packers]
 author: ulexec
 ---
 
 This article is going to serve as my personal reference on this topic. Since I've always wanted to write about it and just finished Yuma Kurogome's course on [Advance Binary Deobfuscation](https://github.com/malrev/ABD), I thought it would be a good time to write notes regarding what I learned in this course with a fresh state of mind on the subject matter for future reference.
 
-## Introduction 
+## Introduction
 
 There are close to 31 known [code transformations](https://mediatum.ub.tum.de/doc/1367533/1367533.pdf). However, In this article we will focus on grouping these transformation in categories based on their behavior, and we will cover some of the most relevant techniques today on a conceptual point of view.
 We will be also covering practical approaches to the aforementioned techniques using the reverse engineering framework MIASM (0.1.3.dev39).
@@ -29,12 +29,12 @@ Despite the large number of transformations, obfuscation techniques can be group
     - Control Flow Flattening
 
 We will be discussing each of these techniques on a conceptual level, although we will be also covering practical examples.
-The purpose of this article is to cristalize concepts instead of being a strict technical reference, although further technical reading will be linked all troughout the article along with practical implementations on how to remediate some of these techniques.
+The purpose of this article is to crystallize concepts instead of being a strict technical reference, although further technical reading will be linked all throughout the article along with practical implementations on how to remediate some of these techniques.
 
 <br/>
 ## Unreachable/Dead Code, Constant Unfolding and Instruction Substitution
 
-In this section we will be covering 3 different transformations which have a close correlation between one another, and consequently a similar apporach for circumvention.
+In this section we will be covering 3 different transformations which have a close correlation between one another, and consequently a similar approach for circumvention.
 
 - **Unreachable Code**: is defined as inserted code into a target application which is never going to be executed, serving the purpose of an unexpensive way of distracting the analyst for a few minutes.
 an example of Junk code is the following:
@@ -46,7 +46,7 @@ pop ebx          ; *
 and ebx, 0x100   ; *
 cmp ebx, 0x100   ; *
 je loc_key2      ; *
-loc_key1: 
+loc_key1:
 ```
 <br/>
 
@@ -63,7 +63,7 @@ mov [ebp+var_8], eax
 ```
 <br/>
 
-- **Instruction Substitution**: defined as to replace a given set of instructions with another more complex set of instructions with identical semantic meaning. This kind of techniques have been heavely employed by metamorphic code engines in the past and may highly affect the legibility of the affected code. 
+- **Instruction Substitution**: defined as to replace a given set of instructions with another more complex set of instructions with identical semantic meaning. This kind of techniques have been heavely employed by metamorphic code engines in the past and may highly affect the legibility of the affected code.
 Lets imagine that originally we have the following set of instructions:
 ```nasm
 mov eax, [ebp+var_8]
@@ -177,7 +177,7 @@ cont = Container.from_stream(open(args.target, 'rb'))
 machine = Machine(args.architecture if args.architecture else cont.arch)
 dis = machine.dis_engine(cont.bin_stream, loc_db=cont.loc_db)
 
-# Disassembling and Extracting CFG 
+# Disassembling and Extracting CFG
 asmcfg = dis.dis_multiblock(int(args.addr, 0))
 
 # Extracting IR archive and IRCFG
@@ -193,7 +193,7 @@ cst_propag_link = propagate_cst_expr(ir_arch, ircfg, args.addr, init_infos)
 # deadrm(ircfg)
 # remove_empty_assignblks(ircfg)
 # This line simplifies the IR with the same features as above and more
-ircfg.simplify(expr_simp_high_to_explicit) 
+ircfg.simplify(expr_simp_high_to_explicit)
 
 ```
 
@@ -253,7 +253,7 @@ The following is the result of this:
 <div style="text-align:center"><img src ="https://github.com/ulexec/ulexec.github.io/raw/master/images/deobfuscated_func.png" /></div>
 <br/>
 
-As we can see in the previous screenshot, there is some dead code resident in the optimized function. This dead code represents the local variables used in the obfuscated (and original) version of the function. 
+As we can see in the previous screenshot, there is some dead code resident in the optimized function. This dead code represents the local variables used in the obfuscated (and original) version of the function.
 
 Data Flow Analysis and optimizations are restricted to memory writes along with other constraints such as variables involved in conditional jumps.
 Despite this, we can clearly see that Data Flow Analysis can be very effective for instruction subtitution deobfuscation giving us a simplified version of what the function may have looked like after and even before obfuscation.
@@ -273,7 +273,7 @@ A simple example of what opaque predicates are can be shown in the following C c
 
 int main (int argc, char **argv) {
     int a=3, b=4;
-    
+
     if(a == b) {        // opaque predicate
         puts("This is never going to execute");
         return 1;
@@ -303,7 +303,7 @@ How it works:
 
 Opaque predicates have a deterministic feasibility regardless of input values.
 Therefore, we can invoke a SMT solver at every conditional branch and verify whether there is an input value that evaluates the condition to a True or False result.
-If a subject conditional branch is not dependant on a input value the branch should be an opaque predicate. 
+If a subject conditional branch is not dependant on a input value the branch should be an opaque predicate.
 We can apply the technique discussed above and attempt to detect opaque predicates via Symbolic Execution + SMT solver.
 
 <br/>
@@ -323,9 +323,9 @@ def explore(ir, start_addr, start_symbols,
         lbl_stop=None, final_states=[]):
 
     def codepath_walk(addr, symbols, conds, depth, final_states, path):
-        
+
         ...
-        
+
         # Instantiate MIASM Symbolic Execution Engine
         sb = SymbolicExecutionEngine(ir, symbols)
 
@@ -338,13 +338,13 @@ def explore(ir, start_addr, start_symbols,
 
             # Append all executed Paths
             path.append(addr)
-            
+
             # Run Symbolic Engine at block
             pc = sb.run_block_at(ircfg, addr)
 
             # if IR expression is a condition
             if isinstance(pc, ExprCond):
-                
+
                 # Create conditions that satisfy true or false paths
                 cond_true  = {pc.cond: ExprInt(1, 32)}
                 cond_false = {pc.cond: ExprInt(0, 32)}
@@ -382,8 +382,8 @@ def explore(ir, start_addr, start_symbols,
 
                 return
             else:
-                # If current IR expression is not a Condition, 
-                # simplify block expresion 
+                # If current IR expression is not a Condition,
+                # simplify block expresion
                 addr = expr_simp(sb.eval_expr(pc))
 
         # Append Final state
@@ -398,7 +398,7 @@ As seen in the previous snippet, the overall steps of our path exploration algor
 - Symbolically Execute every block in current function until it finds a conditional IR expression (which would be the same as a conditional instruction in its native representation).
 - Once this conditional expression is reached, we then evaluate both the branch destination address if the condition would be satisfied and if it wouldn't accordingly.
 - When we have identified the two different branch addresses, then we compute the feasibility of each subject branch (which includes all previous conditions to reach to the designated destination address) and if its feasible we continue symbolically executing the branch. If not we mark that current path as finished and we store it.
- 
+
 The feasibility of the branch condition can be done via MIASM's z3 SMT Solver Translator:
 
 ```python
@@ -449,7 +449,7 @@ for lbl, irblock in viewitems(ircfg.blocks):
 ```
 
 Once we have the locations of the blocks that haven't been executed, we can do a variety of things.
-We could simply mark the non-executed blocks in order to inspect the target function for further analysis. 
+We could simply mark the non-executed blocks in order to inspect the target function for further analysis.
 Yuma Kurogome shows how to do this in his course by dynamically creating an IDC script based on the context retrieved in previous stages:
 
 ```python
@@ -470,7 +470,7 @@ static main(){
             for l in asmblk.lines:
                 print(hex(l.offset))
                 body += 'SetColor(0x%08x, CIC_ITEM, 0xc7c7ff);\n'%(l.offset)
-    
+
     f.write(header+body+footer)
     f.close()
 ```
@@ -487,11 +487,11 @@ I decided to write a solution to remove X-Tunnel's opaque predicates by using ra
 def remove_xtunnel_op(lockeys, asmcfg):
     # Opening File in r2
     r2 = r2pipe.open("./x-tunnel.bin", ["-w"])
-    
+
     # applying reference analysis
     r2.cmd("aar")
-    
-    # iterating for each block label 
+
+    # iterating for each block label
     for lbl in lockeys:
         # retrieving block from label
         asmblk = asmcfg.loc_key_to_block(lbl)
@@ -504,28 +504,28 @@ def remove_xtunnel_op(lockeys, asmcfg):
                 # current instruction
                 xref = r2.cmdj("axtj")
                 if  xref:
-                    # retrieving the reference source address 
+                    # retrieving the reference source address
                     xref_from = xref[0]['from']
-                   
-                    # retrieving the opcode 
+
+                    # retrieving the opcode
                     opcode = xref[0]['opcode']
 
                     # seeking to reference source address
                     r2.cmd("s %s" % hex(xref_from))
 
-                    # changing opcode for nop if its a je or a non 
+                    # changing opcode for nop if its a je or a non
                     # conditional jump if its any other branch instruction
                     r2.cmd("wao %s" % ("nop" if 'je' in opcode else "nocj"))
 
                 # seek back to original block instrution
                 r2.cmd("s %s" % hex(l.offset))
-                
+
                 # patching instruction with a nop
                 r2.cmd("wao nop")
-                
+
                 # seeking to previous instruction
                 r2.cmd("so -1")
-                
+
                 # retrieving its opcode
                 opcode = r2.cmdj("pdj 1")[0]['opcode']
 
@@ -559,7 +559,7 @@ In the following section we will cover an approach to detect Range Dividers and 
 
 ## Range Dividers
 
-[Range dividers](https://www.researchgate.net/publication/311491954_Code_obfuscation_against_symbolic_execution_attacks) are branch conditions that can be inserted at an arbitrary position inside a basic block, such that they divide the input range into multiple sets. 
+[Range dividers](https://www.researchgate.net/publication/311491954_Code_obfuscation_against_symbolic_execution_attacks) are branch conditions that can be inserted at an arbitrary position inside a basic block, such that they divide the input range into multiple sets.
 
 A simple example to illustrate this technique can be shown below:
 ```c
@@ -573,13 +573,13 @@ int main(int argc, char *argv[]) {
     for (int i = 0 ; i < strlen(str); str++ , i++) {
         char chr = *str - 0x20;
         switch (chr) {
-            case 1: 
+            case 1:
                 hash = (hash << 7) ^ chr;
                 break;
             case 2:
                 hash = (hash * 128) ^ chr;
                 break;
-            case 3:     // obfuscated version of case 1 
+            case 3:     // obfuscated version of case 1
                 break;
 
             ...
@@ -625,7 +625,7 @@ The binary file we are going to use for this example is the following:
 Asprox: c56792bea8ac5fbf893ae3df1be0c3c878a615db6b24fd5253e5cbbc2e3e1dd3
 ```
 
-The first thing we have to do is to retrieve all blocks from the subject obfuscated function. 
+The first thing we have to do is to retrieve all blocks from the subject obfuscated function.
 Then we should compare for syntactic and semantic equivalence every block in the funtion with one another.
 We can do this as follows:
 
@@ -679,8 +679,8 @@ We can do this as follows:
                 r_semantic = semantic_compare(src_blk, dst_blk, ir_arch0, ir_arch1, asmcfg)
 
             # save results of syntax and semantic checks
-            results[(src_ldl, dst_ldl)] = [(r_syntax, r_semantic)] 
-            
+            results[(src_ldl, dst_ldl)] = [(r_syntax, r_semantic)]
+
             ...
 
 ```
@@ -944,8 +944,8 @@ The following are the before and after effects:
 <div style="text-align:center"><img src ="https://github.com/ulexec/ulexec.github.io/raw/master/images/asprox_range_divider2.png" /></div>
 <br/>
 
-In the particular case of Asprox I found that it wasn't implementing a high number of Range Divider predicates, usually two. Therefore it was trivial to clean the code after identifying them. 
-All needed to do was to either patch the intial conditional branch that diverges into each individual predicate so that it becomes unconditional or patch the conditional branch in a way so that it becomes NOPed. 
+In the particular case of Asprox I found that it wasn't implementing a high number of Range Divider predicates, usually two. Therefore it was trivial to clean the code after identifying them.
+All needed to do was to either patch the intial conditional branch that diverges into each individual predicate so that it becomes unconditional or patch the conditional branch in a way so that it becomes NOPed.
 We can apply either of these approaches accordingly to chose the predicate that will drive the control flow and remove the remaining ones.
 
 Is also important to emphasize that the Range Divider cleaning process may not be as trivial if higher numbers of predicates where encountered or if the structure of the predicates would make each predicate to overlap with one another. Also lets not forget that this approach is assuming that the correct comparison unit is a basic block, which is true for Asprox predicates but is not necessarily generic. For example Tigress obfuscator implements Range Divider predicates on a function granuality. Therefore, this approach wont work, but could be adapted to support Tigress predicates re-defining the granuality for comparison and equivalence computation.

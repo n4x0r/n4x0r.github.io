@@ -1,6 +1,6 @@
 ---
 layout: article
-title:  "A brief Reference on Russia's approach to Cyber Warfare"
+title:  "A brief reference on Russia's approach to Cyber"
 date:   2020-05-07 06:30
 categories: cyber
 tags: [reverse,malware, ELF, packers]
