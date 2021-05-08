@@ -1,6 +1,6 @@
 ---
 layout: article
-title:  "A Brief Reference on Russia's approach to Cyber Warfare"
+title:  "A brief Reference on Russia's approach to Cyber Warfare"
 date:   2020-05-07 06:30
 categories: cyber
 tags: [reverse,malware, ELF, packers]
@@ -17,19 +17,16 @@ Cyber Warfare has evolved in the last years introducing challenges to reflect a 
 
 From the beginning of malware existence, it's been usually designed towards accomplishing monetary driven objectives or just to trash systems and generally wreak havoc. This is still the case with most malware within the cyber-crime ecosystem.
 
-However, a high ratio of cyber-espionage operations were starting to emerge observed by different private and public sector entities starting to be taken seriously from 2010 with the appearance of [Stuxnet](https://en.wikipedia.org/wiki/Stuxnet). Operations of similar caliber of sophistication have been going for at least half a decade prior to Stuxnet by apex threat actors. However, 
+However, a high ratio of cyber-espionage operations were starting to emerge observed by different private and public sector entities starting to be taken seriously from 2010 with the appearance of [Stuxnet](https://en.wikipedia.org/wiki/Stuxnet). Operations of similar caliber of sophistication have been going for at least half a decade prior to Stuxnet. However, 
 it's the emergence of Stuxnet in the media after its leak outside Natanz which evolves into sudden realization that stakes are high when it comes to nation state cyberwarfare, putting APT research on the radar. 
  
 This specific change in ecosystem does not only implies that better understanding of specific tactics and techniques leveraged by this new malware genre is necessary, but also implies that in order to interpret and analyse cyber-espionage operations, development of a different mindset is required since threat actors conducting these operations are of higher profile having more resources, bigger budgets and different objectives than cyber-crime actors, and their campaigns can also be ambiguous to interpret along with their attribution.
  
-Understanding cyber-espionage campaigns is sort of intelligence work. However, professionals in this ecosystem conducting these investigations do not necessarily have an intelligence or military background (like myself), therefore it is necessary to catch up not only technically but also acquiring a more contextual rich background in regards to these kinds of operations.
- 
-This article is meant to be a brief reference of some of the various engagements allegedly conducted by The Russian Federation in the Information Warfare realm.
-This is not strictly necessarily for Threat Intelligence work since there is no additional incentive for consumers to know from which country each campaign was conducted from or even the reasons behind it, at least in the private sector. 
+This article is meant to be a brief reference of some of the various events allegedly conducted by The Russian Federation in the Information Warfare realm.
+This is not strictly necessarily for Threat Intelligence work since there is no additional incentive for consumers to know from which country each campaign was conducted from or even the reasons behind it, at least in the private sector.
+However, for analyst sometimes is of interest to know what country or entity is behind a campaign, only to understand the motive or narrative that explains how a specific toolsets come into play. As this domain grows and matures over time, I also personally think is important to have some historic context of various noticeable events that have took place in the cyber warfare realm, in order to shape our perspective of the state-of-the-art aswell as to understand what has be done in the ecosystem in order to be able to predict future trends.
 
-However, for analyst sometimes is of interest to know what country or entity is behind a campaign, only to understand the motive or narrative that explains how a specific toolsets come into play. As this domain grows and matures over time, I also think is important to have some historic context of various noticeable events in the Information Warfare domain.
-
-This article in particular will discuss the ones leveraged by Russian state sponsored actors which in my opinion have showed to be some of the most creative and innovative in the way they have conducted their operations not restricted to cyber-espionage. 
+This article in particular will discuss various characteristics of Russian state sponsored actors which in my opinion have shown to be some of the most creative and innovative in the way they have conducted their operations, not restricted to cyber-espionage. 
  
 I also tried to introduce a foundation to this subject in case readers would be interested since it is in my opinion a broad and complex subject but also very interesting. A great reference is [this](https://www.youtube.com/watch?v=gvS4efEakpY&list=PLxA6YRnSzNvINyHpEL5tkDzpu_fKBAXGR&index=1https://www.youtube.com/watch?v=gvS4efEakpY&list=PLxA6YRnSzNvINyHpEL5tkDzpu_fKBAXGR&index=1) presentation by The Grugq, which is the main reference in regards to the foundational information this article is based on, and also [this](https://www.youtube.com/watch?v=2SBq8KOHlAc) presentation by Juan Andress Guerrero-Saade intended to discuss this very subject to the academic sector.
  
@@ -53,7 +50,7 @@ Is important to interpret Cyber Warfare as the fifth domain of warfare. In contr
  
 * **Cognitive** - Ability to modify a target's behavior with information - Based on the same foundations as Marketing or Propaganda. Not restricted to distribution of untruthful information or disiniformation, sometimes a target's behavior can be changed by supplying unknown truths. I highly suggest reading about Reflexive Control Theory to know more about the strategies that can be applied with these specific types of operations. Some examples are such as Guccifer 2.0, DCLeaks or the Shadow Brokers.
  
-These types of actions are `not mutually exclusive`, meaning overlaps of these types of activities is likely to happen. 
+These types of actions are `not mutually exclusive`, meaning diagonals of these intersections are likely to occur. 
 Based on this information, we can build a high level theoretical overview of the capabilities and realistic outcomes of what can be achieved relying on operations in the fifth domain.
  
 <br/>

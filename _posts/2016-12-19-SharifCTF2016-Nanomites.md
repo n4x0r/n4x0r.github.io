@@ -7,7 +7,7 @@ tags: [reverse,SharifCTF7]
 author: n4x0r
 ---
 
-Nanomites was a Reverse engineering challenge of 300 point in SharifCTF7. The specification of this problem was the following: 
+Nanomites was a Reverse engineering challenge of 300 point in SharifCTF7. The specification of this problem was the following:
 
 ```bash
 Analyze the given file. Find the C&C IP address and the data sent to it in plain text.
@@ -23,16 +23,16 @@ My next steps after knowing this was to analyze it with IDA in order to find  ou
 
 Once the file is in IDA, we can see that the binary is some what obfuscated.
 
-![relative call](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/1.png)
-![int3](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/2.png)
+![relative call](https://github.com/ulexec/ulexec.github.io/raw/master/images/images/SharifCTF7/1.png)
+![int3](https://github.com/ulexec/ulexec.github.io/raw/master/images/images/SharifCTF7/2.png)
 
 Looking for strings XREFs, I found myself with the IP address of the C&C:
 
-![C&C IP](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/3.png)
+![C&C IP](https://github.com/ulexec/ulexec.github.io/raw/master/images/images/SharifCTF7/3.png)
 
 After knowing the IP address of the C&C, I then opened wireshark to see if I could intercept any communications. I indeed intercepted a stream. This stream looked like this:
 
-![Message intercpeted](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/4.png)
+![Message intercpeted](https://github.com/ulexec/ulexec.github.io/raw/master/images/images/SharifCTF7/4.png)
 
 Clearly there is an encrypted message that our host is sending to `155.64.16.51`.
 Note the size of the encryped payload is of `24 bytes`
@@ -40,23 +40,23 @@ Note the size of the encryped payload is of `24 bytes`
 After knowing this information, then I proceeded to look where the application sent the buffer with the encrypted payload.
 Looking at the imported functions. We can see that `send` is at address `0x401564`
 
-![send XREF](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/5.png)
+![send XREF](https://github.com/ulexec/ulexec.github.io/raw/master/images/SharifCTF7/5.png)
 
 Based on the arguments that sends has. we can see the buffer that is supposed to hold the encrypted payload.
 If we look above the call to `send` we can see that this buffer is passed to two more functions. these are at `0x402C97` and `0x401260`
 
-![0x402c97](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/6.png)
-![0x401260](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/7.png)
+![0x402c97](https://github.com/ulexec/ulexec.github.io/raw/master/images/SharifCTF7/6.png)
+![0x401260](https://github.com/ulexec/ulexec.github.io/raw/master/images/SharifCTF7/7.png)
 
 For sake of simplicity we are not really going to explain the purpose of function 0x402c97 since I think this function is merely used for confusion purposes. Depending how well we do debugging it, this function will return a value of `34`, `22`, `0` or instead redirect execution into an end_point of execution. Moreover, this function even though retrieves a different return value in `eax` depending which path is executed, this return value is never actually used outside the context of itself. However it really doesnt matter what this function returns. The actual purpose of this function is to copy the contents of its 3rd argument to its 1st argument. Wheter this copy will be successfull will be determined by the value of the second argument. The following is a decompilation of this function:
 
 ```c
 signed int __cdecl copy_cond(char *copy, int centinel, char *payload) {
-  int v3; 
-  _DWORD *v4; 
-  signed int v5; 
-  char v7; 
-  signed int v8; 
+  int v3;
+  _DWORD *v4;
+  signed int v5;
+  char v7;
+  signed int v8;
 
   __debugbreak();
   v3 = centinel;
@@ -92,12 +92,12 @@ LABEL_5:
 
 Furthermore, something more interesting happens when we analyze the function at `0x401260`. In this function, the function discussed above (`copy_cond`) is called. Interesting enough, one of its arguments results some what familiar:
 
-![payload](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/8.png)
-![payload_dump](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/9.png)
+![payload](https://github.com/ulexec/ulexec.github.io/raw/master/images/SharifCTF7/8.png)
+![payload_dump](https://github.com/ulexec/ulexec.github.io/raw/master/images/SharifCTF7/9.png)
 
 That is the encrypted payload we intercepted previously with wireshark. Assuming that the contents of the payload are copied to the first argument of that call, seeing the following will be enlighten:
 
-![xor_routine](https://github.com/n4x0r/n4x0r.github.io/raw/master/images/SharifCTF7/10.png) 
+![xor_routine](https://github.com/ulexec/ulexec.github.io/raw/master/images/SharifCTF7/10.png)
 
 The previous routine is xoring each byte of the buffer-copy of the encrypted payload against `70 (0x46)`. Knowing this, I run the following python script:
 
@@ -117,4 +117,3 @@ The output of this script is: `This_Is_The_Secret_Data`.
 Having found the secret message, and knowing the IP address of the C&C server we can find the md5 for our flag, which happens to be:
 
 `SharifCTF{fb0e90f2ec7a701783e70e674fa94848}`.
-
